@@ -21,7 +21,21 @@ public class PromocaoDAO {
 		em.getTransaction().begin();
         
 		List<Promocao> promocao = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
-      
+		em.getTransaction().commit();
+		em.close();
+		
+		return promocao;
+	}
+	
+	public Promocao  buscaId(final int id){
+		EntityManager em = new JPAUtil().getEntityManager();
+		em.getTransaction().begin();
+		//return entityManager.find(Cliente.class, id);
+		Promocao promocao = em.find(Promocao.class, id);
+		
+		em.getTransaction().commit();
+		em.close();
+		System.out.println("buscou por id");
 		return promocao;
 	}
 }

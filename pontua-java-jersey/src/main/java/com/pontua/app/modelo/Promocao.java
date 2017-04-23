@@ -63,18 +63,4 @@ public class Promocao {
 	public void setEmpresa(Integer empresa) {
 		this.empresa = empresa;
 	}
-	
-	public List<Promocao> busca(){
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("financas");
-		EntityManager  em  = entityManagerFactory.createEntityManager();
-		em.getTransaction().begin();
-		List<Promocao> promocao = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
-		em.getTransaction().commit();
-		em.close();
-		return promocao;
-	}
-	
-	public String toJson() {
-        return new Gson().toJson(this);
-    }
 }

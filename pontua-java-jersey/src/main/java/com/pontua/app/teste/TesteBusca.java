@@ -19,12 +19,10 @@ public class TesteBusca {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
         
-		List<Promocao> promocao = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
-         for (Promocao m : promocao) {
-             System.out.println("Descricao: " + m.getNome());
-             System.out.println("Conta.id:" + m.getPontos());
-         }
-		em.getTransaction().commit();
+		//List<Promocao> promocao = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
+		Promocao promocao = em.find(Promocao.class, 2);
+         System.out.println(promocao);
+         em.getTransaction().commit();
 		em.close();
 	}
 
