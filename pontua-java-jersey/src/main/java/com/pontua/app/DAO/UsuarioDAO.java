@@ -1,16 +1,14 @@
 package com.pontua.app.DAO;
 
-import java.util.Map;
-
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.pontua.app.modelo.EntityNotFoundException;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.JPAUtil;
 
 public class UsuarioDAO {
-	private static Map users;
-	private Usuario usuario;
 	
 	public void adiciona(Usuario usuario) {
 			EntityManager em = new JPAUtil().getEntityManager();
@@ -21,12 +19,39 @@ public class UsuarioDAO {
 			
 		}
 	
-	 public Usuario getLogin(Long id) throws EntityNotFoundException {
-	        System.out.println("id = " + id);
-	        System.out.println("users = " + users.keySet());
-	        if (users.containsKey(id)) {
-	            return (Usuario) users.get(id);
+	 public Boolean getLogin(Usuario usuario)throws EntityNotFoundException {
+		 System.out.println("Classe: UsuarioDAO - metodo: getLogin");
+		 System.out.println(usuario.getEmail());
+		 	EntityManager em = new JPAUtil().getEntityManager();
+		 	Query query = em.createQuery("select u"
+		 								+ " from Usuario u "
+		 							   + " where u.email = ?" 
+		 							     + " and u.senha = ? " 
+		 			).setParameter(0,  usuario.getEmail())
+		 			 .setParameter(1,  usuario.getSenha())
+		 			 .setMaxResults(1);
+		 	List<Usuario> usuariolist = (List<Usuario>) query.getResultList();
+	        if (usuariolist.size() > 0) {
+	        	em.close();
+	        	System.out.println("Classe: UsuarioDAO - metodo: getLogin - usuario existe");
+	   		 	return true;
+	            
 	        }
-	        throw new EntityNotFoundException("User Not Found");
-	    }
+	        em.close();
+	        System.out.println("Classe: UsuarioDAO - metodo: getLogin - usuario nao existe");
+	        throw new EntityNotFoundException("Usuario nao encontrado");
+	        //return false;	        
+	 }
+	 
+	 public Usuario getUsuarioEmail(String email){
+			EntityManager em = new JPAUtil().getEntityManager();
+		 	Query query = em.createQuery("select u"
+		 								+ " from Usuario u "
+		 							   + " where u.email = ?" 
+		 				).setParameter(0, email)
+		 				 .setMaxResults(1);
+		 	Usuario usuariolist = (Usuario) query.getSingleResult();
+		 	em.close();
+		 	return usuariolist;
+	 }
 }

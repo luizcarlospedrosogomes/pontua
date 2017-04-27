@@ -15,12 +15,12 @@ public class Usuario {
 	private String senha;
 	private String cpf;
 	private String email;
-	private String[] roles;
+	private String roles;
 	
-	public String[] getRoles() {
+	public String getRoles() {
 		return roles;
 	}
-	public void setRoles(String[] roles) {
+	public void setRoles(String roles) {
 		this.roles = roles;
 	}
 	public int getId() {

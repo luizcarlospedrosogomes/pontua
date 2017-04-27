@@ -17,7 +17,7 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 
 public class TokenUtil {
 
-    public static String getJWTString(String username, String[] roles, int version, Date expires) {
+    public static String getJWTString(String username, String roles, int version, Date expires) {
         // Issue a token (can be a random String persisted to a database or a JWT token)
         // The issued token must be associated to a user
         // Return the issued token

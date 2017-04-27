@@ -36,12 +36,7 @@ public class PromocaoDAO {
 	}
 
 	public void adiciona(Promocao promocao) {
-	/*	this.promocao.setData_fim(promocao.getData_fim());
-    	this.promocao.setData_inicio(promocao.getData_inicio());
-    	this.promocao.setEmpresa(promocao.getEmpresa());
-    	this.promocao.setPontos(promocao.getPontos());
-    	this.promocao.setNome(promocao.getNome());*/
-    	EntityManager em = new JPAUtil().getEntityManager();
+	   	EntityManager em = new JPAUtil().getEntityManager();
         em.getTransaction().begin();
         em.persist(promocao);
         em.getTransaction().commit();

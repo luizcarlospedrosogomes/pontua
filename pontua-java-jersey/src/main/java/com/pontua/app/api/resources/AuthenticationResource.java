@@ -1,30 +1,26 @@
 /**
- * Created by Philip A Senger on November 10, 2015
+ *
  */
 package com.pontua.app.api.resources;
 
-
-
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.security.PermitAll;
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import com.pontua.app.DAO.UsuarioDAO;
-import com.pontua.app.modelo.EntityNotFoundException;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
+import com.pontua.app.modelo.EntityNotFoundException;
 
 
 
@@ -33,28 +29,36 @@ import com.pontua.app.util.TokenUtil;
 public class AuthenticationResource {
 
 	  private final static Logger logger = Logger.getLogger(AuthenticationResource.class.getName());
-    
+	  
     /**
      * HK2 Injection.
      */
     @Context
-    UsuarioDAO usuarioDao;
-
+    private UsuarioDAO usuarioDAO;
+    private Usuario usuario;
     @POST
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
-    public String authenticateUser(String  login) {
-    	Usuario usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 	
-        Date expiry = getExpiryDate(15);
-       // Usuario usuario = authenticate(username, password);
-        
-        String jwtString = TokenUtil.getJWTString(usuario.getNome(), usuario.getRoles(), 0, expiry);
-        Token token = new com.pontua.app.modelo.Token();
-        token.setAuthToken(jwtString);
-        token.setExpires(expiry);
-        
-        //return Response.ok(token).build();
-        return new Gson().toJson(jwtString);
+    public String authenticateUser(String  login)throws EntityNotFoundException {
+    	/*
+    	 * transformar o Json recebido em objeto usuario
+    	 */
+    	this.usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 
+    	/*verificar no banco se usuario existe
+    	 * se existir retorna true
+    	 */
+    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+    	if(usuarioDAO.getLogin(this.usuario)){
+    		System.out.println("email recebido = " + this.usuario.getEmail());
+    		System.out.println("senha recebido = " + this.usuario.getSenha());
+    		Token token = geraToken(this.usuario.getEmail());
+    	   return new Gson().toJson(token);
+    	}
+    	throw new EntityNotFoundException(new Gson().toJson("Usuario ou senha incorreto"));
+    //	return new Gson().toJson("Usuario ou senha incorreto");
+    	
+    	
+    	
     }
     /**
      * get Expire date in minutes.
@@ -69,25 +73,23 @@ public class AuthenticationResource {
         return calendar.getTime();
     }
 
-    private Usuario authenticate(String username, String password) throws NotAuthorizedException {
-        // Validate the extracted credentials
-        Usuario usuario = null;
-        Long id = null;
-        try {
-           usuario = usuarioDao.getLogin(id);
-        } catch (EntityNotFoundException e) {
-            logger.info("Invalid username '" + username + "' ");
-            throw new NotAuthorizedException("Invalid username '" + username + "' ");
-        }
-        // we need to actually test the Hash not the password, we should never store the password in the database.
-        if (usuario.getSenha().equals(password)) {
-            logger.info("USER AUTHENTICATED");
-        } else {
-            logger.info("USER NOT AUTHENTICATED");
-            throw new NotAuthorizedException("Invalid username or password");
-        }
-        return usuario;
-    }
-
+   private Token geraToken(String email){
+	   /*
+	    * busca usuario no banco e gera token
+	    */
+	   System.out.println("Classe: AuthenticationResource - metodo: geraToken");
+	   System.out.println("email" + usuario.getEmail());
+	   UsuarioDAO usuarioDAO = new UsuarioDAO();
+	   Usuario usuarioToken =  usuarioDAO.getUsuarioEmail(email);	   
+	   Date expiry = getExpiryDate(15);
+       String jwtString = TokenUtil.getJWTString(usuarioToken.getEmail(), usuarioToken.getRoles(), 0, expiry);
+       Token token = new com.pontua.app.modelo.Token();
+       token.setAuthToken(jwtString);
+       //.setExpires(expiry);
+       
+      return token;
+       
+   
+   }
 
 }
