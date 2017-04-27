@@ -11,6 +11,7 @@ public class Main {
     @SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception {
     	org.apache.log4j.BasicConfigurator.configure();
+    	
     	ResourceConfig config = new ResourceConfig();
    	 	config.packages("com.pontua.app.api.resources");
    	 	ServletHolder servlet = new ServletHolder(new ServletContainer(config));

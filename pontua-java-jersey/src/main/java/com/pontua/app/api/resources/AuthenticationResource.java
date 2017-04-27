@@ -17,6 +17,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.pontua.app.DAO.UsuarioDAO;
 import com.pontua.app.modelo.EntityNotFoundException;
@@ -25,11 +27,12 @@ import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
 
 
+
 @PermitAll
 @Path("pontua/authentication")
 public class AuthenticationResource {
 
-   // private final static Logger logger =LoggerFactory.getLogger(AuthenticationResource.class.getName());
+	  private final static Logger logger = Logger.getLogger(AuthenticationResource.class.getName());
     
     /**
      * HK2 Injection.
