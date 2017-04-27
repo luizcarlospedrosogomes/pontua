@@ -14,6 +14,7 @@
 		<!-- Aqui são listadas todas as entidades -->
 		<class>com.pontua.app.modelo.Conta</class>
 		<class>com.pontua.app.modelo.Promocao</class>
+		<class>com.pontua.app.modelo.Usuario</class>
 	
 		<properties>
 

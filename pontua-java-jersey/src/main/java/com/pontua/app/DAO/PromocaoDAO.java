@@ -45,6 +45,7 @@ public class PromocaoDAO {
         em.getTransaction().begin();
         em.persist(promocao);
         em.getTransaction().commit();
+        em.close();
 		System.out.println("adicionou");
 	}
 }

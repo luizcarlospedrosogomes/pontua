@@ -1,5 +1,6 @@
 package com.pontua.app.api.resources;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,7 +12,8 @@ import com.google.gson.Gson;
 import com.pontua.app.DAO.PromocaoDAO;
 import com.pontua.app.modelo.Promocao;
 
-@Path("promocao")
+@PermitAll
+@Path("pontua/promocao")
 public class PromocaoResources {
 	
 	@Path("{id}")
@@ -35,6 +37,6 @@ public class PromocaoResources {
 	public String adiciona(String conteudo){
 		Promocao promocao = (Promocao) new Gson().fromJson(conteudo, Promocao.class);
 		new PromocaoDAO().adiciona(promocao);
-		return "[{inserido com sucesso}]";
+		return new Gson().toJson("inserido com sucesso");
 	}
 }
