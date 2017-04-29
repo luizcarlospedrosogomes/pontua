@@ -23,7 +23,10 @@ import org.glassfish.jersey.server.ContainerRequest;
 
 import com.pontua.app.DAO.UsuarioDAO;
 import com.pontua.app.modelo.EntityNotFoundException;
+import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
+
+import io.jsonwebtoken.impl.crypto.MacProvider;
 
 /**
  * https://simplapi.wordpress.com/2013/01/24/jersey-jax-rs-implements-a-http-basic-auth-decoder/
@@ -46,57 +49,53 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
     @Inject
     javax.inject.Provider<UriInfo> uriInfo;
 
-    public static String extractJwtTokenFromAuthorizationHeader(String auth) {
+    /*public static String extractJwtTokenFromAuthorizationHeader(String auth) {
         //Replacing "Bearer Token" to "Token" directly
         return auth.replaceFirst("[B|b][E|e][A|a][R|r][E|e][R|r] ", "").replace(" ", "");
     }
-
+	*/
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
         String method = requestContext.getMethod().toLowerCase();
         String path = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
-
-        if (("get".equals(method) && ("application.wadl".equals(path) || "application.wadl/xsd0.xsd".equals(path)))
-                || ("post".equals(method) && "authentication".equals(path))) {
+               
+        if (("post".equals(method) && "/pontua/authentication".equals(path))) {
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", new String[]{"anonymous"}));
             return;
         }
 
         String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("authorization");
+        System.out.println("authorizationHeader");
+        System.out.println(authorizationHeader);
+        System.out.println(((ContainerRequest) requestContext));
         if (authorizationHeader == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
-
-        String strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeader);
+        
+        String strToken = authorizationHeader;
+       // Key key = MacProvider.generateKey();
         if (TokenUtil.isValid(strToken, key)) {
-            String name = TokenUtil.getName(strToken, key);
-            String[] roles = TokenUtil.getRoles(strToken, key);
+            String email = TokenUtil.getEmail(strToken, key);
+            String [] roles = TokenUtil.getRoles(strToken, key);
+            String role = null;
             int version = TokenUtil.getVersion(strToken, key);
-            if (name != null && roles.length != 0 && version != -1) {
-                Usuario usuario = null;
-                try {
-                    usuario = usuarioDAO.getLogin(name);
-                } catch (EntityNotFoundException e) {
-                    logger.info("User not found " + name);
-                }
-                if (user != null) {
-                    if (user.getVersion() == version && user.getRoles() != null &&
-                            Arrays.asList(user.getRoles()).containsAll(Arrays.asList(roles))) {
-                        requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> name, roles));
-                        return;
-                    } else {
-                        logger.info("Version or roles did not match the token");
-                    }
+            if (email != null && roles.length != 0 && version != -1) {
+                UsuarioDAO usuarioDAO = new UsuarioDAO();
+                Usuario usuario = usuarioDAO.getUsuarioEmail(email);
+                role = usuario.getRoles();
+                if (role != null) {
+                     requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> email, roles));
+                      return;                    
                 } else {
-                    logger.info("User not found");
+                    logger.info("Usuario invalido");
                 }
             } else {
-                logger.info("name, roles or version missing from token");
+                logger.info("email ou role não presente no token");
             }
         } else {
-            logger.info("token is invalid");
+            logger.info("token  invalido");
         }
         throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     }

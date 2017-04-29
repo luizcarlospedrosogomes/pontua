@@ -17,12 +17,12 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 
 public class TokenUtil {
 
-    public static String getJWTString(String username, String roles, int version, Date expires) {
+    public static String getJWTString(String email, String roles, int version, Date expires, Key key) {
         // Issue a token (can be a random String persisted to a database or a JWT token)
         // The issued token must be associated to a user
         // Return the issued token
-        if (username == null) {
-        	System.out.println("username null");
+        if (email == null) {
+        	System.out.println("email null");
             throw new NullPointerException("null username is illegal");
         }
         if (roles == null) {
@@ -33,14 +33,18 @@ public class TokenUtil {
         	System.out.println("expires null");
             throw new NullPointerException("null expires is illegal");
         }
+        if (key == null) {
+        	System.out.println("key null");
+            throw new NullPointerException("null expires is illegal");
+        }
    
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        Key key = MacProvider.generateKey();
+        //Key key = MacProvider.generateKey();
                 
         String jwtString = Jwts
                 .builder()
                 .setIssuer("Jersey-Security-Basic")
-                .setSubject(username)
+                .setSubject(email)
                 .setAudience(StringUtils.join(Arrays.asList(roles), ","))
                 .setExpiration(expires)
                 .setIssuedAt(new Date())
@@ -61,7 +65,7 @@ public class TokenUtil {
         }
     }
 
-    public static String getName(String jwsToken, Key key) {
+    public static String getEmail(String jwsToken, Key key) {
         if (isValid(jwsToken, key)) {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(jwsToken);
             return claimsJws.getBody().getSubject();
@@ -77,12 +81,12 @@ public class TokenUtil {
         return new String[]{};
     }
 
- /*   public static int getVersion(String jwsToken, Key key) {
+    public static int getVersion(String jwsToken, Key key) {
         if (isValid(jwsToken, key)) {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(jwsToken);
             return Integer.parseInt(claimsJws.getBody().getId());
         }
         return -1;
-    }*/
+    }
 
 }

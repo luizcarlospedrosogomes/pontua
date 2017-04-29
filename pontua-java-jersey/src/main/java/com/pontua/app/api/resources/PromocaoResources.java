@@ -1,6 +1,7 @@
 package com.pontua.app.api.resources;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,10 +13,10 @@ import com.google.gson.Gson;
 import com.pontua.app.DAO.PromocaoDAO;
 import com.pontua.app.modelo.Promocao;
 
-@PermitAll
+
 @Path("pontua/promocao")
 public class PromocaoResources {
-	
+	@RolesAllowed({"admin"})
 	@Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

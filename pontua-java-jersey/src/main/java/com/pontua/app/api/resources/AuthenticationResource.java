@@ -3,9 +3,9 @@
  */
 package com.pontua.app.api.resources;
 
+import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.security.PermitAll;
@@ -17,10 +17,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 import com.pontua.app.DAO.UsuarioDAO;
+import com.pontua.app.modelo.EntityNotFoundException;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
-import com.pontua.app.modelo.EntityNotFoundException;
 
 
 
@@ -34,8 +34,10 @@ public class AuthenticationResource {
      * HK2 Injection.
      */
     @Context
+    Key key;
     private UsuarioDAO usuarioDAO;
     private Usuario usuario;
+    
     @POST
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
@@ -82,7 +84,7 @@ public class AuthenticationResource {
 	   UsuarioDAO usuarioDAO = new UsuarioDAO();
 	   Usuario usuarioToken =  usuarioDAO.getUsuarioEmail(email);	   
 	   Date expiry = getExpiryDate(15);
-       String jwtString = TokenUtil.getJWTString(usuarioToken.getEmail(), usuarioToken.getRoles(), 0, expiry);
+       String jwtString = TokenUtil.getJWTString(usuarioToken.getEmail(), usuarioToken.getRoles(), 0, expiry, key);
        Token token = new com.pontua.app.modelo.Token();
        token.setAuthToken(jwtString);
        //.setExpires(expiry);
