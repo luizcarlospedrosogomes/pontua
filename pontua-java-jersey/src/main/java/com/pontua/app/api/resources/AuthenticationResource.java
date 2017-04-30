@@ -12,8 +12,10 @@ import javax.annotation.security.PermitAll;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.pontua.app.DAO.UsuarioDAO;
@@ -21,6 +23,7 @@ import com.pontua.app.modelo.EntityNotFoundException;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
+
 
 
 
@@ -37,13 +40,13 @@ public class AuthenticationResource {
     Key key;
     private UsuarioDAO usuarioDAO;
     private Usuario usuario;
-    
+    ContainerRequestContext requestContext;
     @POST
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
-    public String authenticateUser(String  login)throws EntityNotFoundException {
+    public Response authenticateUser(String  login) {
     	/*
-    	 * transformar o Json recebido em objeto usuario
+    	 * transformar o Json recebido em objeto Usuario
     	 */
     	this.usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 
     	/*verificar no banco se usuario existe
@@ -54,11 +57,10 @@ public class AuthenticationResource {
     		System.out.println("email recebido = " + this.usuario.getEmail());
     		System.out.println("senha recebido = " + this.usuario.getSenha());
     		Token token = geraToken(this.usuario.getEmail());
-    	   return new Gson().toJson(token);
+    	    return Response.ok(new Gson().toJson(token)).build();
     	}
-    	throw new EntityNotFoundException(new Gson().toJson("Usuario ou senha incorreto"));
-    //	return new Gson().toJson("Usuario ou senha incorreto");
-    	
+    	return Response.status(401).build();
+    	//return new Gson().toJson(401);
     	
     	
     }

@@ -19,7 +19,7 @@ public class UsuarioDAO {
 			
 		}
 	
-	 public Boolean getLogin(Usuario usuario)throws EntityNotFoundException {
+	 public Boolean getLogin(Usuario usuario) {
 		 System.out.println("Classe: UsuarioDAO - metodo: getLogin");
 		 System.out.println(usuario.getEmail());
 		 	EntityManager em = new JPAUtil().getEntityManager();
@@ -39,8 +39,7 @@ public class UsuarioDAO {
 	        }
 	        em.close();
 	        System.out.println("Classe: UsuarioDAO - metodo: getLogin - usuario nao existe");
-	        throw new EntityNotFoundException("Usuario nao encontrado");
-	        //return false;	        
+	        return false;	        
 	 }
 	 
 	 public Usuario getUsuarioEmail(String email){

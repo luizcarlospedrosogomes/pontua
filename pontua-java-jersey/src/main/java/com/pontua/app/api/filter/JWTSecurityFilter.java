@@ -65,7 +65,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", new String[]{"anonymous"}));
             return;
         }
-
+        requestContext.getUriInfo().getPathParameters();
         String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("authorization");
         System.out.println("authorizationHeader");
         System.out.println(authorizationHeader);
