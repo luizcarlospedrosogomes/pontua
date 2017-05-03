@@ -7,7 +7,7 @@
 	nodes.js
   	 'npm install'(dependency)
   ### for run
-		'npm dev run'
+		'npm run dev'
   ### repository original
   	in pontua-cliente-react/README.md information for repository original
   
