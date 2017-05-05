@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import InputCustomizado from './componentes/InputCustomizado';
-import DatePicker from './componentes/DatePicker';
 import PubSub from 'pubsub-js';
 import TratadorErros from  './TratadorErros';
+import { Link  } from 'react-router-dom';
 
 class FormularioPromocao extends Component {
 
@@ -63,8 +63,11 @@ class FormularioPromocao extends Component {
 
 	render() {
 		return (
+          
             <div className="pure-form pure-form-aligned">
-              
+             
+             <Link to="/login">login</Link>
+           
               <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm} method="post">
                 
                 <InputCustomizado 
@@ -83,22 +86,8 @@ class FormularioPromocao extends Component {
                   onChange={this.setempresa} 
                   label="Empresa"
                 />                                              
-                <DatePicker 
-                  id="data_inicio" 
-                  type="text"  
-                  label="Data inicio" 
-                  name="data_inicio"
-                  value={this} 
-                  onChange={this.onChange.bind(this)}
-                  />
-                <DatePicker 
-                  id="data_fim" 
-                  type="text"  
-                  label="Data fim" 
-                  name="data_fim" 
-                  value={this.state.data_fim}
-                  onChange={this.setDataFim}
-                  />
+              
+              
                 <div className="pure-control-group">                                  
                   <label></label> 
                   <button type="submit" className="pure-button pure-button-primary">Gravar</button>                                    
@@ -142,7 +131,7 @@ class TabelaPromocao extends Component {
 	}
 }
 
-export default class PromocaoBox extends Component {
+export default class Promocao extends Component {
 
   constructor() {
     super();    
@@ -150,7 +139,7 @@ export default class PromocaoBox extends Component {
   }
 
   componentDidMount(){  
-    $.ajax({
+   $.ajax({
         url:"http://localhost:8000/api-promocao-list/",
         dataType: 'json',
         success:function(resposta){ 

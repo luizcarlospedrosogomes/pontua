@@ -16,16 +16,16 @@ import com.pontua.app.modelo.Promocao;
 
 @Path("pontua/promocao")
 public class PromocaoResources {
-	@RolesAllowed({"admin"})
-	@Path("{id}")
+	@PermitAll
+	@Path("/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String busca(@PathParam("id") int id) {
 		PromocaoDAO promocao = new PromocaoDAO(); 
 		return new Gson().toJson(promocao.buscaId(id));
     }
-	
-	@Path("list")
+	@PermitAll
+	@Path("/list")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String list() {
