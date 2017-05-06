@@ -60,7 +60,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         String method = requestContext.getMethod().toLowerCase();
         String path = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
                
-        if (("post".equals(method) && "/pontua/authentication".equals(path))) {
+        if (("post".equals(method) && ("/pontua/login/cliente".equals(path) || "/pontua/login/representante".equals(path)))) {
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", new String[]{"anonymous"}));
             return;

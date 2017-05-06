@@ -3,16 +3,12 @@ package com.pontua.app.modelo;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.google.gson.Gson;
-import com.pontua.app.util.JPAUtil;
 
 @Entity
 public class Promocao {
@@ -21,12 +17,39 @@ public class Promocao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    private String data_inicio;
-    private String data_fim;
-    private String pontos;
-    private Integer empresa;
-   
+    private String inicio_vigencia;
+    private String final_vigencia;
+    private String validde;
+    private String qtd_pontos;
     
+    @ManyToOne
+    private Representante representante;    
+  
+	public String getInicio_vigencia() {
+		return inicio_vigencia;
+	}
+	public void setInicio_vigencia(String inicio_vigencia) {
+		this.inicio_vigencia = inicio_vigencia;
+	}
+	public String getFinal_vigencia() {
+		return final_vigencia;
+	}
+	public void setFinal_vigencia(String final_vigencia) {
+		this.final_vigencia = final_vigencia;
+	}
+	public String getValidde() {
+		return validde;
+	}
+	public void setValidde(String validde) {
+		this.validde = validde;
+	}
+	public String getQtd_pontos() {
+		return qtd_pontos;
+	}
+	public void setQtd_pontos(String qtd_pontos) {
+		this.qtd_pontos = qtd_pontos;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -39,28 +62,5 @@ public class Promocao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getData_inicio() {
-		return data_inicio;
-	}
-	public void setData_inicio(String data_inicio) {
-		this.data_inicio = data_inicio;
-	}
-	public String getData_fim() {
-		return data_fim;
-	}
-	public void setData_fim(String data_fim) {
-		this.data_fim = data_fim;
-	}
-	public String getPontos() {
-		return pontos;
-	}
-	public void setPontos(String pontos) {
-		this.pontos = pontos;
-	}
-	public Integer getEmpresa() {
-		return empresa;
-	}
-	public void setEmpresa(Integer empresa) {
-		this.empresa = empresa;
-	}
+	
 }

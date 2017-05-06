@@ -18,8 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
+import com.pontua.app.DAO.ClienteDAO;
 import com.pontua.app.DAO.UsuarioDAO;
-import com.pontua.app.modelo.EntityNotFoundException;
+import com.pontua.app.modelo.Cliente;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
@@ -28,7 +29,7 @@ import com.pontua.app.util.TokenUtil;
 
 
 @PermitAll
-@Path("pontua/authentication")
+@Path("pontua/login")
 public class AuthenticationResource {
 
 	  private final static Logger logger = Logger.getLogger(AuthenticationResource.class.getName());
@@ -38,25 +39,24 @@ public class AuthenticationResource {
      */
     @Context
     Key key;
-    private UsuarioDAO usuarioDAO;
-    private Usuario usuario;
+    private ClienteDAO clienteDAO;
+    private Cliente cliente;
     ContainerRequestContext requestContext;
+    @Path("/cliente")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
-    public Response authenticateUser(String  login) {
+    public Response loginCliente(String  login) {
     	/*
     	 * transformar o Json recebido em objeto Usuario
     	 */
-    	this.usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 
+    	this.cliente = (Cliente) new Gson().fromJson(login, Cliente.class); 
     	/*verificar no banco se usuario existe
     	 * se existir retorna true
     	 */
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
-    	if(usuarioDAO.getLogin(this.usuario)){
-    		System.out.println("email recebido = " + this.usuario.getEmail());
-    		System.out.println("senha recebido = " + this.usuario.getSenha());
-    		Token token = geraToken(this.usuario.getEmail());
+    	if(clienteDAO.getLogin(this.cliente)){
+    		Token token = geraToken(this.cliente.getEmail());
     	    return Response.ok(new Gson().toJson(token)).build();
     	}
     	return Response.status(401).build();
@@ -76,13 +76,10 @@ public class AuthenticationResource {
         calendar.add(Calendar.MINUTE, minutes);
         return calendar.getTime();
     }
-
-   private Token geraToken(String email){
-	   /*
+    /*
 	    * busca usuario no banco e gera token
-	    */
-	   System.out.println("Classe: AuthenticationResource - metodo: geraToken");
-	   System.out.println("email" + usuario.getEmail());
+	*/   
+   private Token geraToken(String email){
 	   UsuarioDAO usuarioDAO = new UsuarioDAO();
 	   Usuario usuarioToken =  usuarioDAO.getUsuarioEmail(email);	   
 	   Date expiry = getExpiryDate(15);

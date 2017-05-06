@@ -12,9 +12,12 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 		<!-- Aqui são listadas todas as entidades -->
-		<class>com.pontua.app.modelo.Conta</class>
 		<class>com.pontua.app.modelo.Promocao</class>
 		<class>com.pontua.app.modelo.Usuario</class>
+		<class>com.pontua.app.modelo.Premio</class>
+		<class>com.pontua.app.modelo.Representante</class>
+		<class>com.pontua.app.modelo.Cliente</class>
+		
 	
 		<properties>
 

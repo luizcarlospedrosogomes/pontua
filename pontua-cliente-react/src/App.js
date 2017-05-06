@@ -18,7 +18,7 @@ class App extends Component {
             <div id="main">
             <nav id="menu">
               <div className="pure-menu">
-                  <a className="pure-menu-heading" href="#">Ppntua</a>
+                  <a className="pure-menu-heading" href="#">Pontua</a>
                   <ul className="pure-menu-list">
                       <li className="pure-menu-item"><Link to="/" className="pure-menu-link">Login</Link></li>
                       <li className="pure-menu-item"><Link to="/servidores" className="pure-menu-link">Sevidor</Link></li>
