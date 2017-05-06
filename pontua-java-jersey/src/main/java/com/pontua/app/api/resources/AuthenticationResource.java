@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.pontua.app.api.resources;
 
 import java.security.Key;
@@ -12,15 +9,16 @@ import javax.annotation.security.PermitAll;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 import com.pontua.app.DAO.ClienteDAO;
+import com.pontua.app.DAO.RepresentanteDAO;
 import com.pontua.app.DAO.UsuarioDAO;
 import com.pontua.app.modelo.Cliente;
+import com.pontua.app.modelo.Representante;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
@@ -41,29 +39,44 @@ public class AuthenticationResource {
     Key key;
     private ClienteDAO clienteDAO;
     private Cliente cliente;
-    ContainerRequestContext requestContext;
+    private Representante representante;
+
     @Path("/cliente")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
     public Response loginCliente(String  login) {
-    	/*
-    	 * transformar o Json recebido em objeto Usuario
-    	 */
+    	
     	this.cliente = (Cliente) new Gson().fromJson(login, Cliente.class); 
-    	/*verificar no banco se usuario existe
-    	 * se existir retorna true
-    	 */
-    	UsuarioDAO usuarioDAO = new UsuarioDAO();
+    	ClienteDAO clienteDAO = new ClienteDAO();
+    	if(!this.cliente.getEmail().isEmpty() || !this.cliente.getSenha().isEmpty() ){
+    		if(clienteDAO.getLogin(this.cliente)){
+        		Token token = geraToken(this.cliente.getEmail(), "cliente");
+        	    return Response.ok(new Gson().toJson(token)).build();
+        	}
+        	return Response.status(401).build();
+    	}
+    	
+    	return Response.status(400).build();
+    }
+    
+    @Path("/representante")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+   // @Consumes("application/x-www-form-urlencoded")
+    public Response loginRepresentante(String  login) {
+    	
+    	this.representante = (Representante) new Gson().fromJson(login, Representante.class); 
+    	RepresentanteDAO representanteDAO = new RepresentanteDAO();
+    	
     	if(clienteDAO.getLogin(this.cliente)){
-    		Token token = geraToken(this.cliente.getEmail());
+    		Token token = geraToken(this.cliente.getEmail(), "representante");
     	    return Response.ok(new Gson().toJson(token)).build();
     	}
-    	return Response.status(401).build();
-    	//return new Gson().toJson(401);
     	
-    	
+    	return Response.status(400).build();
     }
+    
     /**
      * get Expire date in minutes.
      *
@@ -79,11 +92,9 @@ public class AuthenticationResource {
     /*
 	    * busca usuario no banco e gera token
 	*/   
-   private Token geraToken(String email){
-	   UsuarioDAO usuarioDAO = new UsuarioDAO();
-	   Usuario usuarioToken =  usuarioDAO.getUsuarioEmail(email);	   
+   private Token geraToken(String email, String role ){
 	   Date expiry = getExpiryDate(15);
-       String jwtString = TokenUtil.getJWTString(usuarioToken.getEmail(), usuarioToken.getRoles(), 0, expiry, key);
+       String jwtString = TokenUtil.getJWTString(email,role, 0, expiry, key);
        Token token = new com.pontua.app.modelo.Token();
        token.setAuthToken(jwtString);
        //.setExpires(expiry);

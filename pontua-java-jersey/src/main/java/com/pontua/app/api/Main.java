@@ -8,10 +8,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import com.pontua.app.api.filter.CORSFilter;
 import com.pontua.app.api.filter.JWTSecurityFilter;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
@@ -34,6 +34,7 @@ public class Main {
     	config. register(LoggingFilter.class);
 	   	config.register(RolesAllowedDynamicFeature.class);
 	   	config.register(JWTSecurityFilter.class);
+	   	config.register(new CORSFilter());
 	   	//config.register(JacksonFeature.class);
 	   	Main.setKey(MacProvider.generateKey());
 	   	config.register(new AbstractBinder() {
