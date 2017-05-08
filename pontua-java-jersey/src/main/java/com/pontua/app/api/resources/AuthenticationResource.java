@@ -46,7 +46,7 @@ public class AuthenticationResource {
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
     public Response loginCliente(String  login) {
-    	
+    	System.out.println("dados >> " +login);
     	this.cliente = (Cliente) new Gson().fromJson(login, Cliente.class); 
     	ClienteDAO clienteDAO = new ClienteDAO();
     	if(!this.cliente.getEmail().isEmpty() || !this.cliente.getSenha().isEmpty() ){

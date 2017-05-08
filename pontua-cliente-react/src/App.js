@@ -20,7 +20,11 @@ class App extends Component {
               <div className="pure-menu">
                   <a className="pure-menu-heading" href="#">Pontua</a>
                   <ul className="pure-menu-list">
-                      <li className="pure-menu-item"><Link to="/" className="pure-menu-link">Login</Link></li>
+                      <li className="pure-menu-item menu-item-divided pure-menu-selected">
+                          <a href="#" className="pure-menu-link">Login</a>
+                      </li>
+                      <li className="pure-menu-item"><Link to="/login/cliente" className="pure-menu-link">Cliente</Link></li>
+                      <li className="pure-menu-item"><Link to="/login/representante" className="pure-menu-link">Representante</Link></li>
                       <li className="pure-menu-item"><Link to="/servidores" className="pure-menu-link">Servidor</Link></li>
                       <li className="pure-menu-item menu-item-divided pure-menu-selected">
                           <a href="#" className="pure-menu-link">Services</a>
@@ -31,7 +35,7 @@ class App extends Component {
             <div className="content">
               <div>  
                 <Switch> 
-                      <Route  path="/" exact component={ Login }/>
+                      <Route  path="/login/:login" exact component={ Login }/>
                       <Route  path="/servidores" component={ Servidores }/>  
                       
                 </Switch> 

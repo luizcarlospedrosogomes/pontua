@@ -16,18 +16,10 @@ export default  class Login extends Component{
 
     login(event){
         event.preventDefault();
-        console.log(this.host()+"/pontua/login/cliente");
-        const requestInfo = {
-            method:'POST',
-            Body: JSON.stringify({email: this.email.value, senha:this.senha.value}),
-            headers: new Headers({
-                'Content-type' : 'application/json'
-            })
-        };
-        console.log(requestInfo);
-
-        fetch(this.host()+"/pontua/login/cliente", requestInfo)
-        .then(response =>{
+        fetch(this.host()+"/pontua/login/"+this.props.match.params.login, {
+                method:'POST',
+                body: JSON.stringify({email: this.email.value, senha:this.senha.value}),
+        }).then(response =>{
             if(response.ok){
                 console.log("sucesso no login");
                 return response.text();
@@ -41,9 +33,10 @@ export default  class Login extends Component{
     render(){
         return(
              <div>
+                 <h3>Pontua - {this.props.match.params.login}</h3>
                  <form className="pure-form" onSubmit={this.login.bind(this)}>
                     <fieldset>
-                        <legend>Pontua - Login</legend>
+                        <legend> </legend>
                         <input 
                             type="email" 
                             placeholder="Email"
