@@ -52,7 +52,7 @@ public class AuthenticationResource {
     	if(!this.cliente.getEmail().isEmpty() || !this.cliente.getSenha().isEmpty() ){
     		if(clienteDAO.getLogin(this.cliente)){
         		Token token = geraToken(this.cliente.getEmail(), "cliente");
-        	    return Response.ok(new Gson().toJson(token)).build();
+        	    return Response.ok(new Gson().toJson(token.getAuthToken())).build();
         	}
         	return Response.status(401).build();
     	}

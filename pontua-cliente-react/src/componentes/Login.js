@@ -24,18 +24,17 @@ export default  class Login extends Component{
                 console.log("sucesso no login");
                 return response.text();
             }else{
-                console.log("erro no login");
-                this.setState({msg:'erro no login'});
+                throw new Error('nao foi possivel fazer o login');
             }
         }).then(token =>{
+            console.log(token)
             if(this.props.match.params.login == 'representante'){
                 this.props.history.push('/representante');
             }else if(this.props.match.params.login == 'cliente'){
                 this.props.history.push('/cliente');
             }
         }).catch(error => {
-            console.log(error.message);
-            this.setState({msg:'erro no login'});
+            this.setState({msg:error.message});
         })
     }         
   
@@ -48,7 +47,7 @@ export default  class Login extends Component{
                  <h3>Entrar como {this.props.match.params.login}</h3>
                  <form className="pure-form" onSubmit={this.login.bind(this)}>
                     <fieldset>
-                        <legend> </legend>
+                        <legend><span>{this.state.msg}</span></legend>
                         <input 
                             type="email" 
                             placeholder="Email"
