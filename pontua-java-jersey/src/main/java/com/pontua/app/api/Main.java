@@ -30,9 +30,9 @@ public class Main {
     private static ResourceConfig config(){
     	org.apache.log4j.BasicConfigurator.configure();
     	ResourceConfig config = new ResourceConfig();
+ 	 	config.register(new CORSFilter());
    	 	config.packages("com.pontua.app.api.resources");
-   	 	config.register(new CORSFilter());
-    	config. register(LoggingFilter.class);
+     	config. register(LoggingFilter.class);
 	   	config.register(RolesAllowedDynamicFeature.class);
 	   	config.register(JWTSecurityFilter.class);
 	   	

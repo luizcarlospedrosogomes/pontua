@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import {Link,   Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
 //COMPONENTES
-import Login from './componentes/Login';
-import Servidores from './componentes/Servidor/Servidores';
-//import Promocao from './Promocao';
+import Login         from './componentes/Login';
+//import Logout        from './componentes/Logout';
+import Servidores    from './componentes/Servidor/Servidores';
+import Representante from './representante/Representante';
+import Cliente       from './cliente/Cliente';
+
 //CSS
 import './css/pure-min.css';
 import './css/side-menu.css';
@@ -36,8 +39,9 @@ class App extends Component {
               <div>  
                 <Switch> 
                       <Route  path="/login/:login" exact component={ Login }/>
-                      <Route  path="/servidores" component={ Servidores }/>  
-                      
+                      <Route  path="/servidores"         component={ Servidores }/>  
+                      <Route  path="/representante"      component={ Representante }/>  
+                      <Route  path="/cliente"            component={ Cliente }/>                        
                 </Switch> 
               </div>
             </div>

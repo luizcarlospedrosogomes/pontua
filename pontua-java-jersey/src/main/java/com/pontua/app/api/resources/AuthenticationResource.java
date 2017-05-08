@@ -46,7 +46,7 @@ public class AuthenticationResource {
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
     public Response loginCliente(String  login) {
-    	System.out.println("dados >> " +login);
+    	System.out.println("dados cliente >> " +login);
     	this.cliente = (Cliente) new Gson().fromJson(login, Cliente.class); 
     	ClienteDAO clienteDAO = new ClienteDAO();
     	if(!this.cliente.getEmail().isEmpty() || !this.cliente.getSenha().isEmpty() ){
@@ -65,13 +65,14 @@ public class AuthenticationResource {
     @Produces(MediaType.APPLICATION_JSON)
    // @Consumes("application/x-www-form-urlencoded")
     public Response loginRepresentante(String  login) {
+    	System.out.println("dados representante >> " +login);
     	
     	this.representante = (Representante) new Gson().fromJson(login, Representante.class); 
     	RepresentanteDAO representanteDAO = new RepresentanteDAO();
     	
-    	if(clienteDAO.getLogin(this.cliente)){
-    		Token token = geraToken(this.cliente.getEmail(), "representante");
-    	    return Response.ok(new Gson().toJson(token)).build();
+    	if(representanteDAO.getLogin(this.representante)){
+    		Token token = geraToken(this.representante.getEmail(), "representante");
+    	    return Response.ok(new Gson().toJson(token.getAuthToken())).build();
     	}
     	
     	return Response.status(400).build();

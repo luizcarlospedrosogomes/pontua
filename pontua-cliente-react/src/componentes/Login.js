@@ -27,13 +27,25 @@ export default  class Login extends Component{
                 console.log("erro no login");
                 this.setState({msg:'erro no login'});
             }
+        }).then(token =>{
+            if(this.props.match.params.login == 'representante'){
+                this.props.history.push('/representante');
+            }else if(this.props.match.params.login == 'cliente'){
+                this.props.history.push('/cliente');
+            }
+        }).catch(error => {
+            console.log(error.message);
+            this.setState({msg:'erro no login'});
         })
     }         
   
     render(){
         return(
              <div>
-                 <h3>Pontua - {this.props.match.params.login}</h3>
+                 <div className="header">
+                    <h1>Bem vindo ao Pontua</h1>
+                </div>
+                 <h3>Entrar como {this.props.match.params.login}</h3>
                  <form className="pure-form" onSubmit={this.login.bind(this)}>
                     <fieldset>
                         <legend> </legend>
@@ -41,6 +53,7 @@ export default  class Login extends Component{
                             type="email" 
                             placeholder="Email"
                             ref={(input) => this.email = input}
+                            
                         />
                         <input 
                             type="password" 
