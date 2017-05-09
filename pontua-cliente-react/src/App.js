@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 import {Link,   Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
 //COMPONENTES
-import Login         from './componentes/Login';
-//import Logout        from './componentes/Logout';
-import Servidores    from './componentes/Servidor/Servidores';
-import Representante from './representante/Representante';
-import Cliente       from './cliente/Cliente';
+import Login             from './componentes/Login/Login';
+import Logout            from './componentes/Login/Logout';
+import MenuInicial       from './componentes/Login/MenuInicial';
+import Servidores        from './componentes/Servidor/Servidores';
+import Representante     from './representante/Representante';
+import MenuRepresentante from './representante/MenuRepresentante';
+import Cliente           from './cliente/Cliente';
+import MenuCliente       from './cliente/MenuCliente';
 
 //CSS
 import './css/pure-min.css';
 import './css/side-menu.css';
 
+function ClienteRepresentante(){
+  if(localStorage.getItem('token-cliente') != null){
+    return <MenuCliente/>;
+  }
+  if(localStorage.getItem('token-representante') != null){
+    return <MenuRepresentante/>;
+  }
+  return <MenuInicial/>;
+}
+
 
 class App extends Component {
-  
+ 
   render() {    
     return (
       <Router>
@@ -23,15 +36,7 @@ class App extends Component {
               <div className="pure-menu">
                   <a className="pure-menu-heading" href="#">Pontua</a>
                   <ul className="pure-menu-list">
-                      <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                          <a href="#" className="pure-menu-link">Login</a>
-                      </li>
-                      <li className="pure-menu-item"><Link to="/login/cliente" className="pure-menu-link">Cliente</Link></li>
-                      <li className="pure-menu-item"><Link to="/login/representante" className="pure-menu-link">Representante</Link></li>
-                      <li className="pure-menu-item"><Link to="/servidores" className="pure-menu-link">Servidor</Link></li>
-                      <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                          <a href="#" className="pure-menu-link">Services</a>
-                      </li>
+                      <ClienteRepresentante/>
                   </ul>  
               </div>
             </nav>
@@ -39,6 +44,7 @@ class App extends Component {
               <div>  
                 <Switch> 
                       <Route  path="/login/:login" exact component={ Login }/>
+                      <Route  path="/logout/:login"      component={ Logout }/>
                       <Route  path="/servidores"         component={ Servidores }/>  
                       <Route  path="/representante"      component={ Representante }/>  
                       <Route  path="/cliente"            component={ Cliente }/>                        

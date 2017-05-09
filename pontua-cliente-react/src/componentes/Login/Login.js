@@ -27,10 +27,11 @@ export default  class Login extends Component{
                 throw new Error('nao foi possivel fazer o login');
             }
         }).then(token =>{
-            console.log(token)
             if(this.props.match.params.login == 'representante'){
+                localStorage.setItem('token-representante',token);
                 this.props.history.push('/representante');
             }else if(this.props.match.params.login == 'cliente'){
+                localStorage.setItem('token-cliente',token);
                 this.props.history.push('/cliente');
             }
         }).catch(error => {
