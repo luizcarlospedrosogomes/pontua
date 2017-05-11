@@ -59,6 +59,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
 
         String method = requestContext.getMethod().toLowerCase();
         String path = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
+        
         System.out.println("requestContext.getMethod() >> " + requestContext.getMethod());
         System.out.println("Metodo >> " + method);
         System.out.println("Path >> " + path);

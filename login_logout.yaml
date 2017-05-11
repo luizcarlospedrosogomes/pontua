@@ -1,0 +1,79 @@
+swagger: '2.0'
+info:
+  description: ''
+  version: 0.0.1
+  title: Pontua
+host: 'localhost:8080'
+basePath: /pontua
+tags:
+  - name: pontua
+    description: Pontos em compras
+schemes:
+  - http
+securityDefinitions:
+  pontua_auth:
+    type: basic
+    authorizationUrl: 'http://localhost:8080/login'
+    flow: implicit
+  api_key:
+    type: apiKey
+    name: authorization
+    in: header
+paths:
+  /login:
+    post:
+      tags:
+        - cliente login
+      summary: login
+      description: ''
+      operationId: loginCliente
+      produces:
+        - application/json
+      parameters:
+        - name: email
+          in: query
+          description: email para login
+          required: true
+          type: string
+        - name: senha
+          in: query
+          description: Senha em texto puro
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ' retorna token'
+          schema:
+            type: string
+          headers:
+            token:
+              type: string
+              description: token gerado pelo servidor
+        '400':
+          description: Email ou senha invalidos
+  /logout:
+    get:
+      tags:
+        - logout cliente
+      summary: ''
+      description: ''
+      operationId: logoutCliente
+      produces:
+        - application/json
+      parameters:
+        - name: token
+          in: query
+          description: token a ser destruido pelo servidor
+          required: true
+          type: string
+      responses:
+        default:
+          description: logout ok
+      security:
+        - pontua_auth: []
+definitions:
+  Token:
+    type: object
+    properties:
+      authorization:
+        type: string
