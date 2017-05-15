@@ -52,7 +52,7 @@ paths:
         '400':
           description: Email ou senha invalidos
   /logout:
-    get:
+    delete:
       tags:
         - logout cliente
       summary: ''
@@ -60,12 +60,6 @@ paths:
       operationId: logoutCliente
       produces:
         - application/json
-      parameters:
-        - name: token
-          in: query
-          description: token a ser destruido pelo servidor
-          required: true
-          type: string
       responses:
         default:
           description: logout ok

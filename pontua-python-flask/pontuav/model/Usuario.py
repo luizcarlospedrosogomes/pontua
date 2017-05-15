@@ -5,7 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 Base = declarative_base()
 
 
-class Usuario(Base):
+class User(Base):
     __tablename__   = 'usuario'
     id              = Column(Integer, primary_key=True, autoincrement=True)
     email           = Column(String(100))

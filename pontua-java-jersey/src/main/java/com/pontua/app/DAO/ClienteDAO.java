@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.pontua.app.modelo.Cliente;
-
 import com.pontua.app.util.JPAUtil;
 
 public class ClienteDAO {

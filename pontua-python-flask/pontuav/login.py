@@ -40,6 +40,8 @@ def requires_auth(f: callable, *args, **kwargs):
         return authenticate()
     return f(*args, **kwargs)
 
+def logout():
+    pass
 
 @requires_auth
 def login() -> str:

@@ -26,7 +26,7 @@ paths:
             items:
               $ref: '#/definitions/Promocao'
       security:
-        - basic: []
+        - apiKey: []
   /promocao/{promocao_id}:
     get:
       tags: [Promocao]
@@ -84,10 +84,26 @@ paths:
             type: string
       security:
         - basic: []
+  /logout:
+    delete:
+      tags: [logout cliente]
+      summary: ''
+      description: ''
+      operationId: login.logout
+      responses:
+        default:
+          description: logout ok
+      security:
+        - apiKey: []
 securityDefinitions:
   basic:
     type: basic
-
+    description: HTTP Basic Authentication.
+  apiKey:
+    name: apiKey
+    type: apiKey
+    in: query
+    description: API Key 
 parameters:
   promocao_id:
     name: promocao_id

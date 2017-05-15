@@ -3,7 +3,7 @@ import datetime
 import logging
 import connexion
 from connexion import NoContent
-from orm import Promocao
+from model.Promocao import Promocao
 import orm 
 from decorator import decorator
 import login

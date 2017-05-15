@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-
 import com.pontua.app.modelo.Representante;
 import com.pontua.app.util.JPAUtil;
 

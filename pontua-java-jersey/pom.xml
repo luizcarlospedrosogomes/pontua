@@ -10,9 +10,48 @@
 </properties>
 
 	<build>
+	
 		<finalName>pontua</finalName>
 		<plugins>
-			<plugin>
+		 <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>9.0.7.v20131107</version>
+        
+        <configuration>
+          <webApp>
+            <contextPath>/</contextPath>
+          </webApp>
+          <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
+          <stopPort>8079</stopPort>
+          <stopKey>stopit</stopKey>
+          <httpConnector>
+            <port>8080</port>
+            <idleTimeout>60000</idleTimeout>
+          </httpConnector>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start-jetty</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <scanIntervalSeconds>0</scanIntervalSeconds>
+              <daemon>true</daemon>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-jetty</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+			 <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -21,6 +60,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<!--
 			 <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -36,6 +76,8 @@
                     <mainClass>com.pontua.app.api.Main</mainClass>
                 </configuration>
                </plugin>
+               
+                -->
 		</plugins>
 	</build>
 
@@ -44,9 +86,14 @@
 	<!-- HIBERNATE -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>
+		    <artifactId>hibernate-core</artifactId>	
 		    <version>5.2.10.Final</version>
 		</dependency>
+		<!--	<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.2.10.Final</version>
+		</dependency>-->
 		<!-- Json -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
