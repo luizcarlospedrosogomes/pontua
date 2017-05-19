@@ -4,17 +4,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Usuario {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("id")
 	private int id;
-	private String nome;
+	@JsonProperty("senha")
 	private String senha;
-	private String cpf;
+	@JsonProperty("email")
 	private String email;
+	
+	@JsonProperty("email")
+	@ApiModelProperty(example = "teste@teste.com", required = true, value = "email valido")
+	@NotNull
+	public String getEmail() {
+		return email;
+	}
 	private String roles;
 	
 	public String getRoles() {
@@ -29,29 +42,19 @@ public class Usuario {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+	
+	@JsonProperty("senha")
+	@ApiModelProperty(example = "123456", required = true, value = "senha em testo puro")
+	@NotNull	
 	public String getSenha() {
 		return senha;
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	public String getEmail() {
-		return email;
-	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	
 }

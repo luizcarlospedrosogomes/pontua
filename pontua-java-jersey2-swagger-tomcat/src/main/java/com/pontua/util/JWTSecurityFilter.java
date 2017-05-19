@@ -1,11 +1,10 @@
 /**
  * Created by Philip A Senger on November 10, 2015
  */
-package com.pontua.app.api.filter;
+package com.pontua.util;
 
 import java.io.IOException;
 import java.security.Key;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import javax.annotation.Priority;
@@ -19,14 +18,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
+
 import org.glassfish.jersey.server.ContainerRequest;
 
-import com.pontua.app.DAO.UsuarioDAO;
-import com.pontua.app.modelo.EntityNotFoundException;
-import com.pontua.app.modelo.Usuario;
-import com.pontua.app.util.TokenUtil;
-
-import io.jsonwebtoken.impl.crypto.MacProvider;
+import com.pontua.DAO.UsuarioDAO;
+import com.pontua.modelo.Usuario;
 
 /**
  * https://simplapi.wordpress.com/2013/01/24/jersey-jax-rs-implements-a-http-basic-auth-decoder/
@@ -64,7 +60,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         System.out.println("Metodo >> " + method);
         System.out.println("Path >> " + path);
         
-        if ((("options".equals(method) || "post".equals(method)) && ("/pontua/login".equals(path)))) {
+        if (("post".equals(method) && ("/pontua/login".equals(path)))) {
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", new String[]{"anonymous"}));
             return;

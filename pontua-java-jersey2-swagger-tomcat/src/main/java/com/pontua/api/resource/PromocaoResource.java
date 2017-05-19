@@ -18,6 +18,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Authorization;
 
 @Path("/promocao")
 @Api(value = "/promocao", description = "Operations about promocao")
@@ -28,34 +29,54 @@ public class PromocaoResource {
 
   @GET
   @Path("/{promocaoID}")
-  @ApiOperation(value = "Promocao ID", 
-    			notes = "retorna promocao",
-    			response = Promocao.class
+  @ApiOperation(value     = "Promocao ID"
+  				, notes   = "retorna promocao"
+  				,response = Promocao.class
     			)
-  @ApiResponses(value = { @ApiResponse(code = 400, message = "ID invalido"),
-		  				  @ApiResponse(code = 404, message = "Promocao nao econtrada") })
+  @ApiResponses(value = { 
+		  		@ApiResponse(code     = 400
+		  					, message = "ID invalido"),
+		  		@ApiResponse(code = 404
+		  					, message = "Promocao nao econtrada")
+		  		})
   public Response getPromocaoId(
       @ApiParam(value = "ID da promocao"
       			, required = true) 
       			@PathParam("promocaoID") int promocaoID)
       throws NotFoundException {
-	  PromocaoDAO promocao = new PromocaoDAO();
-	  Promocao promocaoIDL= promocao.buscaId(promocaoID);
-	  System.out.println("Lresutlado  busca por id "+promocaoID );
-    if (null != promocaoIDL ) {
-      return Response.ok(new Gson().toJson(promocaoIDL)).build();
-    } else {
-      throw new NotFoundException(404, "Promocao not found");
-    }
+	  		PromocaoDAO promocao = new PromocaoDAO();
+	  		Promocao promocaoIDL= promocao.buscaId(promocaoID);
+	  		System.out.println("resutlado  busca por id "+promocaoID );
+		    if (null != promocaoIDL ) {
+		      return Response.ok(new Gson().toJson(promocaoIDL)).build();
+		    } else {
+		      return Response.status(404).build();
+		    }
   }
   
   @GET
   @Path("/")
-  @ApiOperation(value = "Promocao", notes = "retorna todas promocao")
+  @ApiOperation(value            = "Promocao"
+  				, notes          = "retorna todas promocao"
+  				, response       = Promocao.class
+  				, authorizations = {@Authorization(value = "apiKey")}
+  				, tags           = "logout"
+    			)
+ 
+  @ApiResponses(value = {
+		  @ApiResponse(code = 200
+				  	 , message = "promocao encontrada"
+				  	 , response = void.class)
+		  })
   public Response getPromocao(){
 	  PromocaoDAO promocao = new PromocaoDAO();
-	  List pro = promocao.buscaAll();   
-	  return Response.ok(new Gson().toJson(pro)).build();
+	  List pro = promocao.buscaAll();  
+	  if(null != pro){
+		  return Response.ok(new Gson().toJson(pro)).build();
+	  }else{
+		  return Response.status(404).build();
+	  }
+		  
   }
 
 }

@@ -1,5 +1,4 @@
 package com.pontua.app.DAO;
-
 import java.util.List;
 
 import javax.persistence.EntityManager;

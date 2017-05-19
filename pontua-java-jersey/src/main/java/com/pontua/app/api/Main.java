@@ -32,7 +32,7 @@ public class Main {
     	ResourceConfig config = new ResourceConfig();
  	 	config.register(new CORSFilter());
    	 	config.packages("com.pontua.app.api.resources");
-     	config. register(LoggingFilter.class);
+     	config.register(LoggingFilter.class);
 	   	config.register(RolesAllowedDynamicFeature.class);
 	   	config.register(JWTSecurityFilter.class);
 	   	

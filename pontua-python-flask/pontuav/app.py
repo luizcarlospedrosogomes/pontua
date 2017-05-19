@@ -3,14 +3,18 @@ import datetime
 import logging
 import connexion
 from connexion import NoContent
-from model.Promocao import Promocao
-import orm 
+from flask import Flask
+from flask_cors import CORS, cross_origin
+#model
+from model.Promocao import *
+from model.orm_base import *
+from model.orm_base import Base
 from decorator import decorator
-import login
+from controller.Login import *
 
 db_session = None
 
-@login.requires_auth
+#@requires_auth
 def get_promocoes():
     q = db_session.query(Promocao)
 
@@ -47,12 +51,20 @@ def delete_promocao(promocao_id):
         return NoContent, 404
 
 logging.basicConfig(level=logging.INFO)
-db_session = orm.init_db('sqlite:///db.sqlite')
+#db_session = orm.init_db('sqlite:///db_login2.sqlite')
+engine = create_engine('sqlite:///db_login2.sqlite', convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+Base.query = db_session.query_property()
+Base.metadata.create_all(bind=engine)
+#Session = sessionmaker(bind=engine)
+#session = Session()
+#promocao_tab = Promocao
+
 app = connexion.FlaskApp(__name__)
 app.add_api('swagger.yaml')
 
 application = app.app
-
+CORS(application)
 
 @application.teardown_appcontext
 def shutdown_session(exception=None):
@@ -61,3 +73,4 @@ def shutdown_session(exception=None):
 
 if __name__ == '__main__':
     app.run(port=8080)
+    CORS(app)

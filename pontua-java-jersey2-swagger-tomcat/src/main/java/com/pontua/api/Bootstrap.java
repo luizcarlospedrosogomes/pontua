@@ -17,9 +17,11 @@ public class Bootstrap extends HttpServlet {
 
     // add a custom filter
     FilterFactory.setFilter(new CustomFilter());
-    
-    org.apache.log4j.BasicConfigurator.configure();
-
+    /*
+     * 
+     * LOGGING
+     * */
+    //org.apache.log4j.BasicConfigurator.configure();
     ApiInfo info = new ApiInfo(
       "Pontua API",                             /* title */
       "pontos em promocao", 
@@ -36,8 +38,7 @@ public class Bootstrap extends HttpServlet {
     List<GrantType> grantTypes = new ArrayList<GrantType>();
 
     ImplicitGrant implicitGrant = new ImplicitGrant(
-      new LoginEndpoint("http://localhost:8080/oauth/dialog"),
-      "access_code");
+      new LoginEndpoint("http://localhost:8080/pontua/login"), "access_code");
 
     grantTypes.add(implicitGrant);
 
@@ -45,5 +46,7 @@ public class Bootstrap extends HttpServlet {
 
     ConfigFactory.config().addAuthorization(oauth);
     ConfigFactory.config().setApiInfo(info);
+    
+    
   }
 }

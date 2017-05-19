@@ -71,7 +71,9 @@ paths:
     post:
       tags: [Login]
       summary: Return token
-      operationId: login.login
+      operationId: controller.Login.login
+      produces:
+       - application/json
       parameters:
         - name: login
           in: body
@@ -89,7 +91,7 @@ paths:
       tags: [logout cliente]
       summary: ''
       description: ''
-      operationId: login.logout
+      operationId: controller.Login.logout
       responses:
         default:
           description: logout ok

@@ -16,10 +16,15 @@ export default  class Login extends Component{
 
     login(event){
         event.preventDefault();
-        fetch(this.host()+"/pontua/login/"+this.props.match.params.login, {
-                method:'POST',
-                body: JSON.stringify({email: this.email.value, senha:this.senha.value}),
-        }).then(response =>{
+         const requestInfo = {
+            method:'POST',
+            body:JSON.stringify({email: this.email.value, senha:this.senha.value}),
+            headers:new Headers({
+                'Content-type' : 'application/json' 
+            })
+        };
+        fetch(this.host()+"/pontua/login",requestInfo)            
+            .then(response =>{
             if(response.ok){
                 console.log("sucesso no login");
                 return response.text();
@@ -27,6 +32,7 @@ export default  class Login extends Component{
                 throw new Error('nao foi possivel fazer o login');
             }
         }).then(token =>{
+            console.log(token)
             if(this.props.match.params.login == 'representante'){
                 localStorage.setItem('token-representante',token);
                 this.props.history.push('/representante');

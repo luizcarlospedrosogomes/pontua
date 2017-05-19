@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.pontua.modelo.Pet;
+
 import com.pontua.modelo.Promocao;
 import com.pontua.util.JPAUtil;
 

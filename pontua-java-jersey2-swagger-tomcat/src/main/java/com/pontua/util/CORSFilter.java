@@ -1,4 +1,4 @@
-package com.pontua.app.api.filter;
+package com.pontua.util;
 
 import java.io.IOException;
 
@@ -13,9 +13,9 @@ public class CORSFilter implements ContainerResponseFilter {
     public void filter(ContainerRequestContext request,
         ContainerResponseContext response) throws IOException {
         response.getHeaders().add("Access-Control-Allow-Origin", "*");
-        response.getHeaders().add("Access-Control-Allow-Headers","Content-Type, Accept");
+        response.getHeaders().add("Access-Control-Allow-Headers","*");
         response.getHeaders().add("Access-Control-Allow-Credentials", "true");
-        response.getHeaders().add("Access-Control-Allow-Methods","GET, POST, DEL, PUT");
+        response.getHeaders().add("Access-Control-Allow-Methods","*");
         
     }
 }

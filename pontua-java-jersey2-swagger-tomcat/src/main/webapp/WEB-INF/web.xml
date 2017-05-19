@@ -2,7 +2,17 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-
+ <!--    
+    <filter>
+	  <filter-name>JWTSecurityFilter</filter-name>
+	  <filter-class>com.pontua.util.JWTSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+        <filter-name>JWTSecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+ -->
     <servlet>
         <servlet-name>jersey</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -60,7 +70,7 @@
         <servlet-class>com.pontua.api.Bootstrap</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
-    <filter-mapping>
+	 <filter-mapping>
         <filter-name>ApiOriginFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>

@@ -1,11 +1,13 @@
 from sqlalchemy import Column, DateTime, String, create_engine, Integer, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-
-
-Base = declarative_base()
-
 from . import  Usuario
+from .orm_base import Base
+
+
+#Base = declarative_base()
+
+
 
 class Promocao(Base):
     __tablename__   = 'promocao'
