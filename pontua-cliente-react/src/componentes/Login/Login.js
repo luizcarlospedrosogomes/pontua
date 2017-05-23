@@ -16,13 +16,13 @@ export default  class Login extends Component{
 
     login(event){
         event.preventDefault();
-         const requestInfo = {
+
+        const requestInfo = {
             method:'POST',
             body:JSON.stringify({email: this.email.value, senha:this.senha.value}),
-            headers:new Headers({
-                'Content-type' : 'application/json' 
-            })
+            headers:new Headers({'content-type' : 'application/json'})
         };
+        
         fetch(this.host()+"/pontua/login",requestInfo)            
             .then(response =>{
             if(response.ok){

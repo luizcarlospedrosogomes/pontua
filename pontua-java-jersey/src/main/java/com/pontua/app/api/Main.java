@@ -11,6 +11,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+
 import com.pontua.app.api.filter.CORSFilter;
 import com.pontua.app.api.filter.JWTSecurityFilter;
 
@@ -31,6 +32,7 @@ public class Main {
     	org.apache.log4j.BasicConfigurator.configure();
     	ResourceConfig config = new ResourceConfig();
  	 	config.register(new CORSFilter());
+ 	 	//config.register(new ApiOriginFilter());
    	 	config.packages("com.pontua.app.api.resources");
      	config.register(LoggingFilter.class);
 	   	config.register(RolesAllowedDynamicFeature.class);

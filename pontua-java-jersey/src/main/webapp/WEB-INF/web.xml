@@ -2,18 +2,31 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	
+    
+    
+    <servlet>
+         <servlet-name>MyApplication</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.pontua.app.api.Application</param-value>
+        </init-param>
 
-    <listener>
-      <listener-class>io.swagger.sample.SwaggerExampleGuiceContextListener</listener-class>
-    </listener>
-
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyApplication</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping> 
+    
     <filter>
-      <filter-name>guiceFilter</filter-name>
-      <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-      <filter-name>guiceFilter</filter-name>
-      <url-pattern>/pontua/*</url-pattern>
-    </filter-mapping>
-</web-app>
+    <filter-name>CORS</filter-name>
+    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>CORS</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+    
+    </web-app>

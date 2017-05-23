@@ -5,7 +5,6 @@ package com.pontua.app.api.filter;
 
 import java.io.IOException;
 import java.security.Key;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import javax.annotation.Priority;
@@ -22,11 +21,8 @@ import javax.ws.rs.ext.Provider;
 import org.glassfish.jersey.server.ContainerRequest;
 
 import com.pontua.app.DAO.UsuarioDAO;
-import com.pontua.app.modelo.EntityNotFoundException;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
-
-import io.jsonwebtoken.impl.crypto.MacProvider;
 
 /**
  * https://simplapi.wordpress.com/2013/01/24/jersey-jax-rs-implements-a-http-basic-auth-decoder/
@@ -56,11 +52,10 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
 	*/
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-
+    	
         String method = requestContext.getMethod().toLowerCase();
-        String path = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
-        
-        System.out.println("requestContext.getMethod() >> " + requestContext.getMethod());
+        String path   = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
+     
         System.out.println("Metodo >> " + method);
         System.out.println("Path >> " + path);
         
@@ -71,9 +66,10 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         }
         requestContext.getUriInfo().getPathParameters();
         String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("authorization");
+        
         System.out.println("authorizationHeader");
         System.out.println(authorizationHeader);
-        System.out.println(((ContainerRequest) requestContext));
+        
         if (authorizationHeader == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
@@ -103,4 +99,28 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         }
         throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     }
+    
+   /* private Map<String,String> prepareParameters(MultivaluedMap<String, String> queryParameters) {
+
+    	   Map<String,String> parameters = new HashMap<String,String>();
+    	   String header = queryParameters.va;
+    	   
+    	   Iterator<String> it = queryParameters.keySet().iterator();
+
+
+    	         while(it.hasNext()){
+    	           String theKey = (String)it.next();
+    	           parameters.put(theKey,queryParameters.getFirst(theKey));
+    	           System.out.println("theKey : "+theKey);
+    	           System.out.println("queryParameters.getFirst(theKey) : "+queryParameters.getFirst(theKey));
+    	       }
+    	   for (Set<String> entry : queryParameters.keySe) {
+    		   String key = entry.getKey();
+    		   String value = entry.getValue();
+
+    		   // do stuff
+    		 }
+    	   return parameters;
+
+    	    }*/
 }

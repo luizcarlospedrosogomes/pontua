@@ -52,7 +52,7 @@ public class LoginResource {
     		if(usuarioDAO.getLogin(this.usuario)){
         		Token token = geraToken(this.usuario.getEmail());
         		String role = role(this.usuario.getEmail());
-        	    return Response.ok(new Gson().toJson(token.getAuthToken()+" role "+ role)).build();
+        	    return Response.ok(new Gson().toJson(token)).build();
         	}
         	return Response.status(401).build();
     	}
