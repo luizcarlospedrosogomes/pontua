@@ -45,11 +45,11 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
     @Inject
     javax.inject.Provider<UriInfo> uriInfo;
 
-    /*public static String extractJwtTokenFromAuthorizationHeader(String auth) {
+    public static String extractJwtTokenFromAuthorizationHeader(String auth) {
         //Replacing "Bearer Token" to "Token" directly
         return auth.replaceFirst("[B|b][E|e][A|a][R|r][E|e][R|r] ", "").replace(" ", "");
     }
-	*/
+	
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
     	
@@ -61,32 +61,36 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         
         if ((("options".equals(method) || "post".equals(method)) && ("/pontua/login".equals(path)))) {
             // pass through the filter.
-            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", new String[]{"anonymous"}));
+            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
             return;
         }
         requestContext.getUriInfo().getPathParameters();
         String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("authorization");
-        
-        System.out.println("authorizationHeader");
-        System.out.println(authorizationHeader);
-        
+           
         if (authorizationHeader == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         
-        String strToken = authorizationHeader;
-       // Key key = MacProvider.generateKey();
+        //String strToken = authorizationHeader;
+        String strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeader);
+        System.out.println("token +++++++++++++++++++++++");
+        System.out.println(strToken.replace("\"", ""));
+        strToken = strToken.replace("\"", "");
         if (TokenUtil.isValid(strToken, key)) {
             String email = TokenUtil.getEmail(strToken, key);
-            String [] roles = TokenUtil.getRoles(strToken, key);
-            String role = null;
+            //String [] roles = TokenUtil.getRoles(strToken, key);
+            String role = TokenUtil.getRole(strToken, key);
+            System.out.println("role");
+            System.out.println(role);
+            System.out.println("email");
+            System.out.println(email);
             int version = TokenUtil.getVersion(strToken, key);
-            if (email != null && roles.length != 0 && version != -1) {
+            if (email != null && !role.equals("") && version != -1) {
                 UsuarioDAO usuarioDAO = new UsuarioDAO();
                 Usuario usuario = usuarioDAO.getUsuarioEmail(email);
                 role = usuario.getRoles();
                 if (role != null) {
-                     requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> email, roles));
+                     requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> email, role));
                       return;                    
                 } else {
                     logger.info("Usuario invalido");
@@ -99,28 +103,4 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         }
         throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     }
-    
-   /* private Map<String,String> prepareParameters(MultivaluedMap<String, String> queryParameters) {
-
-    	   Map<String,String> parameters = new HashMap<String,String>();
-    	   String header = queryParameters.va;
-    	   
-    	   Iterator<String> it = queryParameters.keySet().iterator();
-
-
-    	         while(it.hasNext()){
-    	           String theKey = (String)it.next();
-    	           parameters.put(theKey,queryParameters.getFirst(theKey));
-    	           System.out.println("theKey : "+theKey);
-    	           System.out.println("queryParameters.getFirst(theKey) : "+queryParameters.getFirst(theKey));
-    	       }
-    	   for (Set<String> entry : queryParameters.keySe) {
-    		   String key = entry.getKey();
-    		   String value = entry.getValue();
-
-    		   // do stuff
-    		 }
-    	   return parameters;
-
-    	    }*/
 }

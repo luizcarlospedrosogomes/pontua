@@ -18,27 +18,27 @@ export default  class ListarPromocao extends Component{
       const token= localStorage.getItem('token-representante'); 
       console.log(token);
       
-      /*const requestInfo = {
+      const requestInfo = {
             dataType: 'json',
-            headers: {'Authorization': ['coisa']}
-
+            headers: {'Authorization': token},
+            
         };
-        */
         
-     /* fetch(this.host()+"/pontua/promocao" ,{
-        headers: {'Accept': '*',
-                  'authorization' : 'teste'}
-      })
-      .then((response) => response.json())
-*/
-      $.ajax({
-    url:this.host()+"/pontua/promocao",
-    headers: {'authorization' : token},
-      
-      });
+        fetch(this.host()+"/pontua/promocao", requestInfo)
+        .then(response =>{
+            if(response.ok){
+              return response.json();
+            }
+        })
+        .then(promocoes =>{
+          console.log(promocoes);
+          this.setState({lista:promocoes});
+        });
 
-      
-
+        PubSub.subscribe('atualiza-lista-autores',function(topico,novaLista){
+            console.log(novaLista);
+            this.setState({lista:novaLista});
+        })
     }
 
     render(){
@@ -50,24 +50,30 @@ export default  class ListarPromocao extends Component{
                         <thead>
                           <tr>
                             <th>Nome</th>
-                            <th>Empresa</th>
-                            <th>Data Inicio</th>
-                            <th>Data Fim</th>
+                            <th>Pontos</th>
+                            <th>Inicio Vigencia</th>
+                            <th>Fim Vigencia</th>
+                            <th>Representante</th>
+                            <th>Editar</th>
+                            <th>Excluir</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {/*{
-                            this.props.lista.map(function(promocao){
+                          {
+                            this.state.lista.map(function(promocao){
                               return (
                                 <tr key={promocao.id}>
                                   <td>{promocao.nome}</td>
-                                  <td>{promocao.empresa}</td>
-                                  <td>{promocao.data_inicio}</td>
-                                  <td>{promocao.data_fim}</td>
+                                  <td>{promocao.qtd_pontos}</td>
+                                  <td>{promocao.inicio_vigencia}</td>
+                                  <td>{promocao.final_vigencia}</td>
+                                  <td>{promocao.representante.email}</td>
+                                  <td>Editar</td>
+                                  <td>Excluir</td>
                                 </tr>
                               );
                             })
-                          }*/}
+                          }
                         </tbody>
                       </table>
             </div>

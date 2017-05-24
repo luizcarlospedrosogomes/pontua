@@ -14,14 +14,15 @@ public class PromocaoDAO {
 	private EntityManager manager;
 	private Query query;
 	
-	public List<Promocao> buscaAll(){
+	public List buscaAll(){
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
         
-		List<Promocao> promocao = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
+		List pro = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
 		em.getTransaction().commit();
 		em.close();
-		return promocao;
+	
+		return pro;
 	}
 	
 	public Promocao  buscaId(final int id){

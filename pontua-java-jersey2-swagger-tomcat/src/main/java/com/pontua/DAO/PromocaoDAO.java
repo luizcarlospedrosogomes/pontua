@@ -16,8 +16,8 @@ public class PromocaoDAO {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
         
-		List pro = em.createQuery("FROM " + Promocao.class.getName()).getResultList();
-		//em.getTransaction().commit();
+		List pro = em.createQuery("FROM Promocao p").getResultList();
+		em.getTransaction().commit();
 		em.close();
 	
 		return pro;

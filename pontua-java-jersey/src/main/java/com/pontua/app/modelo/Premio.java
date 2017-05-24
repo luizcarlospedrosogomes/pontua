@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -16,9 +17,9 @@ public class Premio {
 	private String quantidade_disponivel;
 	private String validade;
 	private String valor_pontos;
-	
-	 @ManyToOne
-	    private Representante representante;
+	@ManyToOne
+	@JoinColumn(name="representante_id")
+	private Representante representante;
 	 
 	public Integer getId() {
 		return id;

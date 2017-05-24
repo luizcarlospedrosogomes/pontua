@@ -135,7 +135,8 @@ export default class Promocao extends Component {
 
   constructor() {
     super();    
-    this.state = {lista : []};    
+    this.state = {lista : []};  
+    console.log(lista);
   }
 
   componentDidMount(){  

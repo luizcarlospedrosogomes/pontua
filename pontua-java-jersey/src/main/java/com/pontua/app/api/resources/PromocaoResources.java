@@ -18,6 +18,7 @@ import com.pontua.app.modelo.Promocao;
 
 @Path("pontua/promocao")
 public class PromocaoResources {
+	
 	@PermitAll
 	@Path("/{id}")
     @GET
@@ -31,8 +32,8 @@ public class PromocaoResources {
     @Produces(MediaType.APPLICATION_JSON)
     public Response list() {
 		PromocaoDAO promocao = new PromocaoDAO();
-		List<Promocao> getPromocao =   promocao.buscaAll();
-		if(null !=getPromocao){
+		List getPromocao =   promocao.buscaAll();
+		if(!getPromocao.isEmpty()){
 			return Response.ok(new Gson().toJson(getPromocao)).build();
 		}
 		return Response.status(404).build();

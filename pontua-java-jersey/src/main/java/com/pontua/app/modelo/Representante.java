@@ -3,10 +3,13 @@ package com.pontua.app.modelo;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Representante {
@@ -27,11 +30,12 @@ public class Representante {
 	private String senha;
 	private String validade_pontos;
 	
-	@OneToMany(mappedBy="representante")
-    private List<Promocao> promocao;
+	//@OneToMany(mappedBy="representante")
+	@OneToMany(mappedBy = "representante", targetEntity = Promocao.class, fetch = FetchType.LAZY)
+    private transient List<Promocao> promocao;
 	
 	@OneToMany(mappedBy="representante")
-    private List<Premio> premio;
+    private transient  List<Premio> premio;
 	
 
 	public Integer getId() {

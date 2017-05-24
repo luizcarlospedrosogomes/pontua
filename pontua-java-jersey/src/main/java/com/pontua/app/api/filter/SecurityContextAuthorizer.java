@@ -17,8 +17,9 @@ public class SecurityContextAuthorizer implements SecurityContext {
     private Principal principal;
     private javax.inject.Provider<UriInfo> uriInfo;
     private Set<String> roles;
-
-    public SecurityContextAuthorizer(final javax.inject.Provider<UriInfo> uriInfo, final Principal principal, final String[] roles) {
+    private String role;
+    
+    public SecurityContextAuthorizer(final javax.inject.Provider<UriInfo> uriInfo, final Principal principal, final String role) {
         this.principal = principal;
         if (principal == null) {
             this.principal = new Principal() {
@@ -34,7 +35,7 @@ public class SecurityContextAuthorizer implements SecurityContext {
             };
         }
         this.uriInfo = uriInfo;
-        this.roles = new HashSet<>(Arrays.asList((roles != null) ? roles : new String[]{}));
+        this.role = role;//new HashSet<>(Arrays.asList((role != null) ? role : new String[]{}));
     }
 
     public Principal getUserPrincipal() {
@@ -42,7 +43,7 @@ public class SecurityContextAuthorizer implements SecurityContext {
     }
 
     public boolean isUserInRole(String role) {
-        return this.roles.contains(((role == null) ? "" : role));
+        return this.role.contains(((role == null) ? "" : role));
     }
 
     public boolean isSecure() {

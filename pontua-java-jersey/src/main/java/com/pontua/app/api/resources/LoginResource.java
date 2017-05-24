@@ -51,8 +51,8 @@ public class LoginResource {
     	if(!this.usuario.getEmail().isEmpty() || !this.usuario.getSenha().isEmpty() ){
     		if(usuarioDAO.getLogin(this.usuario)){
         		Token token = geraToken(this.usuario.getEmail());
-        		String role = role(this.usuario.getEmail());
-        	    return Response.ok(new Gson().toJson(token)).build();
+        		//String role = role(this.usuario.getEmail());
+        	    return Response.ok(new Gson().toJson(token.getAuthToken())).build();
         	}
         	return Response.status(401).build();
     	}
@@ -79,20 +79,15 @@ public class LoginResource {
 	   UsuarioDAO usuarioDAO = new UsuarioDAO();
 	   Usuario usuario = usuarioDAO.getUsuarioEmail(email);
 	   
-	   Date expiry = getExpiryDate(15);
-       String jwtString = TokenUtil.getJWTString(email,usuario.getRoles(), 0, expiry, key);
+	   Date expiry = getExpiryDate(360);
+       String jwtString = TokenUtil.getJWTString(email,usuario.getRoles(), 1, expiry, key);
        Token token = new com.pontua.app.modelo.Token();
+       
        token.setAuthToken(jwtString);
-       //.setExpires(expiry);
+       token.setExpires(expiry);;
        
       return token;
      
-   }
-   
-   private String role(String email){
-	   UsuarioDAO usuarioDAO = new UsuarioDAO();
-	   Usuario usuario = usuarioDAO.getUsuarioEmail(email);
-	   return usuario.getRoles();
    }
 
 }

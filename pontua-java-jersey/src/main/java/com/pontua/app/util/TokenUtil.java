@@ -43,9 +43,9 @@ public class TokenUtil {
                 
         String jwtString = Jwts
                 .builder()
-                .setIssuer("Jersey-Security-Basic")
+                .setIssuer("JSB")
                 .setSubject(email)
-                .setAudience(StringUtils.join(Arrays.asList(roles), ","))
+                .setAudience(roles)
                 .setExpiration(expires)
                 .setIssuedAt(new Date())
                 .setId(String.valueOf(version))
@@ -70,6 +70,7 @@ public class TokenUtil {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(jwsToken);
             return claimsJws.getBody().getSubject();
         }
+        System.out.println("NAO VALIDO TOKEN");
         return null;
     }
 
@@ -79,6 +80,14 @@ public class TokenUtil {
             return claimsJws.getBody().getAudience().split(",");
         }
         return new String[]{};
+    }
+    
+    public static String getRole(String jwsToken, Key key) {
+        if (isValid(jwsToken, key)) {
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(jwsToken);
+            return claimsJws.getBody().getAudience();
+        }
+        return "";
     }
 
     public static int getVersion(String jwsToken, Key key) {
