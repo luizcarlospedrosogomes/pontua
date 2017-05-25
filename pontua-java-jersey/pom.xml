@@ -43,12 +43,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>2.7</version>
     </dependency>
-	
+	<!-- CORS -->
 	<dependency>
- <groupId>com.thetransactioncompany</groupId>
- <artifactId>cors-filter</artifactId>
- <version>2.4</version>
-</dependency>
+		 <groupId>com.thetransactioncompany</groupId>
+		 <artifactId>cors-filter</artifactId>
+		 <version>2.4</version>
+	</dependency>
 	<!-- HIBERNATE -->
 		<dependency>
 		    <groupId>org.hibernate</groupId>

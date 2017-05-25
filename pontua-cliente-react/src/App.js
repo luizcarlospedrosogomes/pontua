@@ -10,6 +10,7 @@ import MenuRepresentante from './representante/MenuRepresentante';
 import Cliente           from './cliente/Cliente';
 import MenuCliente       from './cliente/MenuCliente';
 import ListarPromocao    from './representante/ListarPromocao';
+import CadastrarPromocao from './representante/CadastrarPromocao';
 
 //CSS
 import './css/pure-min.css';
@@ -48,7 +49,8 @@ class App extends Component {
                       <Route  path="/logout/:login"         component={ Logout }/>
                       <Route  path="/servidores"            component={ Servidores }/>  
                       <Route  path="/representante"         component={ Representante }/>  
-                      <Route  path="/promocao/listar"       component={ ListarPromocao }/>   
+                      <Route  path="/promocao/listar"       component={ ListarPromocao }/>  
+                      <Route  path="/promocao/cadastrar"    component={ CadastrarPromocao }/>   
                       <Route  path="/cliente"               component={ Cliente }/>   
 
                 </Switch> 
