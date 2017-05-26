@@ -2,7 +2,7 @@
 	maven - jersey - hibernate - electron -JWT
 >The project aims to sediment knowledge in applied technologies. Being of learning character is recommended criterion when 	implanting such configurations in production.
 
-## pontua-cliente-react/
+## pontua-cliente-react/ (under construction 26/05/17)
 ### for configuration
 	nodes.js
   	 'npm install'(dependency)
@@ -10,15 +10,30 @@
 		'npm run dev'
   ### repository original
   	in pontua-cliente-react/README.md information for repository original
-  
- ## pontua-java-jersey/
+  ### example
+  	http://pontua-cliente.herokuapp.com/
+	for configuration http://pontua-cliente.herokuapp.com/servidores add server.
+	
+ ## pontua-java-jersey/ (under construction 26/05/17)
  ### for configuration
         Eclipse EE
         maven
-        mysql port 3306 (or xampp) database:pontua or alter edit: pontua-java-jersey/src/main/resources/META-INF/persistence.xml
+	hibernate
+        mysql port 3306 (or xampp) database:pontua_jersey2 or alter edit: pontua-java-jersey/src/main/resources/META-INF/persistence.xml
         
   ### for run
-  	pontua-java-jersey/src/main/java/com/pontua/app/api/Main.java (run as aplication java)
-   	http://localhost:8080/pontua/promocao (return list JSON)
+  	mvn tomcat7:run
+   	http://localhost:8080/pontua/login (return list JSON)
   ### repository  original
  	 https://github.com/psenger/Jersey2-Security-JWT
+  ### example
+  
+  ## pontua-java-jersey2-swagger-tomcat/ (under construction 26/05/17)
+  	copy pontua-java-jersey/ plus swagger  documentation 
+	for documentation http://localhost:8080/ui
+  
+  ## pontua-python-flask (under construction 26/05/17)
+  	for config: pip install -r requerimentes.txt
+	for exe: python app.py
+   ### example
+   	http://pontua-flask.herokuapp.com/pontua/ui/
