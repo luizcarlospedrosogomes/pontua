@@ -88,7 +88,7 @@ paths:
         - basic: []
   /logout:
     delete:
-      tags: [logout cliente]
+      tags: [logout]
       summary: ''
       description: ''
       operationId: controller.Login.logout
