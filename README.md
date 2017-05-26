@@ -31,9 +31,10 @@
   ## pontua-java-jersey2-swagger-tomcat/ (under construction 26/05/17)
   	copy pontua-java-jersey/ plus swagger  documentation 
 	for documentation http://localhost:8080/ui
-  
+  	Login not operational
   ## pontua-python-flask (under construction 26/05/17)
-  	for config: pip install -r requerimentes.txt
+  	python 3.4 >
+  	for config: create virtualenve "env"  and pip install -r requerimentes.txt
 	for exe: python app.py
    ### example
    	http://pontua-flask.herokuapp.com/pontua/ui/
