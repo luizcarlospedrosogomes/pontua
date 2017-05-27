@@ -17,9 +17,8 @@
  ## pontua-java-jersey/ (under construction 26/05/17)
  ### for configuration
         Eclipse EE
-        maven
-	hibernate
-        mysql port 3306 (or xampp) database:pontua_jersey2 or alter edit: pontua-java-jersey/src/main/resources/META-INF/persistence.xml
+      
+       for  configure database  edit: pontua-java-jersey/src/main/resources/META-INF/persistence.xml
         
   ### for run
   	mvn tomcat7:run
