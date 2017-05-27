@@ -22,13 +22,13 @@
 		<properties>
 
 			<!-- Propriedades JDBC -->
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/pontua_jersey2"/>
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-107-20-141-145.compute-1.amazonaws.com:5432/d8df6uamb0obej?sslmode=require"	/>
+			<property name="javax.persistence.jdbc.user" value="fmvzvkozdpbtqz" />
+			<property name="javax.persistence.jdbc.password" value="82059fa604b4a821a7930eea99bbc2377277e0d18899f214d4297a5beca15749" />
 
 			<!-- Configurações específicas do Hibernate -->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="connection.pool_size" value="100"/>

@@ -26,13 +26,15 @@ export default  class ListarPromocao extends Component{
         
         fetch(this.host()+"/pontua/promocao", requestInfo)
         .then(response =>{
-            if(response.ok){
+            if(response.status === 200 || response.status === 201){
               return response.json();
             }
         })
         .then(promocoes =>{
           console.log(promocoes);
-          this.setState({lista:promocoes});
+          if(promocoes.length > 0){
+             this.setState({lista:promocoes});
+          }
         });
 
         PubSub.subscribe('atualiza-lista-autores',function(topico,novaLista){
@@ -44,9 +46,19 @@ export default  class ListarPromocao extends Component{
     render(){
          return(
             <div>
-                <h3>Listar Promocao</h3>
+                <h3>Promoções</h3>
+                <TabelaPromocao lista={this.state.lista}/>
+                
+            </div>
+        
+        );
+    }
+}
 
-                <table className="pure-table">
+class TabelaPromocao extends Component{
+   render(){
+     return(
+              <table className="pure-table">
                         <thead>
                           <tr>
                             <th>Nome</th>
@@ -60,7 +72,7 @@ export default  class ListarPromocao extends Component{
                         </thead>
                         <tbody>
                           {
-                            this.state.lista.map(function(promocao){
+                            this.props.lista.map(function(promocao){
                               return (
                                 <tr key={promocao.id}>
                                   <td>{promocao.nome}</td>
@@ -76,8 +88,7 @@ export default  class ListarPromocao extends Component{
                           }
                         </tbody>
                       </table>
-            </div>
-        
-        );
-    }
+     );
+   }
+
 }

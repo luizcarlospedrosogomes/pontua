@@ -67,6 +67,7 @@ public class Application extends ResourceConfig { // implements ContextResolver<
 //    public ObjectMapper getContext(Class<?> type) {
 //        return null;
 //    }
-
+    
+  
 
 }

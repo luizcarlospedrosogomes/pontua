@@ -23,13 +23,15 @@ export default  class Login extends Component{
             headers:new Headers({'content-type' : 'application/json'})
         };
         
+        console.log("DADOS ENVIADOS: "+requestInfo.body)
+        
         fetch(this.host()+"/pontua/login",requestInfo)            
             .then(response =>{
-            if(response.ok){
+            if(response.status === 200 ||  response.status === 201){
                 console.log("sucesso no login");
                 return response.text();
             }else{
-                throw new Error('nao foi possivel fazer o login');
+                throw new Error('Não foi possivel fazer o login. Verifique usuario e senha.');
             }
         }).then(token =>{
             console.log(token)
