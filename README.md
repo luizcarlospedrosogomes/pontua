@@ -27,7 +27,7 @@
   ### repository  original
  	 https://github.com/psenger/Jersey2-Security-JWT
   ### example
-  	http://pontua-java.herokuapp.com
+  	http://pontua-java.herokuapp.com/pontua 
   ## pontua-java-jersey2-swagger-tomcat/ (under construction 26/05/17)
   	copy pontua-java-jersey/ plus swagger  documentation 
 	for documentation http://localhost:8080/ui
