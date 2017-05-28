@@ -31,7 +31,7 @@ public class Representante {
 	private String validade_pontos;
 	
 	//@OneToMany(mappedBy="representante")
-	@OneToMany(mappedBy = "representante", targetEntity = Promocao.class, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "representante_id", targetEntity = Promocao.class, fetch = FetchType.LAZY)
     private transient List<Promocao> promocao;
 	
 	@OneToMany(mappedBy="representante")

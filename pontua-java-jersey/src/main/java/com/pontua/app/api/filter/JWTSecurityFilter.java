@@ -56,8 +56,8 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         String method = requestContext.getMethod().toLowerCase();
         String path   = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
      
-        System.out.println("Metodo >> " + method);
-        System.out.println("Path >> " + path);
+        System.out.println("METODO >> " + method);
+        System.out.println("PATH >> " + path);
         
         if ((("options".equals(method) || "post".equals(method)) && ("/pontua/login".equals(path)))) {
             // pass through the filter.
@@ -71,18 +71,17 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         
-        //String strToken = authorizationHeader;
         String strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeader);
-        System.out.println("token +++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++++TOKEN+++++++++++++++++++++++");
         System.out.println(strToken.replace("\"", ""));
         strToken = strToken.replace("\"", "");
         if (TokenUtil.isValid(strToken, key)) {
             String email = TokenUtil.getEmail(strToken, key);
             //String [] roles = TokenUtil.getRoles(strToken, key);
             String role = TokenUtil.getRole(strToken, key);
-            System.out.println("role");
+            System.out.println("ROLE");
             System.out.println(role);
-            System.out.println("email");
+            System.out.println("EMAIL");
             System.out.println(email);
             int version = TokenUtil.getVersion(strToken, key);
             if (email != null && !role.equals("") && version != -1) {
@@ -93,13 +92,13 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
                      requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> email, role));
                       return;                    
                 } else {
-                    logger.info("Usuario invalido");
+                    logger.info("USUARIO INVALIDO");
                 }
             } else {
-                logger.info("email ou role não presente no token");
+                logger.info("EMAIL OU ROLE NAO PRESENTE NO TOKEN");
             }
         } else {
-            logger.info("token  invalido");
+            logger.info("TOKEN INVALIDO");
         }
         throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     }

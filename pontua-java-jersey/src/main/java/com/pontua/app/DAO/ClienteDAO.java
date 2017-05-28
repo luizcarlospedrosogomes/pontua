@@ -31,12 +31,12 @@ public class ClienteDAO {
 		 	List<Cliente> clienteList = (List<Cliente>) query.getResultList();
 	        if (clienteList.size() > 0) {
 	        	em.close();
-	        	System.out.println("Classe: UsuarioDAO - metodo: getLogin - usuario existe");
+	        	System.out.println("usuario existe");
 	   		 	return true;
 	            
 	        }
 	        em.close();
-	        System.out.println("Classe: UsuarioDAO - metodo: getLogin - usuario nao existe");
+	        System.out.println("usuario NAO existe");
 	        return false;	        
 	 }
 	 

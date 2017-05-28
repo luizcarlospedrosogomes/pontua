@@ -24,10 +24,10 @@ export default  class CadastrarPromocao extends Component{
         const requestInfo = {
             method:'PUT',
             body:JSON.stringify({ nome:            this.nome.value
-                                , pontos:          parseInt(this.pontos.value)
+                                , qtd_pontos:      parseInt(this.pontos.value)
                                 , inicio_vigencia: this.inicio_vigencia.value
-                                , fim_vigencia:    this.fim_vigencia.value
-                                , representante:   parseInt(this.representante.value)                                
+                                , final_vigencia:  this.fim_vigencia.value
+                                , representante_id:{id:this.representante.value}
                             }),
             headers:new Headers({'content-type'  : 'application/json'
                                 , 'Authorization': token
@@ -37,18 +37,29 @@ export default  class CadastrarPromocao extends Component{
         fetch(this.host()+"/pontua/promocao",requestInfo)            
             .then(response =>{
             if(response.ok){
-                console.log("promocao criada com sucesso");
+                console.log("promoção criada com sucesso");
                 return response.text();
-            }else{
-                throw new Error('nao foi possivel criar promocoa');
             }
-        })
+            if(response.status == 401){
+              this.props.history.push('/logout/representante');
+            }
+            if(response.status == 400){
+              throw new Error('Verifique os campos');
+            }
+            else{
+                throw new Error('nao foi possivel criar promoção');
+            }
+        }).catch(error => {
+            this.setState({msg:error.message});
+        });
+
     }
     
     render() {
 		return (
           <div>
            <h3>Cadastrar Promocao</h3>
+           <span>{this.state.msg}</span>
             <div className="">
            
               <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm.bind(this)}>
@@ -59,6 +70,7 @@ export default  class CadastrarPromocao extends Component{
                   name="nome" 
                   inputRef={el => this.nome = el}
                   label="Nome"
+                  required={true}
                 />                                              
                 <InputCustomizado 
                   id="pontos" 

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
-import $ from 'jquery';
+import { Link  } from 'react-router-dom';
+
 export default  class ListarPromocao extends Component{
 
    constructor() {
     super();    
-    this.state = {lista : []};    
+    this.state = {lista : []};   
+    this.state = {msg: ''}; 
     }
 
     host(){
@@ -26,32 +28,49 @@ export default  class ListarPromocao extends Component{
         
         fetch(this.host()+"/pontua/promocao", requestInfo)
         .then(response =>{
-            if(response.status === 200 || response.status === 201){
+            if(response.status == 200 || response.status == 201){
               return response.json();
+            }if(response.status == 401){
+              this.props.history.push('/logout/representante');
+            }else{
+                throw new Error('Não foi possivel obter promoções.');
             }
         })
         .then(promocoes =>{
-          console.log(promocoes);
+          //console.log(promocoes);
           if(promocoes.length > 0){
              this.setState({lista:promocoes});
           }
+        }).catch(error => {
+            this.setState({msg:error.message});
         });
 
         PubSub.subscribe('atualiza-lista-autores',function(topico,novaLista){
-            console.log(novaLista);
+            //console.log(novaLista);
             this.setState({lista:novaLista});
         })
     }
 
     render(){
-         return(
-            <div>
-                <h3>Promoções</h3>
-                <TabelaPromocao lista={this.state.lista}/>
-                
-            </div>
         
-        );
+        if(this.state.lista){
+            return(
+                <div>
+                    <h3>Promoções</h3>
+                    <span>{this.state.msg}</span>
+                      <TabelaPromocao lista={this.state.lista} />  
+                </div>
+            
+            );
+        }else{
+          return(
+            <div>
+                <h3>Não existem promoções</h3>
+                <Link to="/promocao/cadastrar"><button>Cadastrar Promocoa</button></Link>
+            </div>
+          
+          );
+        }
     }
 }
 

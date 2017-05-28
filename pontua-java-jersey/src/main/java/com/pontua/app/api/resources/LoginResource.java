@@ -45,7 +45,7 @@ public class LoginResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes("application/json")
     public Response loginCliente(String  login) {
-    	System.out.println("dados usuario >> " +login);
+    	System.out.println("dados usuario >> " + login);
     	this.usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
     	if(!this.usuario.getEmail().isEmpty() || !this.usuario.getSenha().isEmpty() ){
@@ -72,8 +72,10 @@ public class LoginResource {
         calendar.add(Calendar.MINUTE, minutes);
         return calendar.getTime();
     }
-    /*
-	    * busca usuario no banco e gera token
+    /**
+	  * busca usuario no banco e gera token
+	  * @param email para buscar no banco a role
+	  * @ return
 	*/   
    private Token geraToken(String email){
 	   UsuarioDAO usuarioDAO = new UsuarioDAO();

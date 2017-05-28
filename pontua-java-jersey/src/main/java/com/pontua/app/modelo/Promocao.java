@@ -1,11 +1,15 @@
 package com.pontua.app.modelo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import com.google.gson.annotations.SerializedName;
 
 
 @Entity
@@ -14,16 +18,28 @@ public class Promocao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String nome;
+    @Column(nullable = false)
     private String inicio_vigencia;
+    @Column(nullable = false)
     private String final_vigencia;
+ 
     private String validde;
+    @Column(nullable = false)
     private String qtd_pontos;
     
+    @SerializedName("representante_id")
     @ManyToOne
     @JoinColumn(name="representante_id")
-    private Representante representante;    
+    private Representante representante_id;    
   
+	public Representante getRepresentanteID() {
+		return representante_id;
+	}
+	public void setRepresentante(Representante representante_id) {
+		this.representante_id = representante_id;
+	}
 	public String getInicio_vigencia() {
 		return inicio_vigencia;
 	}
@@ -61,5 +77,7 @@ public class Promocao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	
 	
 }
