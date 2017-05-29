@@ -58,12 +58,21 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
      
         System.out.println("METODO >> " + method);
         System.out.println("PATH >> " + path);
-        
-        if ((("options".equals(method) || "post".equals(method)) && ("/pontua/login".equals(path)))) {
+        /**
+         * acesso a DOC SWAGGER
+         * 
+         */
+        if (("/api-docs/login".equals(path)) || ("/api-docs".equals(path))) {
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
             return;
         }
+        if (("post".equals(method)) && ("/login".equals(path))) {
+            // pass through the filter.
+            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
+            return;
+        }
+        
         requestContext.getUriInfo().getPathParameters();
         String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("authorization");
            

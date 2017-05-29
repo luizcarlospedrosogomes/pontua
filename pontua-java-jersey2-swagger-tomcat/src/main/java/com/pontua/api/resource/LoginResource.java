@@ -24,7 +24,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import com.wordnik.swagger.annotations.Authorization;
 
-@Path("/login")
+@Path("login")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 @Api(description = " login", value = "Login")

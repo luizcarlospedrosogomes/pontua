@@ -17,7 +17,7 @@ import com.pontua.app.DAO.PromocaoDAO;
 import com.pontua.app.modelo.Promocao;
 
 
-@Path("pontua/promocao")
+@Path("/promocao")
 public class PromocaoResources {
 	/**
 	 * 

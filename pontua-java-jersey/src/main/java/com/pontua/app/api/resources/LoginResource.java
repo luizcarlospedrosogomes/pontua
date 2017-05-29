@@ -21,12 +21,20 @@ import com.pontua.app.modelo.Representante;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Authorization;
 
 
 
+@Consumes({ "application/json" })
+@Produces({ "application/json" })
+@Api(description = " login", value = "Login")
 
 @PermitAll
-@Path("pontua")
+@Path("/")
 public class LoginResource {
 
 	  private final static Logger logger = Logger.getLogger(LoginResource.class.getName());
@@ -40,12 +48,25 @@ public class LoginResource {
     private Usuario usuario;
     private Representante representante;
 
-    @Path("/login")
+    @Path("login")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes("application/json")
-    public Response loginCliente(String  login) {
-    	System.out.println("dados usuario >> " + login);
+    @ApiOperation(value = "Return token"
+	, notes = ""
+	, response = Usuario.class
+	, authorizations = { @Authorization(value = "basic")}
+	, tags= "Login"
+	)
+	@ApiResponses(value = {
+	@ApiResponse(code = 200
+			, message = "token"
+			, response = String.class
+			) 
+	})
+   
+    public Response login(String  login) {
+    	System.out.println("DADOS RECEBIDOS >> " + login);
     	this.usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
     	if(!this.usuario.getEmail().isEmpty() || !this.usuario.getSenha().isEmpty() ){
