@@ -27,10 +27,8 @@
  	 https://github.com/psenger/Jersey2-Security-JWT
   ### example
   	http://pontua-java.herokuapp.com/pontua 
-  ## pontua-java-jersey2-swagger-tomcat/ (under construction 26/05/17)
-  	copy pontua-java-jersey/ plus swagger  documentation 
-	for documentation http://localhost:8080/ui
-  	Login not operational
+  ### doc
+  	http://pontua-java.herokuapp.com/api-doc/ui
   ## pontua-python-flask (under construction 26/05/17)
   	python 3.4 >
   	for config: create virtualenve "env"  and pip install -r requerimentes.txt
