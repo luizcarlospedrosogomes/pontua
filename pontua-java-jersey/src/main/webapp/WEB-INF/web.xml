@@ -12,6 +12,7 @@
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>com.pontua.app.api.Application</param-value>
         </init-param>
+
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
@@ -49,7 +50,7 @@
             <param-name>swagger.api.basepath</param-name>
             <param-value>http://localhost:8080/pontua</param-value>
         </init-param>
-        <init-param>
+		<init-param>
             <param-name>swagger.filter</param-name>
             <param-value>com.pontua.util.ApiAuthorizationFilterImpl</param-value>
         </init-param>

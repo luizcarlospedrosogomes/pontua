@@ -20,7 +20,7 @@ import com.pontua.app.api.filter.JWTSecurityFilter;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
 
-@ApplicationPath("/")
+@ApplicationPath("/pontua")
 public class Application extends ResourceConfig { // implements ContextResolver<ObjectMapper> {
 
  
@@ -35,6 +35,7 @@ public class Application extends ResourceConfig { // implements ContextResolver<
         register(RolesAllowedDynamicFeature.class);
         // jwt filter
         register(JWTSecurityFilter.class);
+        //register(PontuaService.class);
         // turn on Jackson, Moxy isn't that good of a solution.
         register(JacksonFeature.class);
         //register(CORSFilter.class);

@@ -62,7 +62,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
          * acesso a DOC SWAGGER
          * 
          */
-        if (("/api-docs/login".equals(path)) || ("/api-docs".equals(path))) {
+        if (("/api-docs/login".equals(path)) || ("/api-docs".equals(path)) || ("/api-docs/swagger.json".equals(path))) {
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
             return;
