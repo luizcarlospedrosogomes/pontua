@@ -1,55 +1,39 @@
 package com.pontua.app.api;
 
-import java.util.ArrayList;
-import java.util.List;
 
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.ws.rs.ApplicationPath;
 
-import com.pontua.app.util.CustomFilter;
-
-import io.swagger.annotations.AuthorizationScope;
-import io.swagger.config.ConfigFactory;
-import io.swagger.config.FilterFactory;
+import io.swagger.jaxrs.config.SwaggerContextService;
+import io.swagger.models.Contact;
 import io.swagger.models.Info;
+import io.swagger.models.License;
+import io.swagger.models.Swagger;
+import io.swagger.models.auth.ApiKeyAuthDefinition;
+import io.swagger.models.auth.In;
+import io.swagger.models.auth.OAuth2Definition;
 
 public class Bootstrap extends HttpServlet {
-  static {
-    // do any additional initialization here, such as set your base path programmatically as such:
-    // ConfigFactory.config().setBasePath("http://pontua-java.herokuapp.com/pontua");
-
-    // add a custom filter
-   // FilterFactory.setFilter(new CustomFilter());
-    /*
-     * 
-     * LOGGING
-     * */
-    //org.apache.log4j.BasicConfigurator.configure();
-    Info info = new Info(
-      "Pontua API",                             /* title */
-      "Pontos em promocao", 
-      "http://pontua-java.herokuapp.com/pontua/api-docs",                  /* TOS URL */
-      "",                            /* Contact */
-      "Apache 2.0",                                     /* license */
-      "http://www.apache.org/licenses/LICENSE-2.0.html" /* license URL */
-    );
-
-    List<AuthorizationScope> scopes = new ArrayList<AuthorizationScope>();
-    scopes.add(new AuthorizationScope("email", "Access to your email address"));
-    scopes.add(new AuthorizationScope("pets", "Access to your pets"));
-
-    List<GrantType> grantTypes = new ArrayList<GrantType>();
-
-    ImplicitGrant implicitGrant = new ImplicitGrant(
-      new LoginEndpoint("http://pontua-java.herokuapp.com/pontua/login"), "access_code");
-
-    grantTypes.add(implicitGrant);
-
-    AuthorizationType oauth = new OAuthBuilder().scopes(scopes).grantTypes(grantTypes).build();
-
-    ConfigFactory.config().addAuthorization(oauth);
+  @Override
+  public void init(ServletConfig config) throws ServletException {
+    Info info = new Info()
+      .title("Pontua")
+      .description("POntos em promocao")
+      .termsOfService("http://swagger.io/terms/");
     
-    ConfigFactory.config().setApiInfo(info);
-    
-    
+    ServletContext context = config.getServletContext();
+    Swagger swagger = new Swagger().info(info);
+    swagger.securityDefinition("api_key", new ApiKeyAuthDefinition("api_key", In.HEADER));
+    swagger.securityDefinition("basic", 
+      new OAuth2Definition()
+        .implicit("http://petstore.swagger.io/api/oauth/dialog")
+        .scope("read:pets", "read your pets")
+        .scope("write:pets", "modify pets in your account"));
+   
+    new SwaggerContextService().withServletConfig(config).updateSwagger(swagger);
   }
 }

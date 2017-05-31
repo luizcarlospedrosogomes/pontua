@@ -19,7 +19,9 @@ public class UsuarioDAO {
 		}
 	
 	 public Boolean getLogin(Usuario usuario) {
-		  	EntityManager em = new JPAUtil().getEntityManager();
+		 System.out.println("Classe: UsuarioDAO - metodo: getLogin");
+		 System.out.println(usuario.getEmail());
+		 	EntityManager em = new JPAUtil().getEntityManager();
 		 	Query query = em.createQuery("select u"
 		 								+ " from Usuario u "
 		 							   + " where u.email = ?" 

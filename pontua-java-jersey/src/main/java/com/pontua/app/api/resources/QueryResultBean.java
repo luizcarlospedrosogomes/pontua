@@ -1,5 +1,5 @@
 /**
- *  Copyright 2013 Wordnik, Inc.
+ *  Copyright 2016 SmartBear Software
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,31 +14,29 @@
  *  limitations under the License.
  */
 
-package com.pontua.modelo;
+package com.pontua.app.api.resources;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.ws.rs.*;
 
-@XmlRootElement(name = "Tag")
-public class Tag {
-  private long id;
-  private String name;
+public class QueryResultBean {
+  @QueryParam("skip")
+  private Integer skip;
 
-  @XmlElement(name = "id")
-  public long getId() {
-    return id;
+  @QueryParam("limit")
+  private Integer limit;
+
+
+  public Integer getSkip() {
+    return skip;
+  }
+  public void setSkip(Integer skip) {
+    this.skip = skip;
   }
 
-  public void setId(long id) {
-    this.id = id;
+  public Integer getLimit() {
+    return limit;
   }
-
-  @XmlElement(name = "name")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+  public void setLimit(Integer limit) {
+    this.limit = limit;
   }
 }

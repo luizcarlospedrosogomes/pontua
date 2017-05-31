@@ -3,15 +3,9 @@ package com.pontua.app.api.resources;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 
-import javax.annotation.security.PermitAll;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
@@ -21,23 +15,18 @@ import com.pontua.app.modelo.Representante;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-import com.wordnik.swagger.annotations.Authorization;
+
+import io.swagger.annotations.*;
 
 
 
-@Consumes({ "application/json" })
-@Produces({ "application/json" })
-@Api(description = " login", value = "Login")
-
-@PermitAll
-@Path("/")
+@Path("/login")
+@Api(value="/login", description = "Operations about user")
+@Produces({"application/json"})
+@Consumes({"application/json"})
 public class LoginResource {
 
-	  private final static Logger logger = Logger.getLogger(LoginResource.class.getName());
+	 // private final static Logger logger = Logger.getLogger(LoginResource.class.getName());
 	  
     /**
      * HK2 Injection.
@@ -47,26 +36,16 @@ public class LoginResource {
     private ClienteDAO clienteDAO;
     private Usuario usuario;
     private Representante representante;
-
-    @Path("login")
+    
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes("application/json")
-    @ApiOperation(value = "Return token"
-	, notes = ""
-	, response = Usuario.class
-	, authorizations = { @Authorization(value = "basic")}
-	, tags= "Login"
-	)
-	@ApiResponses(value = {
-	@ApiResponse(code = 200
-			, message = "token"
-			, response = String.class
-			) 
-	})
-   
-    public Response login(String  login) {
-    	System.out.println("DADOS RECEBIDOS >> " + login);
+    @ApiOperation(value = "Find pet by ID", 
+    			  notes = "Returns a pet when 0 < ID <= 10.  ID > 10 or nonintegers will simulate API error conditions",
+    			  response = Usuario.class)
+    @ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID supplied"),
+    						@ApiResponse(code = 404, message = "Pet not found") })
+      
+    public Response loginCliente( @ApiParam(value = "" )  String  login) {
+    	System.out.println("dados usuario >> " + login);
     	this.usuario = (Usuario) new Gson().fromJson(login, Usuario.class); 
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
     	if(!this.usuario.getEmail().isEmpty() || !this.usuario.getSenha().isEmpty() ){

@@ -39,7 +39,6 @@ export default  class ListarPromocao extends Component{
         .then(promocoes =>{
           //console.log(promocoes);
           if(promocoes.length > 0){
-            console.log(promocoes)
              this.setState({lista:promocoes});
           }
         }).catch(error => {
@@ -99,9 +98,6 @@ class TabelaPromocao extends Component{
                                   <td>{promocao.qtd_pontos}</td>
                                   <td>{promocao.inicio_vigencia}</td>
                                   <td>{promocao.final_vigencia}</td>
-                                  <td>{promocao.representante_id.email}</td>
-                                  <td>Editar</td>
-                                  <td>Excluir</td>
                                 </tr>
                               );
                             })

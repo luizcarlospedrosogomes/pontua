@@ -10,11 +10,12 @@ import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.filter.LoggingFilter;
-import org.glassfish.jersey.jackson.JacksonFeature;
+
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
+import com.pontua.app.api.filter.ApiOriginFilter;
 import com.pontua.app.api.filter.CORSFilter;
 import com.pontua.app.api.filter.JWTSecurityFilter;
 
@@ -35,10 +36,10 @@ public class Application extends ResourceConfig { // implements ContextResolver<
         register(RolesAllowedDynamicFeature.class);
         // jwt filter
         register(JWTSecurityFilter.class);
-        //register(PontuaService.class);
+        
         // turn on Jackson, Moxy isn't that good of a solution.
-        register(JacksonFeature.class);
-        //register(CORSFilter.class);
+        //register(JacksonFeature.class);
+      //  register(ApiOriginFilter.class);
         packages("com.pontua.app.api.resources");
 
         register(new AbstractBinder() {
