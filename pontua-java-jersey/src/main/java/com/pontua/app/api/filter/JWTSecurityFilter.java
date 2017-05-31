@@ -58,23 +58,26 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
      
         System.out.println("METODO >> " + method);
         System.out.println("PATH >> " + path);
+
         /**
          * acesso a DOC SWAGGER
          * 
          */
-        if (("/api-docs/login".equals(path)) || ("/api-docs".equals(path)) || ("/api-docs/swagger.json".equals(path))) {
+        if("/swagger.json".equals(path)){
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
             return;
         }
-        if (("post".equals(method)) && ("/login".equals(path))) {
-            // pass through the filter.
-            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
-            return;
-        }
+
         
+        if ((("options".equals(method) || "post".equals(method)) && ("/login".equals(path)))) {
+
+            // pass through the filter.
+            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
+            return;
+        }
         requestContext.getUriInfo().getPathParameters();
-        String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("authorization");
+        String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("apiKey");
            
         if (authorizationHeader == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);

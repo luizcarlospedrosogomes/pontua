@@ -2,7 +2,6 @@ package com.pontua.app.api.resources;
 
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -21,11 +20,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
 
 
 @Path("/promocao")
-@Api(value="/promocao", description = "Promocoes")
+@Api(value="/promocao", description = "Promocoes", authorizations = {
+        @Authorization(value="basic", scopes = {})
+  })
 @Produces({"application/json"})
 public class PromocaoResources {
 	/**

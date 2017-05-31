@@ -52,7 +52,7 @@ public class ApiAuthorizationFilterImpl extends AbstractSpecFilter {
     Map<String, List<String>> params,
     Map<String, String> cookies,
     Map<String, List<String>> headers) {
-    if(!api.getMethod().equals("get") || api.getPath().startsWith("/store"))
+    if(!api.getMethod().equals("get") || api.getPath().startsWith("/pontua"))
       return checkKey(params, headers);
     return true;
   }

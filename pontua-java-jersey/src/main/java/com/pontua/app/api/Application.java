@@ -10,7 +10,7 @@ import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.filter.LoggingFilter;
-
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
@@ -38,7 +38,7 @@ public class Application extends ResourceConfig { // implements ContextResolver<
         register(JWTSecurityFilter.class);
         
         // turn on Jackson, Moxy isn't that good of a solution.
-        //register(JacksonFeature.class);
+        register(JacksonFeature.class);
       //  register(ApiOriginFilter.class);
         packages("com.pontua.app.api.resources");
 

@@ -22,7 +22,7 @@ export default  class ListarPromocao extends Component{
       
       const requestInfo = {
             dataType: 'json',
-            headers: {'Authorization': token},
+            headers: {'apiKey': token},
             
         };
         
@@ -98,6 +98,10 @@ class TabelaPromocao extends Component{
                                   <td>{promocao.qtd_pontos}</td>
                                   <td>{promocao.inicio_vigencia}</td>
                                   <td>{promocao.final_vigencia}</td>
+                                  <td>{promocao.representante_id.email}</td>
+                                  <td>Editar</td>
+                                  <td>Excluir</td>
+
                                 </tr>
                               );
                             })
