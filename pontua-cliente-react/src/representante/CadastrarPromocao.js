@@ -1,21 +1,43 @@
 import React, { Component } from 'react';
+import '../assets/react-toolbox/theme.css';
+import theme from '../assets/react-toolbox/theme.js';
+import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
 
 //COMPONENTES
 import InputCustomizado from '../componentes/InputCustomizado';
+import InputDateCustomizado from '../componentes/InputDateCustomizado';
 
 export default  class CadastrarPromocao extends Component{
     
     constructor(props) {
         super(props);
-        this.state = {msg: ''};
+        this.state = {msg: '', fim_vigencia:'',inicio_vigencia:''}         
     }
-    
+
+   updateState = (data)  =>{
+        let month  = String(data.date.getMonth() + 1);
+        let day    = String(data.date.getDate());
+        const year = String(data.date.getFullYear());
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        
+        let data_formatada = `${month}/${day}/${year}`;
+        console.log("data formatada"+ data_formatada)
+        if(data.item == 'fim_vigencia'){
+            this.setState({fim_vigencia:data_formatada})
+        }
+        if(data.item == 'inicio_vigencia'){
+            this.setState({inicio_vigencia: data_formatada})
+        }
+    }
+
     host(){
       var rows = JSON.parse(localStorage.getItem("servidores"));
       var host = rows.map(function(servidor){return servidor.url}); 
       return host;
     }
-
+    
     enviaForm(evento){
         evento.preventDefault(); 
           const token= localStorage.getItem('token-representante'); 
@@ -23,18 +45,18 @@ export default  class CadastrarPromocao extends Component{
       
         const requestInfo = {
             method:'PUT',
-            body:JSON.stringify({ nome:            this.nome.value
+            body:JSON.stringify({ nome:this.nome.value
                                 , qtd_pontos:      parseInt(this.pontos.value)
-                                , inicio_vigencia: this.inicio_vigencia.value
-                                , final_vigencia:  this.fim_vigencia.value
-                                , representante_id:{id:this.representante.value}
+                                , inicio_vigencia: this.state.inicio_vigencia
+                                , final_vigencia: this.state.fim_vigencia
+                              //  , representante_id:{id:this.representante.value}
                             }),
-            headers:new Headers({'content-type'  : 'application/json'
-                                , 'Authorization': token
-                                })
+            headers:{'content-type'  : 'application/json'
+                   , 'Authorization': token
+                     }
         };
         console.log("ENVIANDO DADOS: "+requestInfo.body)
-        fetch(this.host()+"/pontua/promocao",requestInfo)            
+       /* fetch(this.host()+"/pontua/promocao",requestInfo)            
             .then(response =>{
             if(response.ok){
                 console.log("promoção criada com sucesso");
@@ -52,18 +74,19 @@ export default  class CadastrarPromocao extends Component{
         }).catch(error => {
             this.setState({msg:error.message});
         });
-
+        */
     }
     
     render() {
 		return (
+        <ThemeProvider  theme={theme}>
           <div>
            <h3>Cadastrar Promocao</h3>
            <span>{this.state.msg}</span>
             <div className="">
            
               <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm.bind(this)}>
-                
+                                
                 <InputCustomizado
                   id="nome" 
                   type="text" 
@@ -79,33 +102,28 @@ export default  class CadastrarPromocao extends Component{
                   ref="pontos" 
                   inputRef={el => this.pontos = el}
                   label="Pontos"
+                  required={false}
+                />
+                
+                <InputDateCustomizado
+                id="inicio_vigencia" 
+                label="Inicio"
+                name="inicio_vigencia" 
+                updateState = {this.updateState}
+                value = {this.state.inicio_vigencia}
+                required={false}
                 />
 
-                <InputCustomizado
-                  id="inicio_vigencia" 
-                  type="text" 
-                  name="inicio_vigencia" 
-                  ref="inicio_vigencia"
-                  inputRef={el => this.inicio_vigencia = el}
-                  label="Inicio"
+                <InputDateCustomizado
+                id="fim_vigencia" 
+                label="Fim"
+                name="fim_vigencia" 
+                updateState = {this.updateState}
+                value = {this.state.fim_vigencia}
+                required={false}
                 />
-
-                <InputCustomizado
-                  id="fim_vigencia" 
-                  type="text" 
-                  name="fim_vigencia"
-                  ref="fim" 
-                  inputRef={el => this.fim_vigencia = el}
-                  label="Fim"
-                />
-
-                <InputCustomizado
-                  id="representante" 
-                  type="text" 
-                  name="representante" 
-                  inputRef={el => this.representante = el}
-                  label="Representante"
-                />
+               
+                
 
                 <div className="pure-control-group">                                  
                   <label></label> 
@@ -114,6 +132,7 @@ export default  class CadastrarPromocao extends Component{
               </form>             
              </div>  
              </div>
+              </ThemeProvider>
 		);
     }
 }

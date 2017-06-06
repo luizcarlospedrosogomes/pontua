@@ -5,6 +5,7 @@ package com.pontua.app.api.filter;
 
 import java.io.IOException;
 import java.security.Key;
+import java.security.Principal;
 import java.util.logging.Logger;
 
 import javax.annotation.Priority;
@@ -49,7 +50,9 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         //Replacing "Bearer Token" to "Token" directly
         return auth.replaceFirst("[B|b][E|e][A|a][R|r][E|e][R|r] ", "").replace(" ", "");
     }
-	
+	private Principal convertLambda(){
+		 return (Principal) "anonymous";
+	}
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
     	
@@ -61,6 +64,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
 
         /**
          * acesso a DOC SWAGGER
+         * libera o /swagger.json
          * 
          */
         if("/swagger.json".equals(path)){
@@ -69,21 +73,42 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
             return;
         }
 
-        
+        /**
+         * verifica se a url acessada é: "/login" e o methodo post
+         * http://dominio/pontua/login
+         */
         if ((("options".equals(method) || "post".equals(method)) && ("/login".equals(path)))) {
 
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
             return;
         }
+        /**
+         * verifica se o token apiKey ou authorization esta preesente
+         */
         requestContext.getUriInfo().getPathParameters();
-        String authorizationHeader = ((ContainerRequest) requestContext).getHeaderString("apiKey");
-           
-        if (authorizationHeader == null) {
+        String authorizationHeaderApiKey = null;
+        String authorizationHeaderAuth   = null;
+        authorizationHeaderApiKey = ((ContainerRequest) requestContext).getHeaderString("apiKey");
+        authorizationHeaderAuth   = ((ContainerRequest) requestContext).getHeaderString("authorization");
+        System.out.println("apiKey :" + authorizationHeaderApiKey);
+        System.out.println("auth   :" + authorizationHeaderAuth);
+        
+        if(authorizationHeaderApiKey == null && authorizationHeaderAuth == null) {
+        	System.out.println("TOKEN NAO ESTA PRESENTE");
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
+        /**
+         * pega o auth correto
+         */
+        String strToken = null;
+        if(authorizationHeaderApiKey != null){
+        	 strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeaderApiKey);
+        }
+        if(authorizationHeaderAuth != null){
+        	 strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeaderAuth);
+        }
         
-        String strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeader);
         System.out.println("+++++++++++++++++++++++TOKEN+++++++++++++++++++++++");
         System.out.println(strToken.replace("\"", ""));
         strToken = strToken.replace("\"", "");

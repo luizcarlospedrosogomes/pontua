@@ -127,11 +127,11 @@ definitions:
       email:
         type: string
         description: email valido
-        example: "teste@teste.com"
+        example: "lc.pg@hotmail.com"
       senha:
         type: string
         description: senha em texto puro
-        example: "123456"
+        example: "654321"
   Promocao:
     type: object
     required:

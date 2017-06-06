@@ -18,26 +18,30 @@ export default  class ListarPromocao extends Component{
     
     componentDidMount(){ 
       const token= localStorage.getItem('token-representante'); 
-      console.log(token);
+      console.log("ENVIANDO: " + token);
       
       const requestInfo = {
+            method:'GET',
             dataType: 'json',
             headers: {'apiKey': token},
             
         };
-        
+        console.log("ACESSANDO SERVIDOR: "+this.host()+"/pontua/promocao");
         fetch(this.host()+"/pontua/promocao", requestInfo)
         .then(response =>{
             if(response.status == 200 || response.status == 201){
+              console.log("RESPOSTA DO SERVIDOR, 201, AUTOTIZADO");
               return response.json();
             }if(response.status == 401){
+              console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
               this.props.history.push('/logout/representante');
             }else{
+              console.log("NAO FOI POSSIVEL OBTER A(S) PROMOÇÃO(ÕES)");
                 throw new Error('Não foi possivel obter promoções.');
             }
         })
         .then(promocoes =>{
-          //console.log(promocoes);
+          console.log(promocoes);
           if(promocoes.length > 0){
              this.setState({lista:promocoes});
           }

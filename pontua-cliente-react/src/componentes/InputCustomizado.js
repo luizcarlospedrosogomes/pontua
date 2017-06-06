@@ -10,7 +10,7 @@ export default class InputCustomizado extends Component{
 
 	render() {
 		return (
-			<div className="pure-control-group">
+			<div className="pure-control-group data">
 			  <label 
 			  		htmlFor={this.props.id}>{this.props.label}
 			  </label> 
@@ -21,7 +21,7 @@ export default class InputCustomizado extends Component{
 			  	value    = {this.props.value}  
 			  	onChange = {this.props.onChange} 
 				ref      = {this.props.inputRef}
-				required
+				required = {this.props.required}
 				/>              
 			  <span className="error">{this.state.msgErro}</span>
 			</div>			

@@ -5,6 +5,7 @@ import connexion
 from connexion import NoContent
 from flask import Flask
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import JWTManager,jwt_required
 #model
 from model.Promocao import *
 from model.orm_base import *
@@ -15,12 +16,13 @@ from controller.Login import *
 db_session = None
 
 #@requires_auth
+@jwt_required
 def get_promocoes():
     q = db_session.query(Promocao)
 
     return [p.dump() for p in q]
 
-
+@jwt_required
 def get_promocao(promocao_id):
     promocao = db_session.query(Promocao).filter(Promocao.id == promocao_id).one_or_none()
     return promocao.dump() or ('Not found', 404)
@@ -61,9 +63,11 @@ Base.metadata.create_all(bind=engine)
 #promocao_tab = Promocao
 
 app = connexion.FlaskApp(__name__)
+app.debug = True
 app.add_api('swagger.yaml')
-
 application = app.app
+application.secret_key = 'pontua'
+jwt = JWTManager(application)
 CORS(application)
 
 @application.teardown_appcontext
@@ -73,4 +77,4 @@ def shutdown_session(exception=None):
 
 if __name__ == '__main__':
     app.run(port=8080)
-    CORS(app)
+    #CORS(app)

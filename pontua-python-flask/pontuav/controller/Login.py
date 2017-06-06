@@ -2,6 +2,7 @@
 import connexion
 import flask
 import json
+
 from model.orm_base import Base
 from model.Usuario import User
 from .Token import geraToken
