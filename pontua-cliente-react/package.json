@@ -33,7 +33,8 @@
   "reactToolbox": {
     "include": [
         "BUTTON",
-        "DATE_PICKER"
+        "DATE_PICKER",
+        "DROPDOWN"
     ],
     "customProperties": {
         "animation-duration": "0.3s",

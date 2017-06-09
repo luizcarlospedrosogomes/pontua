@@ -32,10 +32,10 @@ export default  class InputDateCustomizado extends Component{
   render() {
     return (
         <div className="pure-control-group">
-            <label 
+            <label className ="_2WvFs"
 			  		htmlFor={this.props.id}>{this.props.label}
 			      </label>
-             <DatePicker
+             <DatePicker 
                 label    = {this.props.label}
                 locale   = {localeExample}                
                 name     = {this.props.name}

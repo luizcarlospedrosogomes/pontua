@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.pontua.app.modelo.Promocao;
 import com.pontua.app.modelo.Representante;
 import com.pontua.app.util.JPAUtil;
 
@@ -46,6 +47,14 @@ public class RepresentanteDAO {
 		 				).setParameter(0, email)
 		 				 .setMaxResults(1);
 		 	Representante representateList = (Representante) query.getSingleResult();
+		 	em.close();
+		 	return representateList;
+	 }
+	 public List getRepresentante(){
+			EntityManager em = new JPAUtil().getEntityManager();
+		 	Query query = em.createQuery("FROM " + Representante.class.getName() );
+		 
+		 	List representateList =  query.getResultList();;
 		 	em.close();
 		 	return representateList;
 	 }

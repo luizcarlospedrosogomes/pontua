@@ -50,9 +50,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         //Replacing "Bearer Token" to "Token" directly
         return auth.replaceFirst("[B|b][E|e][A|a][R|r][E|e][R|r] ", "").replace(" ", "");
     }
-	private Principal convertLambda(){
-		 return (Principal) "anonymous";
-	}
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
     	
