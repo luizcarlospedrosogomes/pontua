@@ -246,6 +246,9 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         left: 150px;
     }
 }
-.dataInput{
-    width: 30%;
-}
+
+
+
+
+/*CUSTOMIZACAO*/
+.dataInput{width: 30%;}

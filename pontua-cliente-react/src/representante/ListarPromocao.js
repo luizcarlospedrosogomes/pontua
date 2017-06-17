@@ -6,6 +6,8 @@ import theme from '../assets/react-toolbox/theme.js';
 import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
 //COMPONENTES
 import DialogCustomizado from '../componentes/DialogCustomizado';
+//CSS
+import '../assets/react-toolbox/rtcustomizado.css';
 
 export default  class ListarPromocao extends Component{
 
@@ -17,14 +19,26 @@ export default  class ListarPromocao extends Component{
     super();    
     this.state = {lista : []};   
     this.state = {msg: ''}; 
-    }
+   }
+  
     componentWillMount(){
-      console.log("excluida")
-        PubSub.subscribe('atualiza-lista',function(topico,promocoes){
-               this.preencheLista();
-              this.setState({lista:promocoes});
-        }.bind(this));
-       
+      var excluiu = PubSub.subscribe('excluiu',function(topico,response){
+        if(response == 200){
+           this.setState({msg:"PROMOCÃO EXCLUIDA COM SUCESSO!"}) 
+           this.preencheLista();
+        }
+        if(response != 200){
+          this.setState({msg:"FALHA AO EXCLUIR PROMOCÃO!"})
+        }
+      }.bind(this));
+      
+      var naoExcuiu =PubSub.subscribe('nao-excluiu',function(topico){
+        this.setState({msg:"OPERACAO CANCELADA PELO USUARIO"})
+      }.bind(this));
+    }
+    componentWillUnmount(){
+      PubSub.unsubscribe(this.naoExcuiu);
+      PubSub.unsubscribe(this.excluiu);
     }
     componentDidMount(){
       this.preencheLista();
@@ -72,7 +86,7 @@ export default  class ListarPromocao extends Component{
             return(
                 <div>
                     <h3>Promoções</h3>
-                    <span>{this.state.msg}</span>
+                    <span className="msg-lista-promocao">{this.state.msg}</span>
                       <TabelaPromocao lista={this.state.lista} />  
                 </div>
             
@@ -80,7 +94,7 @@ export default  class ListarPromocao extends Component{
         }else{
           return(
             <div>
-                <h3>Não existem promoções</h3>
+                <h3>carregando....</h3>
                 <Link to="/promocao/cadastrar"><button>Cadastrar Promocoa</button></Link>
             </div>
           

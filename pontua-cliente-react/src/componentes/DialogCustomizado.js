@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Dialog from 'react-toolbox/lib/dialog/Dialog';
 import Button from 'react-toolbox/lib/button/Button';
 import PubSub from 'pubsub-js';
-
+//CSS
+import DialogTheme from '../assets/react-toolbox/rtcustomizado.css';
 
 export default  class DialogCustomizado extends Component{
   state = { active: false };
@@ -24,30 +25,33 @@ export default  class DialogCustomizado extends Component{
     .then(response =>{
             if(response.ok){
                 console.log(this.props.url+" removido(a) com sucesso");
-                PubSub.publish("atualiza-lista")
+                PubSub.publish("excluiu", response.status)
             }
-     })
-  
+     });  
      this.setState({active: !this.state.active});
   }
-
+  
+  naoExcluir = () =>{
+    PubSub.publish("nao-excluiu");
+    this.setState({active: !this.state.active});
+  }
 
   actions = [
-    {label: 'Excluir!',  onClick: this.excluir},
-    {label: 'Cancelar!',  onClick: this.handleToggle}
+    {label: 'SIM!',  onClick: this.excluir},
+    {label: 'NÃO!',  onClick: this.naoExcluir}
   ];
 
   render () {
     return (
       <div>      
         <Button label={this.props.label} onClick={this.handleToggle} />
-        <Dialog 
+        <Dialog theme={DialogTheme}
           actions={this.actions} 
           active={this.state.active} 
           title={this.props.title}
           type={this.props.type}
         >
-          <p>{this.props.mensagem}</p>
+          <p className="excluir-mensagem">{this.props.mensagem}</p>
         </Dialog>
     
       </div>

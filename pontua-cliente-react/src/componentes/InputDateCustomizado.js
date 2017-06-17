@@ -10,7 +10,7 @@ datetime.setMinutes(28);
 
 const localeExample = {
   months: 'janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro'.split('_'),
-  monthsShort: 'jan_fev._mar._mai._jun._jul._ago._set._out._nov._dez.'.split('_'),
+  monthsShort: 'jan_fev._mar.abr_mai._jun._jul._ago._set._out._nov._dez.'.split('_'),
   weekdays: 'domingo_segunda_terça_quarta_quinta_sexta_sabado'.split('_'),
   weekdaysShort: 'dom._seg._ter._qua._qui._sex._sab.'.split('_'),
   weekdaysLetter: 'dom_seg_ter_qua_qui_sex_sab'.split('_')
