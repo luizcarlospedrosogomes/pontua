@@ -41,6 +41,22 @@ public class UsuarioDAO {
 	        return false;	        
 	 }
 	 
+	 public Boolean verificaUsuarioEmail(String email) {
+
+		 	EntityManager em = new JPAUtil().getEntityManager();
+		 	Query query = em.createQuery("select u"
+		 								+ " from Usuario u "
+		 							   + " where u.email = ?" 
+		 			).setParameter(0,  email)
+		 			 .setMaxResults(1);
+		 	List<Usuario> usuariolist = (List<Usuario>) query.getResultList();
+	        if (usuariolist.size() > 0) {
+	        	em.close();
+	   		 	return true;	            
+	        }
+	        em.close();
+	        return false;	        
+	 }
 	 public Usuario getUsuarioEmail(String email){
 			EntityManager em = new JPAUtil().getEntityManager();
 		 	Query query = em.createQuery("select u"

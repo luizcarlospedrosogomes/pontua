@@ -11,52 +11,15 @@ import ComboboxCustomizado from '../componentes/ComboboxCustomizado';
 
 export default  class CadastrarPromocao extends Component{
    representantes = new Array();
-   token = localStorage.getItem('token-representante'); 
+   token = localStorage.getItem('token-representante');
+   emailRepresentanate = localStorage.getItem('email-represetante');
    host  =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url}); 
 
     constructor(props) {
         super(props);
         this.state = {msg: '', fim_vigencia:'',inicio_vigencia:'', representanteLista:''}         
     }
-    
-     componentDidMount(){ 
-       console.log(this.token);
-        const requestInfo = {
-            method:'GET',
-            headers: {'apiKey': this.token},
-            dataType: 'json',
-        }
-        fetch(this.host+"/pontua/representante",requestInfo)
-          .then(response =>{
-            if(response.status == 200 || response.status == 201){
-              console.log("RESPOSTA DO SERVIDOR, AUTOTIZADO");
-              return response.json();
-            }if(response.status == 401){
-              console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
-              this.props.history.push('/logout/representante');
-            }else{
-              console.log("NAO FOI POSSIVEL OBTER A(S) PROMOÇÃO(ÕES)");
-                throw new Error('Não foi possivel obter promoções.');
-            }
-        })
-        .then(representante =>{
-          var item;
-          if(representante.length > 0){
-                 
-              for (var type in representante) {
-                  item = {};
-                  item.value = representante[0]['id'];
-                  item.label = representante[0]['email'];
-                  this.representantes.push(item);
-              }
-
-              // display result
-               console.log(JSON.stringify(this.representantes));
-               console.log("REPRESENTANTES: "+this.representantes);
-              
-            }
-          });
-     }
+  
     updateState = (data)  =>{
         let month  = String(data.date.getMonth() + 1);
         let day    = String(data.date.getDate());
@@ -87,14 +50,14 @@ export default  class CadastrarPromocao extends Component{
                                 , qtd_pontos:      parseInt(this.pontos.value)
                                 , inicio_vigencia: this.state.inicio_vigencia
                                 , final_vigencia: this.state.fim_vigencia
-                              //  , representante_id:{id:this.representante.value}
+                                , representante_id:{id:parseInt(1)}
                             }),
             headers:{'content-type'  : 'application/json'
                    , 'Authorization': this.token
                      }
         };
         console.log("ENVIANDO DADOS: "+requestInfo.body)
-       /* fetch(this.host+"/pontua/promocao",requestInfo)            
+        fetch(this.host+"/pontua/promocao?email="+this.emailRepresentanate,requestInfo)            
             .then(response =>{
             if(response.ok){
                 console.log("promoção criada com sucesso");
@@ -112,7 +75,7 @@ export default  class CadastrarPromocao extends Component{
         }).catch(error => {
             this.setState({msg:error.message});
         });
-        */
+        
     }
     
     render() {

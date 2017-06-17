@@ -37,9 +37,11 @@ export default  class Login extends Component{
             console.log(token)
             if(this.props.match.params.login == 'representante'){
                 localStorage.setItem('token-representante',token);
+                localStorage.setItem('email-representante',this.email.value);
                 this.props.history.push('/representante');
             }else if(this.props.match.params.login == 'cliente'){
                 localStorage.setItem('token-cliente',token);
+                localStorage.setItem('email-cliente', this.email.value);
                 this.props.history.push('/cliente');
             }
         }).catch(error => {

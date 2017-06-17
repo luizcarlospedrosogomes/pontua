@@ -34,7 +34,8 @@
     "include": [
         "BUTTON",
         "DATE_PICKER",
-        "DROPDOWN"
+        "DROPDOWN",
+        "DIALOG"
     ],
     "customProperties": {
         "animation-duration": "0.3s",

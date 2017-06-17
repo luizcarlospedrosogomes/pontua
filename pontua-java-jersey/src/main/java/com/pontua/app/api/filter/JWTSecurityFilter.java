@@ -75,7 +75,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
          * verifica se a url acessada é: "/login" e o methodo post
          * http://dominio/pontua/login
          */
-        if ((("options".equals(method) || "post".equals(method)) && ("/login".equals(path)))) {
+        if ("post".equals(method) && "/login".equals(path)) {
 
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
@@ -105,8 +105,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         }
         if(authorizationHeaderAuth != null){
         	 strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeaderAuth);
-        }
-        
+        }        
         System.out.println("+++++++++++++++++++++++TOKEN+++++++++++++++++++++++");
         System.out.println(strToken.replace("\"", ""));
         strToken = strToken.replace("\"", "");

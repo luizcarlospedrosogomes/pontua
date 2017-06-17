@@ -1,33 +1,46 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 import { Link  } from 'react-router-dom';
+import '../assets/react-toolbox/theme.css';
+import theme from '../assets/react-toolbox/theme.js';
+import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
+//COMPONENTES
+import DialogCustomizado from '../componentes/DialogCustomizado';
 
 export default  class ListarPromocao extends Component{
+
+   token = localStorage.getItem('token-representante');
+   emailRepresentanate = localStorage.getItem('email-represetante');
+   host  =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url}); 
 
    constructor() {
     super();    
     this.state = {lista : []};   
     this.state = {msg: ''}; 
     }
-
-    host(){
-      var rows = JSON.parse(localStorage.getItem("servidores"));
-      var host = rows.map(function(servidor){return servidor.url}); 
-      return host;
+    componentWillMount(){
+      console.log("excluida")
+        PubSub.subscribe('atualiza-lista',function(topico,promocoes){
+               this.preencheLista();
+              this.setState({lista:promocoes});
+        }.bind(this));
+       
     }
-    
-    componentDidMount(){ 
-      const token= localStorage.getItem('token-representante'); 
-      console.log("ENVIANDO: " + token);
+    componentDidMount(){
+      this.preencheLista();
       
+    }
+
+    preencheLista(){ 
+      console.log("ENVIANDO: " + this.token);      
       const requestInfo = {
             method:'GET',
             dataType: 'json',
-            headers: {'apiKey': token},
+            headers: {'authorization': this.token},
             
         };
-        console.log("ACESSANDO SERVIDOR: "+this.host()+"/pontua/promocao");
-        fetch(this.host()+"/pontua/promocao", requestInfo)
+        console.log("ACESSANDO SERVIDOR: "+this.host+"/pontua/promocao");
+        fetch(this.host+"/pontua/promocao", requestInfo)
         .then(response =>{
             if(response.status == 200 || response.status == 201){
               console.log("RESPOSTA DO SERVIDOR, 201, AUTOTIZADO");
@@ -43,16 +56,14 @@ export default  class ListarPromocao extends Component{
         .then(promocoes =>{
           console.log(promocoes);
           if(promocoes.length > 0){
-             this.setState({lista:promocoes});
+             this.setState({lista:promocoes});        
           }
-        }).catch(error => {
+        })
+        .catch(error => {
             this.setState({msg:error.message});
         });
 
-        PubSub.subscribe('atualiza-lista-autores',function(topico,novaLista){
-            //console.log(novaLista);
-            this.setState({lista:novaLista});
-        })
+        
     }
 
     render(){
@@ -104,7 +115,19 @@ class TabelaPromocao extends Component{
                                   <td>{promocao.final_vigencia}</td>
                                   <td>{promocao.representante_id.email}</td>
                                   <td>Editar</td>
-                                  <td>Excluir</td>
+                                  <td>
+                                  <ThemeProvider  theme={theme}> 
+                                    <DialogCustomizado
+                                     label="Excluir"
+                                     title={promocao.nome} 
+                                     mensagem="Você gostaria de excluir?"
+                                     id = {promocao.id}
+                                     url = "promocao"     
+                                     
+                                    />
+                                  </ThemeProvider>
+                                  
+                                  </td>
 
                                 </tr>
                               );

@@ -38,4 +38,16 @@ public class PromocaoDAO {
         em.close();
 		System.out.println("adicionou");
 	}
+	
+	public void remover(int id	) {
+	   	EntityManager em = new JPAUtil().getEntityManager();
+	   	em.getTransaction().begin();
+        Query query = em.createQuery("DELETE FROM Promocao where id = ?")
+        .setParameter(0, id);
+        query.executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+		System.out.println("removeu");
+	}
+	
 }

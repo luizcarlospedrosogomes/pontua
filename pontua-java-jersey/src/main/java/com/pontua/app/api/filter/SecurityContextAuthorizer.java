@@ -19,8 +19,9 @@ public class SecurityContextAuthorizer implements SecurityContext {
     private Set<String> roles;
     private String role;
     
-    public SecurityContextAuthorizer(final javax.inject.Provider<UriInfo> uriInfo, final Principal principal, final String role) {
+	public SecurityContextAuthorizer(final javax.inject.Provider<UriInfo> uriInfo, final Principal principal, final String role) {
         this.principal = principal;
+
         if (principal == null) {
             this.principal = new Principal() {
                 @Override
@@ -39,6 +40,7 @@ public class SecurityContextAuthorizer implements SecurityContext {
     }
 
     public Principal getUserPrincipal() {
+    	
         return this.principal;
     }
 
@@ -53,4 +55,22 @@ public class SecurityContextAuthorizer implements SecurityContext {
     public String getAuthenticationScheme() {
         return SecurityContext.DIGEST_AUTH;
     }
+    
+    public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	private String email;
+    
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
