@@ -5,7 +5,8 @@ import '../assets/react-toolbox/theme.css';
 import theme from '../assets/react-toolbox/theme.js';
 import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
 //COMPONENTES
-import DialogCustomizado from '../componentes/DialogCustomizado';
+import DialogExcluir from '../componentes/DialogExcluir';
+import Progress from '../componentes/ProgressCustomizado';
 //CSS
 import '../assets/react-toolbox/rtcustomizado.css';
 
@@ -94,7 +95,7 @@ export default  class ListarPromocao extends Component{
         }else{
           return(
             <div>
-                <h3>carregando....</h3>
+                <h3></h3>
                 <Link to="/promocao/cadastrar"><button>Cadastrar Promocoa</button></Link>
             </div>
           
@@ -106,6 +107,7 @@ export default  class ListarPromocao extends Component{
 class TabelaPromocao extends Component{
    render(){
      return(
+       <div><Progress/>
               <table className="pure-table">
                         <thead>
                           <tr>
@@ -131,7 +133,7 @@ class TabelaPromocao extends Component{
                                   <td>Editar</td>
                                   <td>
                                   <ThemeProvider  theme={theme}> 
-                                    <DialogCustomizado
+                                    <DialogExcluir
                                      label="Excluir"
                                      title={promocao.nome} 
                                      mensagem="Você gostaria de excluir?"
@@ -149,6 +151,7 @@ class TabelaPromocao extends Component{
                           }
                         </tbody>
                       </table>
+              </div>
      );
    }
 

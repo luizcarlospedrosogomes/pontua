@@ -5,7 +5,7 @@ import PubSub from 'pubsub-js';
 //CSS
 import DialogTheme from '../assets/react-toolbox/rtcustomizado.css';
 
-export default  class DialogCustomizado extends Component{
+export default  class DialogExcluir extends Component{
   state = { active: false };
   token = localStorage.getItem('token-representante');
   emailRepresentanate = localStorage.getItem('email-represetante');

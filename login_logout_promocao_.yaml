@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  title: Pontua
+  version: '0.1'
+basePath: /pontua
+tags:
+  - name: pontua
+    description: Pontos em compras
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /promocao:
+    get:
+      tags:
+        - Promocao
+      operationId: app.get_promocoes
+      summary: Todas promocoes
+      responses:
+        '200':
+          description: retorna promoções
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Promocao'
+      security:
+        - apiKey: []
+  '/promocao/{promocao_id}':
+    get:
+      tags:
+        - Promocao
+      operationId: app.get_promocao
+      summary: unica promocoao
+      parameters:
+        - $ref: '#/parameters/promocao_id'
+      responses:
+        '200':
+          description: Retorna promocao
+          schema:
+            $ref: '#/definitions/Promocao'
+        '401':
+          description: Nao autorizado
+        '404':
+          description: Promocao does not exist
+    put:
+      tags:
+        - Promocao
+      operationId: app.put_promocao
+      summary: Create or update a promocao
+      parameters:
+        - $ref: '#/parameters/promocao_id'
+        - name: promocao
+          in: body
+          schema:
+            $ref: '#/definitions/Promocao'
+      responses:
+        '200':
+          description: Promocao updated
+        '201':
+          description: New promocao created
+    delete:
+      tags:
+        - Promocao
+      operationId: app.delete_promocao
+      summary: Remove a pet
+      parameters:
+        - $ref: '#/parameters/promocao_id'
+      responses:
+        '204':
+          description: Promocao was deleted
+        '404':
+          description: Promocao does not exist
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Return token
+      operationId: controller.Login.login
+      produces:
+        - application/json
+      parameters:
+        - name: login
+          in: body
+          schema:
+            $ref: '#/definitions/Login'
+      responses:
+        '200':
+          description: secret response
+          schema:
+            type: string
+      security:
+        - basic: []
+  /logout:
+    delete:
+      tags:
+        - logout
+      summary: ''
+      description: ''
+      operationId: controller.Login.logout
+      responses:
+        default:
+          description: logout ok
+      security:
+        - apiKey: []
+securityDefinitions:
+  basic:
+    type: basic
+    description: HTTP Basic Authentication.
+  apiKey:
+    name: apiKey
+    type: apiKey
+    in: query
+    description: API Key
+parameters:
+  promocao_id:
+    name: promocao_id
+    description: Pet's Unique identifier
+    in: path
+    type: integer
+    required: true
+    pattern: '^[a-zA-Z0-9-]+$'
+  email:
+    name: email
+    in: query
+    type: string
+    required: false
+definitions:
+  Login:
+    type: object
+    required:
+      - email
+      - senha
+    properties:
+      email:
+        type: string
+        description: email valido
+        example: teste@teste.com
+      senha:
+        type: string
+        description: senha em texto puro
+        example: '123456'
+  Promocao:
+    type: object
+    required:
+      - nome
+      - qtd_pontos
+      - inicio_vigencia
+      - fim_vigencia
+    properties:
+      nome:
+        type: string
+        description: nome da promocao
+        example: compra 3 leva 2
+        minLength: 1
+        maxLength: 100
+      qtd_pontos:
+        type: integer
+        description: pontos por promocao
+        example: 20
+        minLength: 1
+      inicio_vigencia:
+        type: string
+        format: date-time
+        description: Creation time
+        example: '2015-07-07T15:49:51.230+02:00'
+        readOnly: true
+      fim_vigencia:
+        type: string
+        format: date-time
+        description: Creation time
+        example: '2015-07-07T15:49:51.230+02:00'
+        readOnly: true

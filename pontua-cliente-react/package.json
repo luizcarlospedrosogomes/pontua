@@ -35,7 +35,8 @@
         "BUTTON",
         "DATE_PICKER",
         "DROPDOWN",
-        "DIALOG"
+        "DIALOG",
+        "PROGRESS_BAR"
     ],
     "customProperties": {
         "animation-duration": "0.3s",
