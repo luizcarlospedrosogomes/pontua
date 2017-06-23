@@ -112,7 +112,7 @@ class TabelaPromocao extends Component{
    render(){
      return(
        <div>
-              <table className="pure-table">
+              <table className="table table-hover table-striped">
                         <thead>
                           <tr>
                             <th>Nome</th>
@@ -135,7 +135,7 @@ class TabelaPromocao extends Component{
                                     {promocao.status === 1 ? 'Ativo' : 'Inativo'}
                                     </td>
                                   <td>
-                                   <Link to={'/promocao/editar/'+promocao.id} className="pure-menu-link">
+                                   <Link to={'/promocao/editar/'+promocao.id}>
                                   Editar
                                    </Link> 
                                   

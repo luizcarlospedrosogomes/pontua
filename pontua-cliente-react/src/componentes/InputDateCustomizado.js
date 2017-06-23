@@ -31,18 +31,19 @@ export default  class InputDateCustomizado extends Component{
    
   render() {
     return (
-        <div className="pure-control-group">
-            <label className ="_2WvFs"
-			  		htmlFor={this.props.id}>{this.props.label}
-			      </label>
-             <DatePicker 
+        <div className="form-group">
+            <label htmlFor={this.props.id}>{this.props.label}</label>
+             <DatePicker className="form-control"
+                id       = {this.props.label}
                 label    = {this.props.label}
                 locale   = {localeExample}                
                 name     = {this.props.name}
 			    required = {this.props.required}
                 onChange = {this.handleChange.bind(this, 'date1')}
                 value    = {this.state.date1}
+                placeholder="15/05/2017"
               />
+            
          </div>
         );
     }

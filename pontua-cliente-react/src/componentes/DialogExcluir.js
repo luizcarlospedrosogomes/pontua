@@ -58,7 +58,7 @@ export default  class DialogExcluir extends Component{
           title={this.props.title}
           type={this.props.type}
         >
-          <p className="excluir-mensagem">{this.props.mensagem}</p>
+          <p className="">{this.props.mensagem}</p>
         </Dialog>
     
       </div>

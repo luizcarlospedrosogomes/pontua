@@ -55,10 +55,11 @@ export default  class Login extends Component{
                     <h1>Bem vindo ao Pontua</h1>
                 </div>
                  <h3>Entrar como {this.props.match.params.login}</h3>
-                 <form className="pure-form" onSubmit={this.login.bind(this)}>
+                 <form className="form-group" onSubmit={this.login.bind(this)}>
                     <fieldset>
                         <legend><span>{this.state.msg}</span></legend>
                         <input 
+                            className="form-control"
                             type="email" 
                             placeholder="Email"
                             ref={(input) => this.email = input}
@@ -68,8 +69,9 @@ export default  class Login extends Component{
                             type="password" 
                             placeholder="Senha"
                             ref={(input) => this.senha = input}
+                            className="form-control"
                         />
-                        <button type="submit" className="pure-button pure-button-primary">Entrar</button>
+                        <button type="submit" className="btn btn-info btn-fill">Entrar</button>
                      </fieldset>
                 </form>
         </div>

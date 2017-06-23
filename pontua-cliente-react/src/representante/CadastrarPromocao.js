@@ -106,11 +106,10 @@ export default  class CadastrarPromocao extends Component{
 		return (
         <ThemeProvider  theme={theme}>
           <div>
-           <h3>Cadastrar Promocao</h3>
            <span>{this.state.msg}</span>
             <div>
            
-              <form className="pure-form pure-form-aligned" onSubmit={this.enviaForm.bind(this)}>
+              <form className="form-group" onSubmit={this.enviaForm.bind(this)}>
                
                 <InputCustomizado
                   id="nome" 
@@ -149,7 +148,7 @@ export default  class CadastrarPromocao extends Component{
 
                 <div className="pure-control-group">                                  
                   <label></label> 
-                  <button type="submit" className="pure-button pure-button-primary">Cadastrar</button>                                    
+                  <button type="submit" className="btn btn-info btn-fill">Cadastrar</button>                                    
                 </div>
               </form>             
              </div>  

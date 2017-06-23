@@ -38,7 +38,7 @@ export default  class Servidores extends Component{
     render(){
         return(
             <div>
-                <form className="pure-form pure-form-stacked" onSubmit={this.adicionar.bind(this)}>
+                <form className="form-group" onSubmit={this.adicionar.bind(this)}>
                 <fieldset>
                     <legend>Adicionar servidores</legend>
                     <label htmlFor="nome">Nome</label>
@@ -48,13 +48,7 @@ export default  class Servidores extends Component{
                             placeholder="Nome" 
                             ref={(input) => this.nome = input}
                     />
-                      <label htmlFor="url">Base URL</label>
-                        <input 
-                            id="base" 
-                            type="text" 
-                            placeholder="/pontua" 
-                            ref={(input) => this.baseUrl = input}
-                    />
+                  
                     <label htmlFor="url">URL</label>
                         <input 
                             id="url" 
@@ -62,18 +56,18 @@ export default  class Servidores extends Component{
                             placeholder="http://seudominio.com" 
                             ref={(input) => this.url = input}
                     />
-                    <label htmlFor="padrao" className="pure-checkbox">
+                    
+                    <label htmlFor="url">Base URL</label>
                         <input 
-                            id="padrao" 
-                            type="checkbox" 
-                            ref={(input) => this.padrao = input} 
-                            checked={this.state.isChecked}
-                            onChange={this.toggleChange}
+                            id="base" 
+                            type="text" 
+                            placeholder="/pontua" 
+                            ref={(input) => this.baseUrl = input}
                     />
-                    Definir como padrão</label>
+                    
                     <button 
                         type="submit" 
-                        className="pure-button pure-button-primary">
+                        className="btn btn-info btn-fill">
                         Alterar
                     </button>
                 </fieldset>

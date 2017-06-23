@@ -7,9 +7,9 @@ export default  class ListaServidores extends Component{
      render(){
        if(this.props.lista){
         return (
-            <div>
+            <div className="table-responsive table-full-width">
                 
-                <table className="pure-table">
+                <table className="table table-hover table-striped">
                     <thead>
                         <tr>
                             <th>Nome</th>

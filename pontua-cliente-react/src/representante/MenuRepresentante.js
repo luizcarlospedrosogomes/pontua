@@ -5,33 +5,24 @@ export default class MenuRepresentante extends Component{
   render(){
      return(
       <div>
-            <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a  className="pure-menu-link">Representante</a>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/perfil" className="pure-menu-link">Perfil</Link>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/logout/representante" className="pure-menu-link">Logout</Link>
-            </li>
-            <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a className="pure-menu-link">Promoçao</a>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/promocao/cadastrar" className="pure-menu-link">Cadastrar</Link>
-            </li>            
-            <li className="pure-menu-item">
-                <Link to="/promocao/listar" className="pure-menu-link">Listar</Link>
-            </li>
-            <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a  className="pure-menu-link">Cliente</a>
-            </li>            
-            <li className="pure-menu-item">
-                <Link to="/cadastrar/cliente" className="pure-menu-link">Cadastrar</Link>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/listar/cliente" className="pure-menu-link">Listar</Link>
-            </li>
+        <li>
+           <i className="pe-7s-graph"></i><p>Representante</p>
+        </li>
+         <li className="active">
+            <Link to="/perfil"><i className="pe-7s-user"></i><p>Perfil</p></Link>
+        </li>
+         <li className="active">
+            <Link to="/logout/representante"><i className="pe-7s-user"></i><p>Logout</p></Link>
+        </li>
+        <li>
+           <i className="pe-7s-graph"></i><p>Promoçao</p>
+        </li>
+        <li className="active">
+            <Link to="/promocao/cadastrar"><i className="pe-7s-user"></i><p>Cadastrar</p></Link>
+        </li>
+        <li className="active">
+            <Link to="/promocao/listar"><i className="pe-7s-user"></i><p>Listar</p></Link>
+        </li>
       </div>
     );
   }
