@@ -5,13 +5,16 @@ export default  class ListaServidores extends Component{
         super();  
     }
      render(){
+       if(this.props.lista){
         return (
             <div>
+                
                 <table className="pure-table">
                     <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Host</th>
+                            <th>BaseUrl</th>
                             <th>Padrão</th>
                         </tr>
                     </thead>
@@ -23,6 +26,7 @@ export default  class ListaServidores extends Component{
                                 <tr key = {servidor.url}>
                                 <td>{servidor.nome}</td>
                                 <td>{servidor.url}</td>
+                                <td>{servidor.baseUrl}</td>
                                 <td>{servidor.padrao}</td>
                                 </tr>
                                 );
@@ -32,7 +36,11 @@ export default  class ListaServidores extends Component{
                 </table>
 
             </div>
-        )
+        );
+       }else{
+           return( <div>Cadastre um servidor!</div>);
+       }
+        
         
     }
 }

@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,10 @@ public class Usuario {
 	private String senha;
 	@JsonProperty("email")
 	private String email;
+	@JsonProperty("token")
+    @JsonIgnoreProperties(ignoreUnknown = true)	
 	
+	private String token;
 	private String roles;
 	
 	@ApiModelProperty(example = "cliente", required = false, value = "roles", hidden=true)

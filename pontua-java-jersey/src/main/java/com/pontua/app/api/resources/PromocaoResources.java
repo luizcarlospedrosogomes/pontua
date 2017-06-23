@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 import com.pontua.app.DAO.PromocaoDAO;
 import com.pontua.app.DAO.UsuarioDAO;
 import com.pontua.app.modelo.Promocao;
+import com.pontua.app.util.Role;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +32,7 @@ import io.swagger.annotations.Authorization;
 
 
 @Path("/promocao")
-@Api(value="/promocao", description = "Promocoes", authorizations = {
+@Api(value="/promocao", description = "Promocao", authorizations = {
         @Authorization(value="basic", scopes = {})
   })
 @Produces({"application/json"})
@@ -48,11 +49,11 @@ public class PromocaoResources {
 	 * @return promocao referente ao id
 	 */
 	
-	@Path("/{id}")
+	@Path("/{ID}")
     @GET
     @ApiOperation(value    = "Promoção por ID ", 
     			  notes    = "retorna promoções",
-                  response = Promocao.class)
+                  response = Promocao.class, tags={ "Promocao"})
     @ApiResponses(value = { @ApiResponse(code = 400, message = "ID invalido"),
         @ApiResponse(code = 404, message = "Promocao not found") })
     
@@ -76,30 +77,22 @@ public class PromocaoResources {
     @GET
     @ApiOperation(value    = "Todas promocoes", 
 	  			  notes    = "retorna promoções",
-	  			  response = Promocao.class)
+	  			  response = Promocao.class, tags={ "Promocao"})
     @ApiResponses(value = { @ApiResponse(code = 404, message = "Promocao nao encontrada"),
 	@ApiResponse(code = 404, message = "Promocao not found") })
 
     @Produces(MediaType.APPLICATION_JSON)
-    public Response list(@QueryParam("email") String email) {
-    	
-    	System.out.println("GET EMAIL USUARIO");
-    	System.out.println(securityContext.getUserPrincipal().getName());
-    	if(securityContext.isUserInRole("representante")){
-    		System.out.println("REPRESENTANTE");
-    	}
+    public Response list() {
+      	String email = securityContext.getUserPrincipal().getName();
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
-		if(usuarioDAO.verificaUsuarioEmail(email) || email == null){
-			System.out.println("LISTANDO PROMOCOES");
+		System.out.println("LISTANDO PROMOCOES");
 			
 			PromocaoDAO promocao = new PromocaoDAO();
-			List getPromocao =   promocao.buscaAll();
+			List getPromocao =   promocao.buscaAll(Role.getRole(securityContext), email);
 			if(!getPromocao.isEmpty()){
 				return Response.ok(new Gson().toJson(getPromocao)).build();
 			}
-			return Response.status(404).build();
-		}
-		
+	
 		return Response.status(401).build();
     }
 	/**
@@ -114,11 +107,11 @@ public class PromocaoResources {
 			      notes    = "retorna promoções",
 	              response = String.class, authorizations = {
 	            			@Authorization(value = "basic")
-					}, tags={ "Login", 
+					}, tags={ "Promocao", 
 	})
 	@ApiResponses(value = { 
-	@ApiResponse(code = 200, 
-			 message = "promocao", 
+	@ApiResponse(code = 200,
+			 message = "Promocao", 
 			 response = Promocao.class) 
 	})
 	public Response adiciona(Promocao promocao){
@@ -135,19 +128,21 @@ public class PromocaoResources {
 		return Response.status(400).build();
 		
 	}
-	@Path("/{id}")
+	@Path("/{ID}")
 	@DELETE
 	@ApiOperation(value    = "remove promocao", 
 			      notes    = "",
 	              response = String.class, authorizations = {
 	            			@Authorization(value = "basic")
-					}, tags={ "Login", 
+					}, 
+	              tags={ "Promocao", 
 	})
 	@ApiResponses(value = { 
 	@ApiResponse(code = 200, 
 			 message = "promocao removida", 
 			 response = Promocao.class) 
 	})
+		
 	public Response remover(@PathParam("id") int id){
 		System.out.println("DADOS RECEBIDO: ID "+ id);
 		UsuarioDAO usuarioDAO = new UsuarioDAO();

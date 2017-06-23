@@ -3,15 +3,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 //COMPONENTES
-import App from './App';
+//import App from './App';
+import Bootstrapp from './BootStrapp';
 //CSS
-import './css/pure-min.css';
+
+console.disableYellowBox = true; 
+console.ignoredYellowBox = true;
 
 ReactDOM.render(
   (
- 
-   <App/>  
+
+   <Bootstrapp/>  
 
   ),
+ 
   document.getElementById('root')
+ 
 );

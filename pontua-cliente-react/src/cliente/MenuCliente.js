@@ -5,24 +5,25 @@ export default class MenuCliente extends Component{
   render(){
      return(
         <div>
-          <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a href="#" className="pure-menu-link">Cliente</a>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/perfil" className="pure-menu-link">Perfil</Link>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/logout/cliente" className="pure-menu-link">Logout</Link>
-            </li>
-            <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a href="#" className="pure-menu-link">Serviços</a>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/promocao" className="pure-menu-link">Promoções</Link>
-            </li>
-            <li className="pure-menu-item">
-                <Link to="/pontos" className="pure-menu-link">Pontos</Link>
-            </li>
+                <li>
+                        <a href=""><i className="pe-7s-graph"></i><p>Cliente</p></a>
+                    </li>
+                    <li className="active">
+                        <Link to="/perfil"><i className="pe-7s-user"></i><p>Perfil</p></Link>
+                    </li>
+                <li className="active">
+                    <Link to="/logout/cliente"><i className="pe-7s-user"></i><p>Logout</p></Link>
+                </li>            
+               <li>
+                    <a href=""><i className="pe-7s-graph"></i><p>Serviços</p></a>
+                </li>            
+                <li className="active">
+                        <Link to="/promocao"><i className="pe-7s-user"></i><p>Promocao</p></Link>
+                </li> 
+                <li className="active">
+                        <Link to="/premios"><i className="pe-7s-user"></i><p>Premios</p></Link>
+                    </li> 
+               
           </div>
     );
   }

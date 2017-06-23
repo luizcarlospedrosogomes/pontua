@@ -6,7 +6,7 @@ export default class MenuRepresentante extends Component{
      return(
       <div>
             <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a href="#" className="pure-menu-link">Representante</a>
+                <a  className="pure-menu-link">Representante</a>
             </li>
             <li className="pure-menu-item">
                 <Link to="/perfil" className="pure-menu-link">Perfil</Link>
@@ -15,7 +15,7 @@ export default class MenuRepresentante extends Component{
                 <Link to="/logout/representante" className="pure-menu-link">Logout</Link>
             </li>
             <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a href="#" className="pure-menu-link">Promoçao</a>
+                <a className="pure-menu-link">Promoçao</a>
             </li>
             <li className="pure-menu-item">
                 <Link to="/promocao/cadastrar" className="pure-menu-link">Cadastrar</Link>
@@ -24,7 +24,7 @@ export default class MenuRepresentante extends Component{
                 <Link to="/promocao/listar" className="pure-menu-link">Listar</Link>
             </li>
             <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                <a href="#" className="pure-menu-link">Cliente</a>
+                <a  className="pure-menu-link">Cliente</a>
             </li>            
             <li className="pure-menu-item">
                 <Link to="/cadastrar/cliente" className="pure-menu-link">Cadastrar</Link>

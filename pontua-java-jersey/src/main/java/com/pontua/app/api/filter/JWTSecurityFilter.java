@@ -106,7 +106,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         if(authorizationHeaderAuth != null){
         	 strToken = extractJwtTokenFromAuthorizationHeader(authorizationHeaderAuth);
         }        
-        System.out.println("+++++++++++++++++++++++TOKEN+++++++++++++++++++++++");
+        System.out.println("+++++++++++++++++++++TOKEN+++++++++++++++++++++++");
         System.out.println(strToken.replace("\"", ""));
         strToken = strToken.replace("\"", "");
         if (TokenUtil.isValid(strToken, key)) {

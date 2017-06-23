@@ -2,17 +2,14 @@
 import React, { Component } from 'react';
 
 export default  class Login extends Component{
-       
-    constructor(props) {
+    host    =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});       
+    baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
+   
+   constructor(props) {
         super(props);
         this.state = {msg: ''};
     }
 
-    host(){
-      var rows = JSON.parse(localStorage.getItem("servidores"));
-      var host = rows.map(function(servidor){return servidor.url}); 
-      return host;
-    }
 
     login(event){
         event.preventDefault();
@@ -22,10 +19,12 @@ export default  class Login extends Component{
             body:JSON.stringify({email: this.email.value, senha:this.senha.value}),
             headers:new Headers({'content-type' : 'application/json'})
         };
+        console.log("SERVIDOR: "+ this.host);
+        console.log("URL :"+this.baseUrl+"/login")
+        console.log("DADOS ENVIADOS: "+requestInfo.body);
+        console.log("VERBO: POST")
         
-        console.log("DADOS ENVIADOS: "+requestInfo.body)
-        
-        fetch(this.host()+"/pontua/login",requestInfo)            
+        fetch(this.host+this.baseUrl+"/login",requestInfo)            
             .then(response =>{
             if(response.status === 200 ||  response.status === 201){
                 console.log("sucesso no login");
@@ -35,11 +34,11 @@ export default  class Login extends Component{
             }
         }).then(token =>{
             console.log(token)
-            if(this.props.match.params.login == 'representante'){
+            if(this.props.match.params.login === 'representante'){
                 localStorage.setItem('token-representante',token);
                 localStorage.setItem('email-representante',this.email.value);
                 this.props.history.push('/representante');
-            }else if(this.props.match.params.login == 'cliente'){
+            }else if(this.props.match.params.login === 'cliente'){
                 localStorage.setItem('token-cliente',token);
                 localStorage.setItem('email-cliente', this.email.value);
                 this.props.history.push('/cliente');

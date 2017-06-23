@@ -4,7 +4,7 @@ import DatePicker from 'react-toolbox/lib/date_picker/DatePicker';
 import React, { Component } from 'react';
 
 const datetime = new Date(2015, 10, 16);
-const min_datetime = new Date(new Date(datetime).setDate(8));
+//const min_datetime = new Date(new Date(datetime).setDate(8));
 datetime.setHours(17);
 datetime.setMinutes(28);
 

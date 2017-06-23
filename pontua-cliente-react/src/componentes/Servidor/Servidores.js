@@ -21,11 +21,13 @@ export default  class Servidores extends Component{
 
     adicionar(event){
         event.preventDefault();
-        if(!this.nome.value == ''  && !this.url.value == ''){
-            let dados_srv  = [{nome:this.nome.value,  url : this.url.value, padrao: this.state.isChecked}];
+        if(!this.nome.value.length !== 0  && !this.url.value.length !== 0){
+            let dados_srv  = [{nome:this.nome.value,  url : this.url.value, padrao: this.state.isChecked, baseUrl:this.baseUrl.value}];
             localStorage.setItem("servidores", JSON.stringify(dados_srv));
             this.listarServidores(); 
-        }        
+        }else{
+            console.log("VERIFIQUE OS CAMPOS")
+        }      
     } 
 
     listarServidores(){ 
@@ -46,11 +48,18 @@ export default  class Servidores extends Component{
                             placeholder="Nome" 
                             ref={(input) => this.nome = input}
                     />
+                      <label htmlFor="url">Base URL</label>
+                        <input 
+                            id="base" 
+                            type="text" 
+                            placeholder="/pontua" 
+                            ref={(input) => this.baseUrl = input}
+                    />
                     <label htmlFor="url">URL</label>
                         <input 
                             id="url" 
                             type="text" 
-                            placeholder="URL" 
+                            placeholder="http://seudominio.com" 
                             ref={(input) => this.url = input}
                     />
                     <label htmlFor="padrao" className="pure-checkbox">

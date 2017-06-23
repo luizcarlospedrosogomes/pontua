@@ -5,18 +5,20 @@ export default class MenuInicial extends Component{
   render(){
      return(
       <div>
-            <li className="pure-menu-item menu-item-divided pure-menu-selected">
-                  <a href="#" className="pure-menu-link">Login</a>
+            <li>
+                 <i className="pe-7s-graph"></i><p>Login</p>
             </li>
-            <li className="pure-menu-item">
-                <Link to="/login/cliente" className="pure-menu-link">Cliente</Link>
+            <li className="active">
+                   <Link to="/login/cliente"><i className="pe-7s-user"></i><p>Cliente</p></Link>
             </li>
-            <li className="pure-menu-item">
-                <Link to="/login/representante" className="pure-menu-link">Representante</Link>
+            <li className="active">
+                   <Link to="/login/representante"><i className="pe-7s-user"></i><p>Representante</p></Link>
             </li>
-            <li className="pure-menu-item">
-                <Link to="/servidores" className="pure-menu-link">Servidor</Link>
+            
+            <li className="active">
+                   <Link to="/servidores"><i className="pe-7s-user"></i><p>Servidor</p></Link>
             </li>
+            
                   
       </div>
     );

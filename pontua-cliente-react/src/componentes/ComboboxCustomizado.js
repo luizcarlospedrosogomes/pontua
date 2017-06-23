@@ -1,38 +1,14 @@
 import Dropdown from 'react-toolbox/lib/dropdown';
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
 
 export default  class ComboboxCustomizado extends Component {
-  state = {
-    albumSelected: 3,
-    countrySelected: 'ES-es'
+  state = {default: this.props.default};
+
+  handleChange = (value) => {
+    this.setState({default: value});
+    PubSub.publish("valor-combo", value);
   };
-
-  handleCountryChange = (value) => {
-    this.setState({countrySelected: value});
-  };
-
-  customItem (item) {
-    const containerStyle = {
-      display: 'flex',
-      flexDirection: 'row'
-    };
-
-    const imageStyle = {
-      display: 'flex',
-      width: '32px',
-      height: '32px',
-      flexGrow: 0,
-      marginRight: '8px',
-      backgroundColor: '#ccc'
-    };
-
-    const contentStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      flexGrow: 2
-    };
-
-  }
 
   render () {
     return (
@@ -43,11 +19,10 @@ export default  class ComboboxCustomizado extends Component {
       
         <Dropdown
           source={this.props.source}
-          onChange={this.handleCountryChange}
-          value={this.state.countrySelected}
+          onChange={this.handleChange}
+          value={this.state.default}
         />
       </div>
     );
   }
 }
-

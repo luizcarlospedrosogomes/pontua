@@ -17,10 +17,14 @@ public class Premio {
 	private String quantidade_disponivel;
 	private String validade;
 	private String valor_pontos;
-	@ManyToOne
-	@JoinColumn(name="representante_id")
-	private Representante representante;
-	 
+	private String representante_id;
+	
+	public String getRepresentante_id() {
+		return representante_id;
+	}
+	public void setRepresentante_id(String representante_id) {
+		this.representante_id = representante_id;
+	}
 	public Integer getId() {
 		return id;
 	}

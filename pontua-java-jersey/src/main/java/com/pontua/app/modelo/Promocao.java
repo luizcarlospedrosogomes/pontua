@@ -5,13 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.annotations.SerializedName;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,67 +23,62 @@ public class Promocao {
     private Integer id;
     @Column(nullable = false)
     @JsonProperty("nome")
-    private String nome;
+    private String nome;    
+    @JsonProperty("validade")
+    private String validade;
     @Column(nullable = false)
-    @JsonProperty("inicio_vigencia")
-    private String inicio_vigencia;
-    @JsonProperty("final_vigencia")
-    @Column(nullable = false)
-    private String final_vigencia;
-    @JsonProperty("validde")
-    private String validde;
-    @Column(nullable = false)
-    @JsonProperty("qtd_pontos")
-    private String qtd_pontos;
-    
-    @SerializedName("representante_id")
-    @ManyToOne
-    @JoinColumn(name="representante_id")
-    private Representante representante_id;    
-    
+    @JsonProperty("quantidade_pontos")
+    private String quantidade_pontos;
+    @JsonProperty("status")
+    private Integer status;
     @JsonProperty("representante")
-    @ApiModelProperty(example = "1", required = true, value = "pontos por promocao")
-    @NotNull
-	public Representante getRepresentanteID() {
-		return representante_id;
+    private String representante;
+    @JsonProperty("token")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private String token;
+    
+    public String getToken() {
+		return token;
 	}
-	public void setRepresentante(Representante representante_id) {
-		this.representante_id = representante_id;
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
-	@JsonProperty("inicio_vigencia")
-	  @ApiModelProperty(example = "2015-07-07T15:49:51.230+02:00", required = true, value = "Creation time")
-	  @NotNull
-	public String getInicio_vigencia() {
-		return inicio_vigencia;
+    public Integer getStatus() {
+		return status;
 	}
-	public void setInicio_vigencia(String inicio_vigencia) {
-		this.inicio_vigencia = inicio_vigencia;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
-	@JsonProperty("final_vigencia")
-	  @ApiModelProperty(example = "2015-07-07T15:49:51.230+02:00", required = true, value = "Creation time")
-	  @NotNull
-	public String getFinal_vigencia() {
-		return final_vigencia;
+	public String getRepresentante() {
+		return representante;
 	}
-	public void setFinal_vigencia(String final_vigencia) {
-		this.final_vigencia = final_vigencia;
+	public void setRepresentante_id(String representante_id) {
+		this.representante = representante_id;
 	}
-	public String getValidde() {
-		return validde;
+	public void setValidade(String validade) {
+		this.validade = validade;
+	}
+	
+
+	@JsonProperty("validade")
+	@ApiModelProperty(example = "02/07/2017", required = true, value = "Creation time")
+	@NotNull
+	public String getValidade() {
+		return validade;
 	}
 	public void setValidde(String validde) {
-		this.validde = validde;
+		this.validade = validde;
 	}
 	
-	@JsonProperty("qtd_pontos")
+	@JsonProperty("quantidade_pontos")
 	  @ApiModelProperty(example = "20", required = true, value = "pontos por promocao")
 	  @NotNull
-	public String getQtd_pontos() {
-		return qtd_pontos;
+	public String getQuantidade_pontos() {
+		return quantidade_pontos;
 	}
-	public void setQtd_pontos(String qtd_pontos) {
-		this.qtd_pontos = qtd_pontos;
+	public void setQuantidade_pontos(String quantidade_pontos) {
+		this.quantidade_pontos = quantidade_pontos;
 	}
 	
 	public Integer getId() {

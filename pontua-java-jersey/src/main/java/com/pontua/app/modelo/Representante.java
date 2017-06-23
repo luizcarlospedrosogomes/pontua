@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Representante {
 	@Id
@@ -29,15 +32,10 @@ public class Representante {
 	private String email;
 	private String senha;
 	private String validade_pontos;
+	@JsonProperty("token")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+	private String token;
 	
-	//@OneToMany(mappedBy="representante")
-	@OneToMany(mappedBy = "representante_id", targetEntity = Promocao.class, fetch = FetchType.LAZY)
-    private transient List<Promocao> promocao;
-	
-	@OneToMany(mappedBy="representante")
-    private transient  List<Premio> premio;
-	
-
 	public Integer getId() {
 		return id;
 	}

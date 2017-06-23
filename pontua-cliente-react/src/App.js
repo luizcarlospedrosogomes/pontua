@@ -13,6 +13,7 @@ import Cliente           from './cliente/Cliente';
 import MenuCliente       from './cliente/MenuCliente';
 import ListarPromocao    from './representante/ListarPromocao';
 import CadastrarPromocao from './representante/CadastrarPromocao';
+import EditarPromocao from './representante/EditarPromocao';
 
 //CSS
 import './css/pure-min.css';
@@ -39,7 +40,7 @@ class App extends Component {
             <div id="main">
             <nav id="menu">
               <div className="pure-menu">
-                  <a className="pure-menu-heading" href="#">Pontua</a>
+                  <a className="pure-menu-heading">Pontua</a>
                   <ul className="pure-menu-list">
                       <ClienteRepresentante/>
                   </ul>  
@@ -54,6 +55,7 @@ class App extends Component {
                       <Route  path="/representante"         component={ Representante }/>  
                       <Route  path="/promocao/listar"       component={ ListarPromocao }/>  
                       <Route  path="/promocao/cadastrar"    component={ CadastrarPromocao }/>   
+                      <Route  path="/promocao/editar/:id"    component={ EditarPromocao }/>
                       <Route  path="/cliente"               component={ Cliente }/>   
 
                 </Switch> 
