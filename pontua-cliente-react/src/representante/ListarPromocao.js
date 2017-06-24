@@ -40,6 +40,8 @@ export default  class ListarPromocao extends Component{
       PubSub.subscribe('atualizaLista', function(topico){
         this.preencheLista();
       }.bind(this)); 
+
+      PubSub.publish('titulo-menu-superior',window.location.pathname);
     }
 
     componentDidMount(){

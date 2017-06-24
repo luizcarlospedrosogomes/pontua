@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
+import {Link, Route,  BrowserRouter as Router, Switch} from 'react-router-dom';
+
 import 'reactstrap';
 
 //COMPONENTES
-import Login             from './componentes/Login/Login';
-import Logout            from './componentes/Login/Logout';
-import MenuInicial       from './componentes/Login/MenuInicial';
+import Login             from './Login/Login';
+import Logout            from './Login/Logout';
+import MenuInicial       from './Login/MenuInicial';
 import Servidores        from './componentes/Servidor/Servidores';
 import Representante     from './representante/Representante';
 import MenuRepresentante from './representante/MenuRepresentante';
@@ -13,7 +14,8 @@ import Cliente           from './cliente/Cliente';
 import MenuCliente       from './cliente/MenuCliente';
 import ListarPromocao    from './representante/ListarPromocao';
 import CadastrarPromocao from './representante/CadastrarPromocao';
-import EditarPromocao from './representante/EditarPromocao';
+import EditarPromocao    from './representante/EditarPromocao';
+import MenuSuperior      from './componentes/MenuSuperior';
 
    function ClienteRepresentante(){
         if(localStorage.getItem('token-cliente') != null){
@@ -27,15 +29,16 @@ import EditarPromocao from './representante/EditarPromocao';
 
 
 export default  class Bootstrapp extends Component{
-    
- 
-    
-    
+   host  =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});
+   baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
+   emailRepresentante = localStorage.getItem('email-representante');
+   
     render(){
         return(
            <Router>
+               
 <div className="wrapper">
-    <div className="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+    <div className="sidebar" data-color="purple" data-image="/assets/img/sidebar-5.jpg">
         <div className="sidebar-wrapper">
             <div className="logo"><strong>PONTUA</strong></div> 
             <ul className="nav">
@@ -43,21 +46,20 @@ export default  class Bootstrapp extends Component{
             </ul>
         </div>
     </div>
-    <div className="main-panel">
-     
-		<nav className="navbar navbar-default navbar-fixed">
-            
+    <div className="main-panel">     
+		<nav className="navbar navbar-default navbar-fixed">            
             <div className="container-fluid">
                 <div className="navbar-header">
-                   
+                   <MenuSuperior/> 
                 </div>
                 <div className="collapse navbar-collapse">
-                    <ul className="nav navbar-nav navbar-left">
-                        
+                    <ul className="nav navbar-nav navbar-left"> 
+                                            
                     </ul>
-
-                    <ul className="nav navbar-nav navbar-right">
-                       
+                    <ul className="nav navbar-nav navbar-right">  
+                        
+                         <li>{this.emailRepresentante !== null ? 'Conectado como '+this.emailRepresentante : 'Faça login' } </li>                     
+                         <li>{this.host !== null ? 'Servidor: '+this.host :'Configure um servdor em:<Link to="/servidores">Servidores</Link>'} </li>                     
                     </ul>
                 </div>
             </div>

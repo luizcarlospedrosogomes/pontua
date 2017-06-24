@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
-import '../assets/react-toolbox/theme.css';
-import theme from '../assets/react-toolbox/theme.js';
-import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
-
-
 //COMPONENTES
 import InputCustomizado from '../componentes/InputCustomizado';
 import InputDateCustomizado from '../componentes/InputDateCustomizado';
@@ -29,35 +24,15 @@ export default  class CadastrarPromocao extends Component{
         PubSub.subscribe('valor-combo',function(topico,valor){
             this.setState({statusValor:valor})
         }.bind(this));
+        
+        PubSub.publish('titulo-menu-superior',window.location.pathname);
     }
 
-    updateState = (data)  =>{
-
-        let month  = String(data.date.getMonth() + 1);
-        let day    = String(data.date.getDate());
-        const year = String(data.date.getFullYear());
-        let hh    = String(data.date.getHours());
-        let mm    = String(data.date.getMinutes());
-        let ss    = String(data.date.getSeconds());
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        if (hh.length < 2) hh = '0' + hh;
-        if (mm.length < 2) mm = '0' + mm;
-        if (ss.length < 2) ss = '0' + ss;
-
-        let data_datetime  =`${year}-${month}-${day}T${hh}:${mm}:${ss}`;
-        let data_formatada = `${day}/${month}/${year}`;
-
-        console.log("data formatada"+ data_formatada)
-        console.log("data datetime"+ data_datetime)
-      
+    updateState = (data)  =>{     
         if(data.item === 'inicio_vigencia'){
-            this.setState({inicio_vigencia: data_datetime})
+            this.setState({inicio_vigencia: data.dataDateTime})
         }
-    }
-
-    
+    } 
     
     enviaForm(evento){
         evento.preventDefault(); 
@@ -104,7 +79,7 @@ export default  class CadastrarPromocao extends Component{
     
     render() {
 		return (
-        <ThemeProvider  theme={theme}>
+        
           <div>
            <span>{this.state.msg}</span>
             <div>
@@ -152,9 +127,8 @@ export default  class CadastrarPromocao extends Component{
                 </div>
               </form>             
              </div>  
-                <ListarPromocao/>
+                
              </div>
-              </ThemeProvider>
               
 		);
     }

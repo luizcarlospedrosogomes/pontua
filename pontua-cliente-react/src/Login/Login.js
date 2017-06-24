@@ -1,6 +1,9 @@
 //REACT
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
 
+
+import FormCadastroCliente from './FormCadastroCliente';
 export default  class Login extends Component{
     host    =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});       
     baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
@@ -10,6 +13,9 @@ export default  class Login extends Component{
         this.state = {msg: ''};
     }
 
+    componentWillMount(){
+        PubSub.publish('titulo-menu-superior-cadastraCliente',window.location.pathname);    
+    }
 
     login(event){
         event.preventDefault();
@@ -54,26 +60,33 @@ export default  class Login extends Component{
                  <div className="header">
                     <h1>Bem vindo ao Pontua</h1>
                 </div>
-                 <h3>Entrar como {this.props.match.params.login}</h3>
-                 <form className="form-group" onSubmit={this.login.bind(this)}>
-                    <fieldset>
-                        <legend><span>{this.state.msg}</span></legend>
-                        <input 
-                            className="form-control"
-                            type="email" 
-                            placeholder="Email"
-                            ref={(input) => this.email = input}
-                            
-                        />
-                        <input 
-                            type="password" 
-                            placeholder="Senha"
-                            ref={(input) => this.senha = input}
-                            className="form-control"
-                        />
-                        <button type="submit" className="btn btn-info btn-fill">Entrar</button>
-                     </fieldset>
-                </form>
+                <div className="row">
+                    <div className={this.props.match.params.login === 'representante' ? "col-sm-12":"col-sm-6" }>
+                        <h3>Entrar como {this.props.match.params.login}</h3>
+                        <form className="form-group" onSubmit={this.login.bind(this)}>
+                            <fieldset>
+                                <legend><span>{this.state.msg}</span></legend>
+                                <input 
+                                    className="form-control"
+                                    type="email" 
+                                    placeholder="Email"
+                                    ref={(input) => this.email = input}
+                                    
+                                />
+                                <input 
+                                    type="password" 
+                                    placeholder="Senha"
+                                    ref={(input) => this.senha = input}
+                                    className="form-control"
+                                />
+                                <button type="submit" className="btn btn-info btn-fill">Entrar</button>
+                            </fieldset>
+                        </form>
+                    </div> 
+                    <div className="col-sm-6">
+                      {this.props.match.params.login === 'cliente' ? <FormCadastroCliente/>:"" } 
+                    </div> 
+                </div>
         </div>
         );
     }
