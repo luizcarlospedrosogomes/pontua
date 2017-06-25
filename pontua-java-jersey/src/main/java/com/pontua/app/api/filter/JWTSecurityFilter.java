@@ -72,10 +72,10 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         }
 
         /**
-         * verifica se a url acessada é: "/login" e o methodo post
-         * http://dominio/pontua/login
+         * libera acesso em /pontua/login VERBO:POST
+         * libera acesso em /pontua/cliente VERBO:POST
          */
-        if ("post".equals(method) && "/login".equals(path)) {
+        if (("post".equals(method) && "/login".equals(path)) || ("post".equals(method) && "/cliente".equals(path))) {
 
             // pass through the filter.
             requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));

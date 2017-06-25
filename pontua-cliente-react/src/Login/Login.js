@@ -2,15 +2,16 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 
-
 import FormCadastroCliente from './FormCadastroCliente';
+import Progress from '../componentes/Progress/ProgressLinear';
+
 export default  class Login extends Component{
     host    =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});       
     baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
    
    constructor(props) {
         super(props);
-        this.state = {msg: ''};
+        this.state = {msg: '', status:'', cod:''};
     }
 
     componentWillMount(){
@@ -19,7 +20,7 @@ export default  class Login extends Component{
 
     login(event){
         event.preventDefault();
-
+        this.setState({status:"carregando"});
         const requestInfo = {
             method:'POST',
             body:JSON.stringify({email: this.email.value, senha:this.senha.value}),
@@ -33,9 +34,11 @@ export default  class Login extends Component{
         fetch(this.host+this.baseUrl+"/login",requestInfo)            
             .then(response =>{
             if(response.status === 200 ||  response.status === 201){
+                this.setState({cod:response.status});
                 console.log("sucesso no login");
                 return response.text();
             }else{
+                this.setState({status:"", cod:response.status});
                 throw new Error('Não foi possivel fazer o login. Verifique usuario e senha.');
             }
         }).then(token =>{
@@ -63,9 +66,22 @@ export default  class Login extends Component{
                 <div className="row">
                     <div className={this.props.match.params.login === 'representante' ? "col-sm-12":"col-sm-6" }>
                         <h3>Entrar como {this.props.match.params.login}</h3>
+                        
+                        <div className="row">
+                            {this.state.status ==='carregando' ? <Progress/>: ""}
+                        </div>
+                        
                         <form className="form-group" onSubmit={this.login.bind(this)}>
                             <fieldset>
-                                <legend><span>{this.state.msg}</span></legend>
+                                <legend>
+                                      <span className={this.state.cod >= 200 && this.state.cod < 400 ? "alert alert-success":"" 
+                                                        || this.state.cod >= 300 && this.state.cod < 500 ? "alert alert-warning":""
+                                                        ||this.state.cod >= 500 ? "alert alert-danger":"" 
+                                                        }>
+                                                    {this.state.msg}
+                                    </span>
+                                </legend>
+                               
                                 <input 
                                     className="form-control"
                                     type="email" 
@@ -79,12 +95,20 @@ export default  class Login extends Component{
                                     ref={(input) => this.senha = input}
                                     className="form-control"
                                 />
-                                <button type="submit" className="btn btn-info btn-fill">Entrar</button>
+                                
+                                <button type="submit" className="btn btn-info btn-fill btn-block btn-lg">
+                                    Entrar
+                                </button>
                             </fieldset>
                         </form>
                     </div> 
                     <div className="col-sm-6">
-                      {this.props.match.params.login === 'cliente' ? <FormCadastroCliente/>:"" } 
+                      {this.props.match.params.login === 'cliente' ? 
+                                <FormCadastroCliente 
+                                titulo="Se cadastrar"
+                                textoBotao = "Cadastrar"
+                                acao = "POST"
+                                />:"" } 
                     </div> 
                 </div>
         </div>

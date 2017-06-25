@@ -27,11 +27,7 @@ export default  class EditarPromocao extends Component{
                      , validade:''
                      , nome:'carregando..'
                      , status:''
-                     , pontos:'carregando..'}    
-        this.setNome = this.setNome.bind(this);     
-        this.setStatus = this.setStatus.bind(this); 
-        this.setPontos = this.setPontos.bind(this); 
-        this.setValidade = this.setValidade.bind(this); 
+                     , pontos:'carregando..'}   
     }
     componentWillMount(){
         this.pegarPromocao();
@@ -66,7 +62,7 @@ export default  class EditarPromocao extends Component{
             }
         })
         .then(promocao =>{
-          console.log("DADOS: cabecalho " +Object.keys(promocao)+" valores "+Object.values(promocao));
+          console.log("DADOS RECEBIDOS: cabecalho " +Object.keys(promocao)+" valores "+Object.values(promocao));
           this.setState({status:promocao.status
                         , nome:promocao.nome
                         , pontos:promocao.quantidade_pontos
@@ -79,28 +75,8 @@ export default  class EditarPromocao extends Component{
 
     }
     updateState = (data)  =>{
-     
-        let month  = String(data.date.getMonth() + 1);
-        let day    = String(data.date.getDate());
-        const year = String(data.date.getFullYear());
-        let hh    = String(data.date.getHours());
-        let mm    = String(data.date.getMinutes());
-        let ss    = String(data.date.getSeconds());
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        if (hh.length < 2) hh = '0' + hh;
-        if (mm.length < 2) mm = '0' + mm;
-        if (ss.length < 2) ss = '0' + ss;
-
-        let data_datetime  =`${year}-${month}-${day}T${hh}:${mm}:${ss}`;
-        let data_formatada = `${day}/${month}/${year}`;
-
-        console.log("data formatada"+ data_formatada)
-        console.log("data datetime"+ data_datetime)
- 
         if(data.item === 'inicio_vigencia'){
-            this.setState({validade: data_datetime})
+            this.setState({validade: data.dataDateTime})
         }
     }
     enviaForm(evento){
@@ -146,19 +122,11 @@ export default  class EditarPromocao extends Component{
             this.setState({msg:error.message});
         });
     }
-
-    setNome(evento){
-      this.setState({nome:evento.target.value});
-    }
     
-    setStatus(evento){
-      this.setState({status:evento.target.value});
-    }
-    setPontos(evento){
-      this.setState({pontos:evento.target.value});
-    }
-    setValidade(evento){
-      this.setState({validade:evento.target.value});
+    salvaAlteracao(nomeInput,evento){
+         var campoSendoAlterado = {};
+         campoSendoAlterado[nomeInput] = evento.target.value;    
+         this.setState(campoSendoAlterado);   
     }
     
     
@@ -180,7 +148,7 @@ export default  class EditarPromocao extends Component{
                   label="Nome"
                   required={true}
                   value = {this.state.nome}
-                  onChange={this.setNome} 
+                  onChange={this.salvaAlteracao.bind(this, 'nome')}
                 />                                     
                 <InputCustomizado 
                   id="pontos" 
@@ -191,7 +159,7 @@ export default  class EditarPromocao extends Component{
                   label="Pontos"
                   required={false}
                   value = {this.state.pontos}
-                  onChange={this.setPontos}
+                   onChange={this.salvaAlteracao.bind(this, 'pontos')}
                 />
                 
                 <InputCustomizado 
@@ -201,7 +169,7 @@ export default  class EditarPromocao extends Component{
                 updateState = {this.updateState}
                 value = {this.state.validade}
                 required={false}
-                onChange={this.setValidade}
+                onChange={this.salvaAlteracao.bind(this, 'validade')}
                // value = {this.state.inicio_vigencia}
                 />                  
 
@@ -209,7 +177,7 @@ export default  class EditarPromocao extends Component{
                  source = {this.status}
                  label  = "Status"
                  default= {this.state.status}
-                 onChange={this.setStatus}
+                onChange={this.salvaAlteracao.bind(this, 'status')}
                  value = {this.state.status}
                 />
                 <div className="pure-control-group">                                  

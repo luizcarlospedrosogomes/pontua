@@ -6,7 +6,7 @@ import ListaServidores from './ListaServidores';
 export default  class Servidores extends Component{
    constructor(props) {
     super(props);
-    this.state = { isChecked: true, lista : [] };
+    this.state = { isChecked: true, lista : [], nome:"local", url:"http://localhost:8080", baseUrl:"/pontua" };
     
   }
   componentDidMount(){

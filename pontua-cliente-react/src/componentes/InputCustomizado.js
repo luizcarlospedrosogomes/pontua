@@ -22,6 +22,7 @@ export default class InputCustomizado extends Component{
 			  	onChange = {this.props.onChange} 
 				ref      = {this.props.inputRef}
 				required = {this.props.required}
+				placeholder ={this.props.placeholder}
 				/>              
 			  <span className="error">{this.state.msgErro}</span>
 			</div>			

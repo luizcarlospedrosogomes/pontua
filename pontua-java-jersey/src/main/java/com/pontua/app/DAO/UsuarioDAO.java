@@ -2,20 +2,30 @@ package com.pontua.app.DAO;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.JPAUtil;
 
 public class UsuarioDAO {
 	
-	public void adiciona(Usuario usuario) {
+	public boolean adiciona(Usuario usuario){
+		   
+		try{
 			EntityManager em = new JPAUtil().getEntityManager();
-	        em.getTransaction().begin();
-	        em.persist(usuario);
-	        em.getTransaction().commit();
-	        em.close();
-			
+			em.getTransaction().begin();
+			em.persist(usuario);
+			em.getTransaction().commit();
+			em.close();	
+			return true;
+			}catch(PersistenceException e){
+				return false;
+			}
 		}
 	
 	 public Boolean getLogin(Usuario usuario) {

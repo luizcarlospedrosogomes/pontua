@@ -16,23 +16,33 @@ import ListarPromocao    from './representante/ListarPromocao';
 import CadastrarPromocao from './representante/CadastrarPromocao';
 import EditarPromocao    from './representante/EditarPromocao';
 import MenuSuperior      from './componentes/MenuSuperior';
+import MenuSuperiorEsquerdo      from './componentes/MenuSuperiorEsquerdo';
 
    function ClienteRepresentante(){
         if(localStorage.getItem('token-cliente') != null){
             return <MenuCliente/>;
         }
+
         if(localStorage.getItem('token-representante') != null){
             return <MenuRepresentante/>;
         }
         return <MenuInicial/>;
     }
-
+    function Servidor(){
+        if(JSON.parse(localStorage.getItem("servidores"))){
+            let srv = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});
+            if(srv != null && localStorage.getItem("servidores")){
+                let emailRepresentante = localStorage.getItem('email-representante');
+                return <MenuSuperiorEsquerdo host = {srv} emailRepresentante = {emailRepresentante} />;
+            }else{
+               return <MenuSuperiorEsquerdo host = {null} emailRepresentante ={null} />;
+            }
+        }
+        return <MenuSuperiorEsquerdo host = {null} emailRepresentante = {null} />;
+    }
 
 export default  class Bootstrapp extends Component{
-   host  =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});
-   baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
-   emailRepresentante = localStorage.getItem('email-representante');
-   
+
     render(){
         return(
            <Router>
@@ -53,14 +63,8 @@ export default  class Bootstrapp extends Component{
                    <MenuSuperior/> 
                 </div>
                 <div className="collapse navbar-collapse">
-                    <ul className="nav navbar-nav navbar-left"> 
-                                            
-                    </ul>
-                    <ul className="nav navbar-nav navbar-right">  
-                        
-                         <li>{this.emailRepresentante !== null ? 'Conectado como '+this.emailRepresentante : 'Faça login' } </li>                     
-                         <li>{this.host !== null ? 'Servidor: '+this.host :'Configure um servdor em:<Link to="/servidores">Servidores</Link>'} </li>                     
-                    </ul>
+                   <div> <Servidor/></div>
+                    <ul className="nav navbar-nav navbar-left"></ul>                    
                 </div>
             </div>
         </nav>

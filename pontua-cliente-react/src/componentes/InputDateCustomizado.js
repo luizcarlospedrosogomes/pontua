@@ -52,8 +52,7 @@ export default  class InputDateCustomizado extends Component{
   render() {
     return (
         <ThemeProvider  theme={theme}>
-        <div >
-        
+        <div>        
             <label htmlFor={this.props.id}>{this.props.label}</label>
              <DatePicker 
                 theme={datePickerTheme}                

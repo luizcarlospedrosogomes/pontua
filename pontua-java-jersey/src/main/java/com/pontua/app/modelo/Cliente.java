@@ -9,19 +9,26 @@ import javax.persistence.Id;
 public class Cliente {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id_cliente;
 	private String nome;
-	private String CPF;
+	private String cpf;
 	private String email;
 	private String nascimento;
 	private String sexo;
 	private String senha;
+	private String status;
 	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Integer getId() {
-		return id;
+		return id_cliente;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this.id_cliente = id;
 	}
 	public String getNome() {
 		return nome;
@@ -30,10 +37,10 @@ public class Cliente {
 		this.nome = nome;
 	}
 	public String getCPF() {
-		return CPF;
+		return cpf;
 	}
 	public void setCPF(String cPF) {
-		CPF = cPF;
+		this.cpf = cPF;
 	}
 	public String getEmail() {
 		return email;
