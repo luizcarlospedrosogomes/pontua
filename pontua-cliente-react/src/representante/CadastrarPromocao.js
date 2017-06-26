@@ -4,7 +4,7 @@ import PubSub from 'pubsub-js';
 import InputCustomizado from '../componentes/InputCustomizado';
 import InputDateCustomizado from '../componentes/InputDateCustomizado';
 import ComboboxCustomizado from '../componentes/ComboboxCustomizado';
-import ListarPromocao from './ListarPromocao';
+//import ListarPromocao from './ListarPromocao';
 
 export default  class CadastrarPromocao extends Component{
    token = localStorage.getItem('token-representante');
@@ -71,10 +71,8 @@ export default  class CadastrarPromocao extends Component{
             else{
                 throw new Error('erro: '+ response.status+' nao foi possivel criar promoção');
             }
-        }).catch(error => {
-            this.setState({msg:error.message});
-        });
-        
+        })
+              
     }
     
     render() {

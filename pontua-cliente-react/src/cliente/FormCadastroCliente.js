@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 //COMPONENTES
-import InputDateCustomizado from '../componentes/InputDateCustomizado';
+//import InputDateCustomizado from '../componentes/InputDateCustomizado';
 import InputCustomizado from '../componentes/InputCustomizado';
 import ComboboxCustomizado from '../componentes/ComboboxCustomizado';
 
@@ -29,6 +29,7 @@ export default  class FormCadastroCliente extends Component{
                     , email:''
                 }
      }
+
      salvaAlteracao(nomeInput,evento){
          var campoSendoAlterado = {};
          campoSendoAlterado[nomeInput] = evento.target.value;    
@@ -104,12 +105,16 @@ export default  class FormCadastroCliente extends Component{
                                 , status: 1
                                 , senha: this.state.senha
                             }),
-            headers:{'content-type'  : 'application/json'}
+            headers:{'content-type'  : 'application/json',
+            'authorization': this.token}
         };
         console.log("SERVDOR: "+this.host);
         console.log("URL: "+this.baseUrl+"/cliente");
         console.log("ENVIANDO DADOS: "+requestInfo.body);
-        console.log("VERBO: POST");
+        if(this.props.acao =="PUT")
+            console.log("VERBO: PUT");
+        if(this.props.acao =="POST")
+            console.log("VERBO: POST");
 
         fetch(this.host+this.baseUrl+"/cliente",requestInfo)            
             .then(response =>{
@@ -139,13 +144,13 @@ export default  class FormCadastroCliente extends Component{
             <div>
                  <h4>{this.props.titulo}</h4>
                  
-                 <span className={this.state.cod === 200 ? "alert alert-success":"" 
+                 <div className={this.state.cod === 200 ? "alert alert-success":"" 
                                || this.state.cod === 201 ? "alert alert-success":""
                                || this.state.cod === 400 ? "alert alert-warning":""
                                || this.state.cod === 500 ? "alert alert-danger":"" 
                                }>
                      {this.state.msg}
-                </span>
+                </div>
                         <form className="form-group" onSubmit={this.enviaForm.bind(this)}>
                             <fieldset>
                                 <legend><span></span></legend>

@@ -2,18 +2,24 @@
 import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 
-import FormCadastroCliente from './FormCadastroCliente';
+import FormCadastroCliente from '../cliente/FormCadastroCliente';
 import Progress from '../componentes/Progress/ProgressLinear';
 
 export default  class Login extends Component{
-    host    =  JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});       
-    baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
+    host    = null; 
+    baseUrl =null;
    
    constructor(props) {
         super(props);
+        if(localStorage.getItem("servidores") == null){
+            this.props.history.push('/servidores');
+        }else{
+            this.host = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});  
+            this.baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});     
+        }
         this.state = {msg: '', status:'', cod:''};
     }
-
+    
     componentWillMount(){
         PubSub.publish('titulo-menu-superior-cadastraCliente',window.location.pathname);    
     }
@@ -34,7 +40,7 @@ export default  class Login extends Component{
         fetch(this.host+this.baseUrl+"/login",requestInfo)            
             .then(response =>{
             if(response.status === 200 ||  response.status === 201){
-                this.setState({cod:response.status});
+                this.setState({cod:response.status, status:""});
                 console.log("sucesso no login");
                 return response.text();
             }else{
@@ -53,7 +59,7 @@ export default  class Login extends Component{
                 this.props.history.push('/cliente');
             }
         }).catch(error => {
-            this.setState({msg:error.message});
+            this.setState({msg:error.message, cod:500, status:""});
         })
     }         
   
@@ -74,12 +80,12 @@ export default  class Login extends Component{
                         <form className="form-group" onSubmit={this.login.bind(this)}>
                             <fieldset>
                                 <legend>
-                                      <span className={this.state.cod >= 200 && this.state.cod < 400 ? "alert alert-success":"" 
-                                                        || this.state.cod >= 300 && this.state.cod < 500 ? "alert alert-warning":""
-                                                        ||this.state.cod >= 500 ? "alert alert-danger":"" 
+                                      <div className={this.state.cod >= 200 && this.state.cod < 300 ? "alert alert-success alert-dismissible":"" 
+                                                    || this.state.cod >= 300 && this.state.cod < 500 ? "alert alert-warning alert-dismissible":""
+                                                    ||this.state.cod >= 500 ? "alert alert-danger alert-dismissible":"" 
                                                         }>
                                                     {this.state.msg}
-                                    </span>
+                                    </div>
                                 </legend>
                                
                                 <input 
@@ -87,16 +93,20 @@ export default  class Login extends Component{
                                     type="email" 
                                     placeholder="Email"
                                     ref={(input) => this.email = input}
-                                    
+                                    required="true"
                                 />
-                                <input 
+                                <input
+                                    required="true"
                                     type="password" 
                                     placeholder="Senha"
                                     ref={(input) => this.senha = input}
                                     className="form-control"
                                 />
                                 
-                                <button type="submit" className="btn btn-info btn-fill btn-block btn-lg">
+                                <button 
+                                type="submit"  
+                                className={`btn btn-info btn-fill btn-block btn-lg ${this.state.status ==='carregando' ?'disabled': ''}`}>
+                                
                                     Entrar
                                 </button>
                             </fieldset>
