@@ -90,7 +90,7 @@ public class TokenUtil {
         return "";
     }
 
-    public static int getVersion(String jwsToken, Key key) {
+    public static int getStatus(String jwsToken, Key key) {
         if (isValid(jwsToken, key)) {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(key).parseClaimsJws(jwsToken);
             return Integer.parseInt(claimsJws.getBody().getId());

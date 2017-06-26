@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.postgresql.util.PSQLException;
 
+import com.pontua.app.modelo.Promocao;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.JPAUtil;
 
@@ -78,4 +79,24 @@ public class UsuarioDAO {
 		 	em.close();
 		 	return usuariolist;
 	 }
+	 
+	 public boolean atualiza(Usuario usuario, String email){
+		 	try{
+				String sql = "UPDATE Usuario";
+					   sql += " SET senha = :senha";
+					   sql += " WHERE email = :email";						   
+				EntityManager em = new JPAUtil().getEntityManager();
+				em.getTransaction().begin();
+				Query query = em.createQuery(sql)
+						.setParameter("senha", usuario.getSenha())
+						.setParameter("email", email);					
+				query.executeUpdate();
+				em.getTransaction().commit();
+				em.close();
+				return true;
+			}catch(PersistenceException e){
+				return false;
+			}
+		
+		}
 }

@@ -72,4 +72,50 @@ public class ClienteDAO {
 	 	this.em.close();
 	 	return cliente;
 	}
+
+	public boolean inativa(String email, String status) {
+		try{
+			String sql  = "UPDATE Cliente";
+			       sql += " SET status = :status";
+			       sql += " WHERE email = :email";
+			       
+			EntityManager em = new JPAUtil().getEntityManager();
+			em.getTransaction().begin();
+			Query query  = em.createQuery(sql)
+					     .setParameter("email", email)
+					     .setParameter("status", status);
+			query.executeUpdate();
+			em.getTransaction().commit();
+			em.close();
+			return true;
+		}catch(PersistenceException e){
+			return false;
+		}
+
+	}
+	
+	public boolean atualiza(Cliente cliente, String email){
+	 	try{
+			String sql = "UPDATE Cliente";
+				   sql += " SET cpf = :cpf,";
+				   sql += " nome = :nome,";
+				   sql += " sexo = :sexo,";
+				   sql += " nascimento = :nascimento";
+				   sql += " WHERE email = :email";						   
+			EntityManager em = new JPAUtil().getEntityManager();
+			em.getTransaction().begin();
+			Query query = em.createQuery(sql)
+					.setParameter("cpf", cliente.getCPF())
+					.setParameter("nome", cliente.getNome())
+					.setParameter("sexo", cliente.getSexo())
+					.setParameter("nascimento", cliente.getNascimento())
+					.setParameter("email", email);					
+			query.executeUpdate();
+			em.getTransaction().commit();
+			em.close();
+			return true;
+		}catch(PersistenceException e){
+			return false;
+		}
+	}			
 }

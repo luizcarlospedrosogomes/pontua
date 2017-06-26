@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.pontua.app.DAO.ClienteDAO;
 import com.pontua.app.DAO.UsuarioDAO;
+import com.pontua.app.modelo.Cliente;
 import com.pontua.app.modelo.Representante;
 import com.pontua.app.modelo.Token;
 import com.pontua.app.modelo.Usuario;
@@ -45,7 +46,13 @@ public class LoginResource {
     private ClienteDAO clienteDAO;
     private Usuario usuario;
     private Representante representante;
+  
     
+    public LoginResource() {
+		//this.usuarioDAO = new UsuarioDAO();
+		//this.usuario = new Usuario();
+		//this.clienteDAO = new ClienteDAO();
+	}
     @POST
    // @Consumes({ "application/json" })
     @Produces({ "application/json" })
@@ -65,8 +72,8 @@ public class LoginResource {
       
     public Response loginCliente( @ApiParam(value = "" )   Usuario  login) {
     	System.out.println("dados usuario >> " + new Gson().toJson(login));
-    	this.usuario = (Usuario) new Gson().fromJson( new Gson().toJson(login), Usuario.class); 
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
+    	this.usuario = (Usuario) new Gson().fromJson( new Gson().toJson(login), Usuario.class); 
     	if(!this.usuario.getEmail().isEmpty() || !this.usuario.getSenha().isEmpty() ){
     		if(usuarioDAO.getLogin(this.usuario)){
         		Token token = geraToken(this.usuario.getEmail());
@@ -98,10 +105,12 @@ public class LoginResource {
 	*/   
    private Token geraToken(String email){
 	   UsuarioDAO usuarioDAO = new UsuarioDAO();
-	   Usuario usuario = usuarioDAO.getUsuarioEmail(email);
+	   Usuario usuario = usuarioDAO.getUsuarioEmail(email);	
 	   
 	   Date expiry = getExpiryDate(360);
-       String jwtString = TokenUtil.getJWTString(email,usuario.getRoles(), 1, expiry, key);
+	   System.out.println("GERA TOKE -- ROLE");
+	   System.out.println(usuario.getRoles());
+       String jwtString = TokenUtil.getJWTString(email,usuario.getRoles(), getStatusCliente(usuario.getRoles(), email), expiry, key);
        Token token = new com.pontua.app.modelo.Token();
        
        token.setAuthToken(jwtString);
@@ -109,6 +118,15 @@ public class LoginResource {
        
       return token;
      
+   }
+   private int getStatusCliente(String role, String email){
+	   
+	   ClienteDAO clienteDAO = new ClienteDAO();
+	   if(role.equals("cliente")){
+		   Cliente cliente = clienteDAO.getDadosCliente(email);
+		   return Integer.parseInt(cliente.getStatus());
+	   }
+	   return 9999;
    }
 
 }

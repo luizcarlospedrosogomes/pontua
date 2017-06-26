@@ -67,7 +67,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
          */
         if("/swagger.json".equals(path)){
             // pass through the filter.
-            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
+            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous", 0));
             return;
         }
 
@@ -78,7 +78,7 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         if (("post".equals(method) && "/login".equals(path)) || ("post".equals(method) && "/cliente".equals(path))) {
 
             // pass through the filter.
-            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous"));
+            requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> "anonymous", "anonymous", 0));
             return;
         }
         /**
@@ -111,19 +111,23 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
         strToken = strToken.replace("\"", "");
         if (TokenUtil.isValid(strToken, key)) {
             String email = TokenUtil.getEmail(strToken, key);
+            int status = TokenUtil.getStatus(strToken, key);
             //String [] roles = TokenUtil.getRoles(strToken, key);
             String role = TokenUtil.getRole(strToken, key);
             System.out.println("ROLE");
             System.out.println(role);
             System.out.println("EMAIL");
             System.out.println(email);
-            int version = TokenUtil.getVersion(strToken, key);
-            if (email != null && !role.equals("") && version != -1) {
+            System.out.println("STATUS");
+            System.out.println(status);
+            
+            if (email != null && !role.equals("") && status != -1) {
                 UsuarioDAO usuarioDAO = new UsuarioDAO();
                 Usuario usuario = usuarioDAO.getUsuarioEmail(email);
                 role = usuario.getRoles();
                 if (role != null) {
-                     requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> email, role));
+             
+                     requestContext.setSecurityContext(new SecurityContextAuthorizer(uriInfo, () -> email, role, status));
                       return;                    
                 } else {
                     logger.info("USUARIO INVALIDO");

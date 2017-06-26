@@ -31,6 +31,7 @@ public class PromocaoDAO {
 	
 		return pro;
 	}
+	
 	public void atualiza(Promocao promocao, String email){
 		String sql = "UPDATE Promocao";
 			   sql += " SET nome = :nome,";
@@ -54,6 +55,7 @@ public class PromocaoDAO {
 		em.close();
 	
 	}
+	
 	public Promocao  buscaId(final int id){
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
