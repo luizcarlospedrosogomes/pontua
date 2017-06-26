@@ -87,13 +87,13 @@ public class ClienteResource {
 		System.out.println("INATIVA: EMAIL :"+ email);
 		if(!email.isEmpty()){
 			Cliente cliente = this.clienteDAO.getDadosCliente(email);		
-			int status =  Integer.parseInt(cliente.getStatus());
+			int status =  cliente.getStatus();
 			System.out.println("INVATIVA: STATUS "+ status);
 			if(status == 1)
-				if(this.clienteDAO.inativa(email, "0"))
+				if(this.clienteDAO.inativa(email, 0))
 					return Response.status(201).build();
 			if(status == 0)
-				if(this.clienteDAO.inativa(email, "1"))
+				if(this.clienteDAO.inativa(email, 1))
 					return Response.status(201).build();
 			return Response.status(400).build();
 		}
@@ -115,7 +115,7 @@ public class ClienteResource {
 		this.cliente.setNome(asJsonObject.get("nome").toString().replace("\"", ""));
 		this.cliente.setNascimento(asJsonObject.get("nascimento").toString().replace("\"", ""));
 		this.cliente.setSexo(asJsonObject.get("sexo").toString().replace("\"", ""));
-		this.cliente.setStatus(asJsonObject.get("status").toString().replace("\"", ""));
+		this.cliente.setStatus(Integer.parseInt(asJsonObject.get("status").toString().replace("\"", "")));
 		
 		return this.cliente;
 	}

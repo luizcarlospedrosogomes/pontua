@@ -124,7 +124,7 @@ public class LoginResource {
 	   ClienteDAO clienteDAO = new ClienteDAO();
 	   if(role.equals("cliente")){
 		   Cliente cliente = clienteDAO.getDadosCliente(email);
-		   return Integer.parseInt(cliente.getStatus());
+		   return cliente.getStatus();
 	   }
 	   return 9999;
    }

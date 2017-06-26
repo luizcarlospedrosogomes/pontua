@@ -16,12 +16,12 @@ public class Cliente {
 	private String nascimento;
 	private String sexo;
 	private String senha;
-	private String status;
+	private int status;
 	
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public Integer getId() {

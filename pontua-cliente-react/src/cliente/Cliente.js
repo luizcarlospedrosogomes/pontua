@@ -43,8 +43,14 @@ export default  class Cliente extends Component{
         .then(response =>{
             if(response.status === 200 || response.status === 201 ){
                 this.setState({msg:"Status atualizado com sucesso", cod:response.status});
-                  {this.state.status === 1 ? this.setState({state:1}) : this.setState({state:0})};    
-                return response.text();
+                if (this.state.status === 1){
+                    this.setState({status:0});
+                    return response.text();
+                }
+                if (this.state.status === 0){
+                    this.setState({status:1});
+                    return response.text();
+                }                
             }
             if(response.status === 401){
               this.props.history.push('/logout/cliente');
@@ -99,7 +105,7 @@ export default  class Cliente extends Component{
                                 className={`btn btn-fill btn-lg btn-block ${this.state.status === 1 ?'btn-danger': 'btn-success'}`}
                                 onClick={this.alteraStatus.bind(this)}
                                 >
-                                {this.state.status === '1' ?'Clique para inativar': 'Clique para ativar sua conta'}
+                                {this.state.status === 1 ?'Clique para inativar': 'Clique para ativar sua conta'}
                             </button>  
                             </div>
                         </div>

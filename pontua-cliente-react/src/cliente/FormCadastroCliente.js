@@ -45,7 +45,7 @@ export default  class FormCadastroCliente extends Component{
     } 
 
     pegarDadosCliente(){
-        console.log("ENVIANDO: " + this.token);      
+        console.log("ENVIANDO TOKEN: " + this.token);      
         console.log("SERVIDOR: "+this.host);
         console.log("URL: "+this.baseUrl+"/cliente");
         console.log("VERBO: GET")
@@ -65,8 +65,8 @@ export default  class FormCadastroCliente extends Component{
               console.log("NAO AUTORIZADO DIRECIONANDO PARA PAGINA DE LOGIN");
               //this.props.history.push('/logout/representante');
             }else{
-              console.log("NAO FOI POSSIVEL OBTER A(S) PROMOÇÃO(ÕES)");
-                throw new Error('Não foi possivel obter promoções.');
+              console.log("NAO FOI POSSIVEL OBTER OS DADOS DO CLIENTE");
+                throw new Error('Não foi possivel obter o cliente.');
             }
         })
         .then(cliente =>{

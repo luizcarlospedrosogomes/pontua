@@ -73,7 +73,7 @@ public class ClienteDAO {
 	 	return cliente;
 	}
 
-	public boolean inativa(String email, String status) {
+	public boolean inativa(String email, int status) {
 		try{
 			String sql  = "UPDATE Cliente";
 			       sql += " SET status = :status";

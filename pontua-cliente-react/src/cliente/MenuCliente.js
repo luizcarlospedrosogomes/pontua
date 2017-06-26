@@ -9,7 +9,7 @@ export default class MenuCliente extends Component{
                         <a href=""><i className="pe-7s-graph"></i><p>Cliente</p></a>
                     </li>
                     <li className="active">
-                        <Link to="/perfil"><i className="pe-7s-user"></i><p>Perfil</p></Link>
+                        <Link to="/cliente"><i className="pe-7s-user"></i><p>Perfil</p></Link>
                     </li>
                 <li className="active">
                     <Link to="/logout/cliente"><i className="pe-7s-user"></i><p>Logout</p></Link>

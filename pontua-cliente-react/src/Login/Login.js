@@ -56,7 +56,7 @@ export default  class Login extends Component{
             }else if(this.props.match.params.login === 'cliente'){
                 localStorage.setItem('token-cliente',token);
                 localStorage.setItem('email-cliente', this.email.value);
-                this.props.history.push('/cliente');
+                this.props.history.push('/cliente/'+this.email.value);
             }
         }).catch(error => {
             this.setState({msg:error.message, cod:500, status:""});
@@ -90,8 +90,8 @@ export default  class Login extends Component{
                                
                                 <input 
                                     className="form-control"
-                                    type="email" 
-                                    placeholder="Email"
+                                    type="text" 
+                                    placeholder="Email/CPF"
                                     ref={(input) => this.email = input}
                                     required="true"
                                 />
