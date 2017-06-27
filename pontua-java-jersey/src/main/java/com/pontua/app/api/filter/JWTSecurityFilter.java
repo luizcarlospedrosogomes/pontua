@@ -5,7 +5,6 @@ package com.pontua.app.api.filter;
 
 import java.io.IOException;
 import java.security.Key;
-import java.security.Principal;
 import java.util.logging.Logger;
 
 import javax.annotation.Priority;
@@ -21,6 +20,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.glassfish.jersey.server.ContainerRequest;
 
+import com.google.common.base.Charsets;
 import com.pontua.app.DAO.UsuarioDAO;
 import com.pontua.app.modelo.Usuario;
 import com.pontua.app.util.TokenUtil;
@@ -53,8 +53,11 @@ public class JWTSecurityFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-    	
-        String method = requestContext.getMethod().toLowerCase();
+    	System.out.println("GET REQUEST");
+
+    	System.out.println(requestContext.getUriInfo().getPathParameters());	
+        
+    	String method = requestContext.getMethod().toLowerCase();
         String path   = ((ContainerRequest) requestContext).getPath(true).toLowerCase();
      
         System.out.println("METODO >> " + method);

@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 
 //COMPONENTES
 import DialogExcluir from '../componentes/DialogExcluir';
+import Progress from '../componentes/Progress/ProgressLinear';
 //CSS
 import '../assets/react-toolbox/rtcustomizado.css';
 
@@ -91,18 +92,27 @@ export default  class ListarPromocao extends Component{
         
         if(this.state.lista){
             return(
-                <div>
-                    <h3>Promoções</h3>
-                    <span className="msg-lista-promocao">{this.state.msg}</span>
-                      <TabelaPromocao lista={this.state.lista} />  
-                </div>
-            
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className={this.state.cod === 200 ? "alert alert-success":"" 
+                                  || this.state.cod === 201 ? "alert alert-success":""
+                                  || this.state.cod === 400 ? "alert alert-warning":""
+                                  || this.state.cod === 401 ? "alert alert-warning":""
+                                  || this.state.cod === 500 ? "alert alert-danger":"" 
+                                  }>
+                        {this.state.msg}
+                    </div>
+                    <div className="col-md-12">
+                        <span className="msg-lista-promocao">{this.state.msg}</span>
+                          <TabelaPromocao lista={this.state.lista} />  
+                    </div>
+                  </div>
+              </div>
             );
         }else{
           return(
             <div>
-                <h3>carregando....</h3>
-                <Link to="/promocao/cadastrar"><button>Cadastrar Promocoa</button></Link>
+               <Progress/>
             </div>
           
           );

@@ -4,6 +4,7 @@ import PubSub from 'pubsub-js';
 import InputCustomizado from '../componentes/InputCustomizado';
 import InputDateCustomizado from '../componentes/InputDateCustomizado';
 import ComboboxCustomizado from '../componentes/ComboboxCustomizado';
+import Progress from '../componentes/Progress/ProgressLinear';
 //import ListarPromocao from './ListarPromocao';
 
 export default  class CadastrarPromocao extends Component{
@@ -18,7 +19,7 @@ export default  class CadastrarPromocao extends Component{
             ]
     constructor(props) {
         super(props);
-        this.state = {msg: '', inicio_vigencia:'', statusValor:'', lista:[]}         
+        this.state = {msg: '', inicio_vigencia:'', statusValor:'', lista:[], status:'',cod:''}         
     }
     componentWillMount(){
         PubSub.subscribe('valor-combo',function(topico,valor){
@@ -35,7 +36,8 @@ export default  class CadastrarPromocao extends Component{
     } 
     
     enviaForm(evento){
-        evento.preventDefault(); 
+        evento.preventDefault();
+        this.setState({status:'carregando'});
         console.log(this.token);
       
         const requestInfo = {
@@ -59,17 +61,17 @@ export default  class CadastrarPromocao extends Component{
             .then(response =>{
             if(response.status === 200 || response.status === 201 ){
                 PubSub.publish("atualizaLista")
-                this.setState({msg:"PROMOCÃO INCLUIDA COM SUCESSO"});
+                this.setState({msg:"PROMOCÃO INCLUIDA COM SUCESSO", status:'', cod:response.status});
                 return response.text();
             }
             if(response.status === 401){
               this.props.history.push('/logout/representante');
             }
             if(response.status === 400){
-              throw new Error('Verifique os campos');
+              this.setState({msg:"Verefique os campos",status:'', cod:response.status});
             }
             else{
-                throw new Error('erro: '+ response.status+' nao foi possivel criar promoção');
+                this.setState({msg:"Não foi possivel incluir a promoção", status:'', cod:response.status});
             }
         })
               
@@ -79,7 +81,15 @@ export default  class CadastrarPromocao extends Component{
 		return (
         
           <div>
-           <span>{this.state.msg}</span>
+          <div className="row">
+                 {this.state.status ==='carregando' ? <Progress/>: ""}
+           </div>
+             <div className={this.state.cod >= 200 && this.state.cod < 300 ? "alert alert-success alert-dismissible":"" 
+                                                    || this.state.cod >= 300 && this.state.cod < 500 ? "alert alert-warning alert-dismissible":""
+                                                    ||this.state.cod >= 500 ? "alert alert-danger alert-dismissible":"" 
+                                                        }>
+                                                    {this.state.msg}
+                                    </div>
             <div>
            
               <form className="form-group" onSubmit={this.enviaForm.bind(this)}>
@@ -121,7 +131,11 @@ export default  class CadastrarPromocao extends Component{
 
                 <div className="pure-control-group">                                  
                   <label></label> 
-                  <button type="submit" className="btn btn-info btn-fill">Cadastrar</button>                                    
+                  <button 
+                    type="submit" 
+                    className={`btn btn-info btn-fill btn-block btn-lg ${this.state.status ==='carregando' ?'disabled': ''}`}>
+                    Cadastrar
+                  </button>                                    
                 </div>
               </form>             
              </div>  

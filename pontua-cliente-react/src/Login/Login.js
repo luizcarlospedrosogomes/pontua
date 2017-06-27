@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PubSub from 'pubsub-js';
 
 import FormCadastroCliente from '../cliente/FormCadastroCliente';
+import FormCadastroRepresentante from '../representante/FormCadastroRepresentante';
 import Progress from '../componentes/Progress/ProgressLinear';
 
 export default  class Login extends Component{
@@ -70,7 +71,7 @@ export default  class Login extends Component{
                     <h1>Bem vindo ao Pontua</h1>
                 </div>
                 <div className="row">
-                    <div className={this.props.match.params.login === 'representante' ? "col-sm-12":"col-sm-6" }>
+                    <div className="col-sm-6">
                         <h3>Entrar como {this.props.match.params.login}</h3>
                         
                         <div className="row">
@@ -118,7 +119,14 @@ export default  class Login extends Component{
                                 titulo="Se cadastrar"
                                 textoBotao = "Cadastrar"
                                 acao = "POST"
-                                />:"" } 
+                                />
+                                :
+                                <FormCadastroRepresentante
+                                titulo="Se cadastrar"
+                                textoBotao = "Cadastrar"
+                                acao = "POST"
+                                />
+                     } 
                     </div> 
                 </div>
         </div>
