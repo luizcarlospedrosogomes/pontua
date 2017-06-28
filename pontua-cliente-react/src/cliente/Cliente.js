@@ -3,6 +3,7 @@ import PubSub from 'pubsub-js';
 
 import FormCadastroCliente from '../cliente/FormCadastroCliente';
 import Progress from '../componentes/Progress/ProgressLinear';
+import Pontos from './Pontos';
 export default  class Cliente extends Component{
     
     constructor(props){
@@ -81,11 +82,9 @@ export default  class Cliente extends Component{
                     <div className="col-md-8">
                         <div className="card">
                             <div className="header">
-                                <h4 className="title">Suas promoçoes</h4>
-                            </div>
-                            <div className="content">
-                               
-                            </div>
+                                <h4 className="title">Pontos</h4>
+                            </div>                            
+                               <Pontos/>                            
                         </div>
                         <div className="card">
                             <div className="header">
@@ -100,13 +99,16 @@ export default  class Cliente extends Component{
                                 <h4 className="title">Status da conta:  {this.state.status === 1 ?' Ativa': ' Inativa'}</h4>
                             </div>
                             <div className="content">
-                             <button 
-                                type="submit"
-                                className={`btn btn-fill btn-lg btn-block ${this.state.status === 1 ?'btn-danger': 'btn-success'}`}
-                                onClick={this.alteraStatus.bind(this)}
-                                >
-                                {this.state.status === 1 ?'Clique para inativar': 'Clique para ativar sua conta'}
-                            </button>  
+                             {this.state.status === 1 ?
+                                <button 
+                                    type="submit"
+                                    className={`btn btn-fill btn-lg btn-block ${this.state.status === 1 ?'btn-danger': 'btn-success'}`}
+                                    onClick={this.alteraStatus.bind(this)}
+                                    >
+                                    {this.state.status === 1 ?'Clique para inativar': 'Clique para ativar sua conta'}
+                                </button> 
+                            :
+                            ' Inativa'} 
                             </div>
                         </div>
                     </div>

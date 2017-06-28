@@ -21,6 +21,7 @@ export default  class Pontos extends Component{
                     , nomePromocao:''
                     , pontosPromocao:''
                     , promocaoStatus:''
+                    , pontosCliente: ''
             }
         if(localStorage.getItem('token-representante') == null)
             this.props.history.push('/login/representante');        
@@ -33,29 +34,30 @@ export default  class Pontos extends Component{
        this.baseUrl = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.baseUrl});
        this.host = JSON.parse(localStorage.getItem("servidores")).map(function(servidor){return servidor.url});
        this.token = localStorage.getItem('token-representante');  
-       this.setState({cpfStatus:'encontrado'}); 
-       this.setState({promocaoStatus:'encontrada'});
+      // this.setState({cpfStatus:'encontrado'}); 
+      // this.setState({promocaoStatus:'encontrada'});
     }
 
     registrarPontos(){
         console.log("ENVIANDO TOKEN :"+this.token);
         console.log("SERVIDOR: "+ this.host);
-        console.log("URL: "+ this.baseUrl+"/representante/promo");
+        console.log("URL: "+ this.baseUrl+"/representante/pontos");
         console.log("VERBO: POST");
 
         if(this.state.id_promocao ==='' || this.state.cpfCliente === '')
             this.setState({msg:"Verifique os dados", cod:400, nomePromocao:''});
         $.ajax({
-            url:this.host+this.baseUrl+"/representante/promo",
+            url:this.host+this.baseUrl+"/representante/pontos",
             headers:{'authorization': this.token},
             contentType:'application/json',
+           // dataType:'json',
+            type:'POST',  
             data: JSON.stringify({
                       id_promocao: parseInt(this.state.id_promocao)
                     , cpf:this.state.cpfCliente         
-                  }),
-            dataType:'json',
-            type:'POST  ',        
-            success: function(promocao){
+                  }),                 
+            success: function(resposta){
+                this.setState({msg:"Pontos inseridos com sucesso", cod:200});
             }.bind(this),  
             error: function(resposta){
                 if(resposta.status === 400)
@@ -88,13 +90,11 @@ export default  class Pontos extends Component{
         $.ajax({
             url:this.host+this.baseUrl+"/representante/promo/"+parseInt(this.state.id_promocao),
             headers:{'authorization': this.token},
-            contentType:'application/json',
+           // contentType:'application/json',
             dataType:'json',
             type:'GET',        
             success: function(promocao){
-                console.log(promocao)
-               if(promocao != null)
-                    this.setState({nomePromocao:promocao.nome, pontosPromocao: promocao.quantidade_pontos, validade:promocao.validade,promocaoStatus:'encontrada'});
+               this.setState({nomePromocao:promocao.nome, pontosPromocao: promocao.quantidade_pontos, validade:promocao.validade,promocaoStatus:'encontrada'});
             }.bind(this),  
             error: function(resposta){
                 if(resposta.status === 400)
@@ -120,22 +120,22 @@ export default  class Pontos extends Component{
             console.log("HOST: "+ this.host);
             console.log("URL: "+ this.baseUrl);
             console.log("VERBO: GET");            
-        $.ajax({
+        var r = $.ajax({
             url:this.host+this.baseUrl+"/representante/pontos/"+this.state.cpf,
             headers:{'authorization': this.token},
-            contentType:'application/json',
+           //contentType:'application/json',
             dataType:'json',
             type:'GET',        
             success: function(cliente){
-                this.setState({cpfStatus:'encontrado', cpfCliente:cliente.cpf});
+                this.setState({cpfStatus:'encontrado', cpfCliente:cliente.cpf, pontosCliente:cliente.quantidade_pontos});
             }.bind(this),  
             error: function(resposta){
                 if(resposta.status === 400)
-                    this.setState({msg:"Verifique os dados", cod:resposta.status, cpfCliente:''});
+                    this.setState({msg:"Verifique os dados", cod:resposta.status, cpfCliente:'', pontosCliente:''});
                 if(resposta.status === 401) 
                     this.setState({msg:"Não autorizado", cod:resposta.status, cpfCliente:'' });
                 if(resposta.status === 404) 
-                    this.setState({msg:"CPF não encontrado", cod:resposta.status,cpfStatus:'naoEncontrado', cpfCliente:''});
+                    this.setState({msg:"CPF não encontrado", cod:resposta.status,cpfStatus:'naoEncontrado', cpfCliente:'', pontosCliente:''});
                 if(resposta.status === 500) 
                     this.setState({msg:"ERRO NO SERVIDOR", cod:resposta.status, cpfCliente:''});            
             }.bind(this),
@@ -143,7 +143,13 @@ export default  class Pontos extends Component{
                 //PubSub.publish("limpa-erros",{});
             }      
         });
-        
+
+        r.done(function(cliente){
+                this.setState({cpfStatus:'encontrado', cpfCliente:cliente.cpf});
+        }.bind(this));      
+        r.fail(function(cliente){
+                this.setState({cpfStatus:'naoEncontrado', cpfCliente:cliente.cpf});
+        }.bind(this));
     }
 
     render(){
@@ -178,7 +184,8 @@ export default  class Pontos extends Component{
                    />
                    <button 
                     type="submit" 
-                    className={`btn btn-fill btn-lg btn-block ${this.state.cpfStatus === 'encontrado' 
+                    className={`btn btn-fill btn-lg btn-block 
+                                ${this.state.cpfStatus === 'encontrado' 
                                 ?'btn-info disabled'
                                 : 'btn-info'}`}
                     >
@@ -204,8 +211,15 @@ export default  class Pontos extends Component{
                     >
                         Cadastrar promoção
                    </button>
+                </div>
+                 <div className="card">
+                    <div className="header">
+                        <h4 className="title">Pontos para este CPF</h4>
                     </div>
-
+                    <div className="content h1">
+                        {this.state.pontosCliente}
+                    </div>
+                </div>
                 </div>
 
                  <div className="col-md-8">
@@ -280,9 +294,10 @@ export default  class Pontos extends Component{
                 <div className="col-md-12">
                     <button 
                     type="submit" 
-                    className={`btn btn-fill btn-lg btn-block ${this.state.cpfStatus === '' 
-                              ?'btn-info disabled'
-                              : 'btn-success'}`}
+                    className={`btn btn-fill btn-lg btn-block 
+                             ${this.state.cpfStatus === 'encontrado' && this.state.promocaoStatus === 'encontrada' 
+                              ?'btn-success'
+                              : 'btn-success disabled'}`}
                     onClick={this.registrarPontos}
                     >
                         Cadastrar pontos
