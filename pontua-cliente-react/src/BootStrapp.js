@@ -10,6 +10,7 @@ import MenuInicial       from './Login/MenuInicial';
 import Servidores        from './componentes/Servidor/Servidores';
 import Representante     from './representante/Representante';
 import MenuRepresentante from './representante/MenuRepresentante';
+import Pontos            from './representante/Pontos';
 import Cliente           from './cliente/Cliente';
 import MenuCliente       from './cliente/MenuCliente';
 import ListarPromocao    from './representante/ListarPromocao';
@@ -80,8 +81,9 @@ export default  class Bootstrapp extends Component{
                     <Route  path="/representante"         component={ Representante }/>  
                     <Route  path="/promocao/listar"       component={ ListarPromocao }/>  
                     <Route  path="/promocao/cadastrar"    component={ CadastrarPromocao }/>   
-                    <Route  path="/promocao/editar/:id"    component={ EditarPromocao }/>
+                    <Route  path="/promocao/editar/:id"   component={ EditarPromocao }/>
                     <Route  path="/cliente"               component={ Cliente }/>   
+                    <Route  path="/pontos"                component={ Pontos }/>   
                 </Switch> 
             </div>
         </div>

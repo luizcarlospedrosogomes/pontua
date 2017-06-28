@@ -127,6 +127,7 @@ class TabelaPromocao extends Component{
               <table className="table table-hover table-striped">
                         <thead>
                           <tr>
+                            <th>ID</th>
                             <th>Nome</th>
                             <th>Pontos</th>
                             <th>Valido até</th>
@@ -140,6 +141,7 @@ class TabelaPromocao extends Component{
                             this.props.lista.map(function(promocao){
                               return (
                                 <tr key={promocao.id}>
+                                  <td>{promocao.id}</td>
                                   <td>{promocao.nome}</td>
                                   <td>{promocao.quantidade_pontos}</td>
                                   <td>{promocao.validade}</td>

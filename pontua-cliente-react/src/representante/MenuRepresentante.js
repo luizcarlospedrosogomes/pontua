@@ -23,6 +23,12 @@ export default class MenuRepresentante extends Component{
         <li className="active">
             <Link to="/promocao/listar"><i className="pe-7s-user"></i><p>Listar</p></Link>
         </li>
+         <li>
+           <i className="pe-7s-graph"></i><p>Pontos</p>
+        </li>
+        <li className="active">
+            <Link to="/pontos"><i className="pe-7s-user"></i><p>Pontos para cliente</p></Link>
+        </li>
       </div>
     );
   }

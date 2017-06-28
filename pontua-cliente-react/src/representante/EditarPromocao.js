@@ -3,13 +3,11 @@ import '../assets/react-toolbox/theme.css';
 import theme from '../assets/react-toolbox/theme.js';
 import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
 import PubSub from 'pubsub-js';
-
 //CSS
-
 //COMPONENTES
 import InputCustomizado from '../componentes/InputCustomizado';
-
 import ComboboxCustomizado from '../componentes/ComboboxCustomizado';
+
 export default  class EditarPromocao extends Component{
   
    token = localStorage.getItem('token-representante');
@@ -35,6 +33,7 @@ export default  class EditarPromocao extends Component{
             this.setState({status:valor})
         }.bind(this));
     }
+
     pegarPromocao(){
       console.log("ENVIANDO: " + this.token);      
       console.log("SERVIDOR: " + this.host);
@@ -127,9 +126,7 @@ export default  class EditarPromocao extends Component{
          var campoSendoAlterado = {};
          campoSendoAlterado[nomeInput] = evento.target.value;    
          this.setState(campoSendoAlterado);   
-    }
-    
-    
+    }   
     
     render() {
 		return (

@@ -23,6 +23,8 @@ export default class InputCustomizado extends Component{
 				ref      = {this.props.inputRef}
 				required = {this.props.required}
 				placeholder ={this.props.placeholder}
+				onBlur   = {this.props.onBlur}
+				onKeyDown={this.props.onKeyDown}
 				/>              
 			  <span className="error">{this.state.msgErro}</span>
 			</div>			
